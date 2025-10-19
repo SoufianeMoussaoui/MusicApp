@@ -1,0 +1,103 @@
+classDiagram
+    class User {
+        int UserId
+        string Username
+        string Email
+        string PasswordHash
+        DateTime CreatedAt
+        +GetPlaylists()
+        +CreatePlaylist()
+        +AddToPlaylist()
+        +UploadSong()
+        +DownloadSong()
+    }
+
+    class Song {
+        int SongId
+        int UserId
+        string Title
+        string Artist
+        string Album
+        int DurationSeconds
+        string FilePath
+        bool IsUserUploaded
+        DateTime CreatedAt
+        +GetDetails()
+        +GetLyrics()
+    }
+
+    class Playlist {
+        int PlaylistId
+        int UserId
+        string Name
+        string Description
+        DateTime CreatedAt
+        +AddSong()
+        +RemoveSong()
+        +GetSongs()
+    }
+
+    class PlaylistSong {
+        int PlaylistSongId
+        int PlaylistId
+        int SongId
+        int OrderPosition
+    }
+
+    class UserPlayback {
+        int PlaybackId
+        int UserId
+        int SongId
+        int CurrentPosition
+        DateTime LastPlayed
+        +SaveProgress()
+        +GetHistory()
+    }
+
+    class Lyrics {
+        int LyricsId
+        int SongId
+        string LyricsText
+        string LyricsSource
+        DateTime AddedAt
+        +GetLyrics()
+        +UpdateLyrics()
+    }
+
+    class Album {
+        int AlbumId
+        string Name
+        string Artist
+        int ReleaseYear
+        string CoverImage
+        +GetSongs()
+    }
+
+    class Artist {
+        int ArtistId
+        string Name
+        string Bio
+        +GetAlbums()
+        +GetSongs()
+    }
+
+    class Download {
+        int DownloadId
+        int UserId
+        int SongId
+        DateTime DownloadedAt
+        +LogDownload()
+    }
+
+    User 1 --> * Playlist : creates
+    User 1 --> * UserPlayback : has
+    User 1 --> * Song : uploads
+    User 1 --> * Download : downloads
+    Playlist 1 --> * PlaylistSong : contains
+    Song 1 --> * PlaylistSong : in
+    Song 1 --> 0..1 Lyrics : hasLyrics
+    UserPlayback 1 --> 1 Song : tracks
+    Song * --> 1 Album : belongsTo
+    Song * --> 1 Artist : performedBy
+    Album * --> 1 Artist : createdBy
+    Download 1 --> 1 Song : downloads
