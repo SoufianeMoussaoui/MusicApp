@@ -48,12 +48,92 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQXJ0aXN0L0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/soufiane/School/Net/musicApp/Views/Download/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRG93bmxvYWQvQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/Download/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRG93bmxvYWQvRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/Download/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRG93bmxvYWQvRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/Download/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRG93bmxvYWQvRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/Download/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvRG93bmxvYWQvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/soufiane/School/Net/musicApp/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/soufiane/School/Net/musicApp/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/Lyrics/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTHlyaWNzL0NyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/Lyrics/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTHlyaWNzL0RlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/Lyrics/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTHlyaWNzL0RldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/Lyrics/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTHlyaWNzL0VkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/Lyrics/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvTHlyaWNzL0luZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/Playlist/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGxheWxpc3QvQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/Playlist/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGxheWxpc3QvRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/Playlist/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGxheWxpc3QvRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/Playlist/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGxheWxpc3QvRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/Playlist/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGxheWxpc3QvSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/PlaylistSong/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGxheWxpc3RTb25nL0NyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/PlaylistSong/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGxheWxpc3RTb25nL0RlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/PlaylistSong/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGxheWxpc3RTb25nL0RldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/PlaylistSong/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGxheWxpc3RTb25nL0VkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/PlaylistSong/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUGxheWxpc3RTb25nL0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/soufiane/School/Net/musicApp/Views/Shared/Error.cshtml]
@@ -84,24 +164,32 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU29uZy9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/soufiane/School/Net/musicApp/Views/User/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlci9DcmVhdGUuY3NodG1s
+[/home/soufiane/School/Net/musicApp/Views/User/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlci9Mb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/soufiane/School/Net/musicApp/Views/User/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlci9EZWxldGUuY3NodG1s
+[/home/soufiane/School/Net/musicApp/Views/User/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlci9SZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/soufiane/School/Net/musicApp/Views/User/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlci9EZXRhaWxzLmNzaHRtbA==
+[/home/soufiane/School/Net/musicApp/Views/UserPlayback/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlclBsYXliYWNrL0NyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/soufiane/School/Net/musicApp/Views/User/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlci9FZGl0LmNzaHRtbA==
+[/home/soufiane/School/Net/musicApp/Views/UserPlayback/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlclBsYXliYWNrL0RlbGV0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/soufiane/School/Net/musicApp/Views/User/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlci9JbmRleC5jc2h0bWw=
+[/home/soufiane/School/Net/musicApp/Views/UserPlayback/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlclBsYXliYWNrL0RldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/UserPlayback/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlclBsYXliYWNrL0VkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/soufiane/School/Net/musicApp/Views/UserPlayback/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvVXNlclBsYXliYWNrL0luZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/soufiane/School/Net/musicApp/Views/_ViewImports.cshtml]

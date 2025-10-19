@@ -10,36 +10,22 @@ using musicApp.Models;
 
 namespace musicApp.Controllers
 {
-    public class UserController : Controller
+    public class DownloadController : Controller
     {
-        private readonly musicAppUserContext _context;
+        private readonly musicDownload _context;
 
-        public UserController(musicAppUserContext context)
+        public DownloadController(musicDownload context)
         {
             _context = context;
         }
 
-        [HttpGet]
-        public IActionResult Login()
+        // GET: Download
+        public async Task<IActionResult> Index()
         {
-            return View();
-        }
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult Login(User model)
-        {
-            if (ModelState.IsValid)
-            {
-                
-            }
-            return View(model);
+            return View(await _context.Download.ToListAsync());
         }
 
-        // GET: User/Details/5
+        // GET: Download/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,39 +33,39 @@ namespace musicApp.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            var download = await _context.Download
+                .FirstOrDefaultAsync(m => m.DownloadId == id);
+            if (download == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(download);
         }
 
-        // GET: User/Create
+        // GET: Download/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: User/Create
+        // POST: Download/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,firstName,lastName,Genre")] User user)
+        public async Task<IActionResult> Create([Bind("DownloadId,UserId,SongId,DownloadedAt")] Download download)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(download);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(download);
         }
 
-        // GET: User/Edit/5
+        // GET: Download/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,22 +73,22 @@ namespace musicApp.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User.FindAsync(id);
-            if (user == null)
+            var download = await _context.Download.FindAsync(id);
+            if (download == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(download);
         }
 
-        // POST: User/Edit/5
+        // POST: Download/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,firstName,lastName,Genre")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("DownloadId,UserId,SongId,DownloadedAt")] Download download)
         {
-            if (id != user.Id)
+            if (id != download.DownloadId)
             {
                 return NotFound();
             }
@@ -111,12 +97,12 @@ namespace musicApp.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(download);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!DownloadExists(download.DownloadId))
                     {
                         return NotFound();
                     }
@@ -127,10 +113,10 @@ namespace musicApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(download);
         }
 
-        // GET: User/Delete/5
+        // GET: Download/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -138,34 +124,34 @@ namespace musicApp.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            var download = await _context.Download
+                .FirstOrDefaultAsync(m => m.DownloadId == id);
+            if (download == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(download);
         }
 
-        // POST: User/Delete/5
+        // POST: Download/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.User.FindAsync(id);
-            if (user != null)
+            var download = await _context.Download.FindAsync(id);
+            if (download != null)
             {
-                _context.User.Remove(user);
+                _context.Download.Remove(download);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool DownloadExists(int id)
         {
-            return _context.User.Any(e => e.Id == id);
+            return _context.Download.Any(e => e.DownloadId == id);
         }
     }
 }

@@ -1,0 +1,42 @@
+@model musicApp.Models.Lyrics
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Lyrics</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SongId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SongId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LyricsText)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LyricsText)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LyricsSource)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LyricsSource)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AddedAt)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AddedAt)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.LyricsId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

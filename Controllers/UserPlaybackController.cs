@@ -10,36 +10,22 @@ using musicApp.Models;
 
 namespace musicApp.Controllers
 {
-    public class UserController : Controller
+    public class UserPlaybackController : Controller
     {
-        private readonly musicAppUserContext _context;
+        private readonly musicUserPlaylbackContext _context;
 
-        public UserController(musicAppUserContext context)
+        public UserPlaybackController(musicUserPlaylbackContext context)
         {
             _context = context;
         }
 
-        [HttpGet]
-        public IActionResult Login()
+        // GET: UserPlayback
+        public async Task<IActionResult> Index()
         {
-            return View();
-        }
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult Login(User model)
-        {
-            if (ModelState.IsValid)
-            {
-                
-            }
-            return View(model);
+            return View(await _context.UserPlayback.ToListAsync());
         }
 
-        // GET: User/Details/5
+        // GET: UserPlayback/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,39 +33,39 @@ namespace musicApp.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            var userPlayback = await _context.UserPlayback
+                .FirstOrDefaultAsync(m => m.UserPlaybackId == id);
+            if (userPlayback == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(userPlayback);
         }
 
-        // GET: User/Create
+        // GET: UserPlayback/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: User/Create
+        // POST: UserPlayback/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,firstName,lastName,Genre")] User user)
+        public async Task<IActionResult> Create([Bind("UserPlaybackId,UserId,SongId,CurrentPosition,LastPlayed")] UserPlayback userPlayback)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(userPlayback);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(userPlayback);
         }
 
-        // GET: User/Edit/5
+        // GET: UserPlayback/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,22 +73,22 @@ namespace musicApp.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User.FindAsync(id);
-            if (user == null)
+            var userPlayback = await _context.UserPlayback.FindAsync(id);
+            if (userPlayback == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(userPlayback);
         }
 
-        // POST: User/Edit/5
+        // POST: UserPlayback/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,firstName,lastName,Genre")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("UserPlaybackId,UserId,SongId,CurrentPosition,LastPlayed")] UserPlayback userPlayback)
         {
-            if (id != user.Id)
+            if (id != userPlayback.UserPlaybackId)
             {
                 return NotFound();
             }
@@ -111,12 +97,12 @@ namespace musicApp.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(userPlayback);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!UserPlaybackExists(userPlayback.UserPlaybackId))
                     {
                         return NotFound();
                     }
@@ -127,10 +113,10 @@ namespace musicApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(userPlayback);
         }
 
-        // GET: User/Delete/5
+        // GET: UserPlayback/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -138,34 +124,34 @@ namespace musicApp.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            var userPlayback = await _context.UserPlayback
+                .FirstOrDefaultAsync(m => m.UserPlaybackId == id);
+            if (userPlayback == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(userPlayback);
         }
 
-        // POST: User/Delete/5
+        // POST: UserPlayback/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.User.FindAsync(id);
-            if (user != null)
+            var userPlayback = await _context.UserPlayback.FindAsync(id);
+            if (userPlayback != null)
             {
-                _context.User.Remove(user);
+                _context.UserPlayback.Remove(userPlayback);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool UserPlaybackExists(int id)
         {
-            return _context.User.Any(e => e.Id == id);
+            return _context.UserPlayback.Any(e => e.UserPlaybackId == id);
         }
     }
 }

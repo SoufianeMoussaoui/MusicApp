@@ -10,36 +10,22 @@ using musicApp.Models;
 
 namespace musicApp.Controllers
 {
-    public class UserController : Controller
+    public class LyricsController : Controller
     {
-        private readonly musicAppUserContext _context;
+        private readonly musicLyricsContext _context;
 
-        public UserController(musicAppUserContext context)
+        public LyricsController(musicLyricsContext context)
         {
             _context = context;
         }
 
-        [HttpGet]
-        public IActionResult Login()
+        // GET: Lyrics
+        public async Task<IActionResult> Index()
         {
-            return View();
-        }
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
-        [HttpPost]
-        public IActionResult Login(User model)
-        {
-            if (ModelState.IsValid)
-            {
-                
-            }
-            return View(model);
+            return View(await _context.Lyrics.ToListAsync());
         }
 
-        // GET: User/Details/5
+        // GET: Lyrics/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -47,39 +33,39 @@ namespace musicApp.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            var lyrics = await _context.Lyrics
+                .FirstOrDefaultAsync(m => m.LyricsId == id);
+            if (lyrics == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(lyrics);
         }
 
-        // GET: User/Create
+        // GET: Lyrics/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: User/Create
+        // POST: Lyrics/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,firstName,lastName,Genre")] User user)
+        public async Task<IActionResult> Create([Bind("LyricsId,SongId,LyricsText,LyricsSource,AddedAt")] Lyrics lyrics)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
+                _context.Add(lyrics);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(lyrics);
         }
 
-        // GET: User/Edit/5
+        // GET: Lyrics/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,22 +73,22 @@ namespace musicApp.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User.FindAsync(id);
-            if (user == null)
+            var lyrics = await _context.Lyrics.FindAsync(id);
+            if (lyrics == null)
             {
                 return NotFound();
             }
-            return View(user);
+            return View(lyrics);
         }
 
-        // POST: User/Edit/5
+        // POST: Lyrics/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,firstName,lastName,Genre")] User user)
+        public async Task<IActionResult> Edit(int id, [Bind("LyricsId,SongId,LyricsText,LyricsSource,AddedAt")] Lyrics lyrics)
         {
-            if (id != user.Id)
+            if (id != lyrics.LyricsId)
             {
                 return NotFound();
             }
@@ -111,12 +97,12 @@ namespace musicApp.Controllers
             {
                 try
                 {
-                    _context.Update(user);
+                    _context.Update(lyrics);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!LyricsExists(lyrics.LyricsId))
                     {
                         return NotFound();
                     }
@@ -127,10 +113,10 @@ namespace musicApp.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(user);
+            return View(lyrics);
         }
 
-        // GET: User/Delete/5
+        // GET: Lyrics/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -138,34 +124,34 @@ namespace musicApp.Controllers
                 return NotFound();
             }
 
-            var user = await _context.User
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (user == null)
+            var lyrics = await _context.Lyrics
+                .FirstOrDefaultAsync(m => m.LyricsId == id);
+            if (lyrics == null)
             {
                 return NotFound();
             }
 
-            return View(user);
+            return View(lyrics);
         }
 
-        // POST: User/Delete/5
+        // POST: Lyrics/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var user = await _context.User.FindAsync(id);
-            if (user != null)
+            var lyrics = await _context.Lyrics.FindAsync(id);
+            if (lyrics != null)
             {
-                _context.User.Remove(user);
+                _context.Lyrics.Remove(lyrics);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserExists(int id)
+        private bool LyricsExists(int id)
         {
-            return _context.User.Any(e => e.Id == id);
+            return _context.Lyrics.Any(e => e.LyricsId == id);
         }
     }
 }

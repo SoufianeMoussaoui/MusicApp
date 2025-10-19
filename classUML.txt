@@ -75,7 +75,7 @@ classDiagram
 
     class Artist {
         int ArtistId
-        string Name
+        List<Uri> Links
         string Bio
         +GetAlbums()
         +GetSongs()
