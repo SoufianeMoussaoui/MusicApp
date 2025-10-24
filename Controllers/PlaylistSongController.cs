@@ -12,9 +12,9 @@ namespace musicApp.Controllers
 {
     public class PlaylistSongController : Controller
     {
-        private readonly musicPlaylistSong _context;
+        private readonly AppDbContext _context;
 
-        public PlaylistSongController(musicPlaylistSong context)
+        public PlaylistSongController(AppDbContext context)
         {
             _context = context;
         }

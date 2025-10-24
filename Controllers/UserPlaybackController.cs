@@ -12,9 +12,9 @@ namespace musicApp.Controllers
 {
     public class UserPlaybackController : Controller
     {
-        private readonly musicUserPlaylbackContext _context;
+        private readonly AppDbContext _context;
 
-        public UserPlaybackController(musicUserPlaylbackContext context)
+        public UserPlaybackController(AppDbContext context)
         {
             _context = context;
         }

@@ -1,5 +1,7 @@
 
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace musicApp.Models;
 
@@ -8,9 +10,16 @@ public class Song
 
     public int SongId { set; get; }
     public int UserId { get; set; }
+
+    [Required(ErrorMessage = "Title required")]
+    [NotNull]
     public string? Title { get; set; }
+    [Required(ErrorMessage = "Title required")]
+    [NotNull]
     public string? Artist { get; set; }
+
     public string? Album { get; set; }
+    [NotNull]
     public int DurationSeconds { get; set; }
     public string? FilePath { get; set; }
     public bool IsUserUploaded { get; set; }

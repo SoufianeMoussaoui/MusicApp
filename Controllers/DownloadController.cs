@@ -12,9 +12,9 @@ namespace musicApp.Controllers
 {
     public class DownloadController : Controller
     {
-        private readonly musicDownload _context;
+        private readonly AppDbContext _context;
 
-        public DownloadController(musicDownload context)
+        public DownloadController(AppDbContext context)
         {
             _context = context;
         }

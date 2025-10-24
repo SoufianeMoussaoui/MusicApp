@@ -79,8 +79,6 @@
 /home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/v8dvuu0q99-muycvpuwrr.gz
 /home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/kx6xal652o-87fc7y1x7t.gz
 /home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/g5uc534uqx-jfsiqqwiad.gz
-/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/scq2rvqvgh-d9lhdc1nl0.gz
-/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/4yy72rwbkk-d9lhdc1nl0.gz
 /home/soufiane/School/Net/musicApp/obj/Debug/net9.0/staticwebassets.build.json
 /home/soufiane/School/Net/musicApp/obj/Debug/net9.0/staticwebassets.development.json
 /home/soufiane/School/Net/musicApp/obj/Debug/net9.0/staticwebassets.build.endpoints.json
@@ -364,3 +362,8 @@
 /home/soufiane/School/Net/musicApp/obj/Debug/net9.0/musicApp.csproj.AssemblyReference.cache
 /home/soufiane/School/Net/musicApp/obj/Debug/net9.0/musicApp.csproj.Up2Date
 /home/soufiane/School/Net/musicApp/obj/Debug/net9.0/musicApp.sourcelink.json
+/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/BCrypt.Net-Next.dll
+/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Npgsql.dll
+/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
+/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/scq2rvqvgh-duhellzjjy.gz
+/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/4yy72rwbkk-duhellzjjy.gz

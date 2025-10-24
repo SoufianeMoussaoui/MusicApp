@@ -47,31 +47,56 @@
                 </div>
 
                 <!-- Error/Success Messages -->
-                @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
-                {
-                    <div class="mb-6 p-4 bg-red-900/30 border border-red-700/50 rounded-lg text-red-200 text-sm flex items-start gap-3" role="alert">
-                        <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-                        </svg>
-                        <span>@ViewBag.ErrorMessage</span>
-                    </div>
-                }
-
-                @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
-                {
-                    <div class="mb-6 p-4 bg-green-900/30 border border-green-700/50 rounded-lg text-green-200 text-sm flex items-start gap-3" role="alert">
-                        <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                        </svg>
-                        <span>@ViewBag.SuccessMessage</span>
-                    </div>
-                }
+                <div id="messageContainer"></div>
 
                 <!-- Registration Form -->
-                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "space-y-4" }))
-                {
-                    @Html.AntiForgeryToken()
+                <form asp-action="Registrer"asp-controller="User"  method="post" id="registerForm" class="space-y-4">
+                    <!-- Username Field -->
+                    <div>
+                        <label for="username" class="block text-sm font-semibold text-slate-200 mb-2">
+                            Username
+                        </label>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username" 
+                            required 
+                            aria-required="true"
+                            aria-describedby="username-error"
+                            class="form-input w-full px-4 py-3 rounded-lg text-white placeholder-slate-500"
+                            placeholder="johndoe">
+                        <span id="username-error" class="text-red-400 text-sm mt-1 block"></span>
+                    </div>
 
+                    <!-- First Name Field -->
+                    <div>
+                        <label for="firstName" class="block text-sm font-semibold text-slate-200 mb-2">
+                            First Name <span class="text-slate-500 font-normal">(optional)</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="firstName" 
+                            name="firstName" 
+                            aria-describedby="firstName-error"
+                            class="form-input w-full px-4 py-3 rounded-lg text-white placeholder-slate-500"
+                            placeholder="Enter your first name">
+                        <span id="firstName-error" class="text-red-400 text-sm mt-1 block"></span>
+                    </div>
+
+                    <!-- Last Name Field -->
+                    <div>
+                        <label for="lastName" class="block text-sm font-semibold text-slate-200 mb-2">
+                            Last Name <span class="text-slate-500 font-normal">(optional)</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="lastName" 
+                            name="lastName" 
+                            aria-describedby="lastName-error"
+                            class="form-input w-full px-4 py-3 rounded-lg text-white placeholder-slate-500"
+                            placeholder="Enter your last name">
+                        <span id="lastName-error" class="text-red-400 text-sm mt-1 block"></span>
+                    </div>
 
                     <!-- Email Field -->
                     <div>
@@ -87,26 +112,7 @@
                             aria-describedby="email-error"
                             class="form-input w-full px-4 py-3 rounded-lg text-white placeholder-slate-500"
                             placeholder="you@example.com">
-                        <span id="email-error" class="text-red-400 text-sm mt-1 block">
-                            @Html.ValidationMessageFor(m => m.Email)
-                        </span>
-                    </div>
-
-                    <!-- Username Field (Optional) -->
-                    <div>
-                        <label for="username" class="block text-sm font-semibold text-slate-200 mb-2">
-                            Username <span class="text-slate-500 font-normal">(optional)</span>
-                        </label>
-                        <input 
-                            type="text" 
-                            id="username" 
-                            name="username" 
-                            aria-describedby="username-error"
-                            class="form-input w-full px-4 py-3 rounded-lg text-white placeholder-slate-500"
-                            placeholder="johndoe">
-                        <span id="username-error" class="text-red-400 text-sm mt-1 block">
-                            @Html.ValidationMessageFor(m => m.Username)
-                        </span>
+                        <span id="email-error" class="text-red-400 text-sm mt-1 block"></span>
                     </div>
 
                     <!-- Password Field -->
@@ -136,9 +142,7 @@
                                 </svg>
                             </button>
                         </div>
-                        <span id="password-error" class="text-red-400 text-sm mt-1 block">
-                            @Html.ValidationMessageFor(m => m.Password)
-                        </span>
+                        <span id="password-error" class="text-red-400 text-sm mt-1 block"></span>
                     </div>
 
                     <!-- Confirm Password Field -->
@@ -168,9 +172,7 @@
                                 </svg>
                             </button>
                         </div>
-                        <span id="confirmPassword-error" class="text-red-400 text-sm mt-1 block">
-                            @Html.ValidationMessageFor(m => m.ConfirmPassword)
-                        </span>
+                        <span id="confirmPassword-error" class="text-red-400 text-sm mt-1 block"></span>
                     </div>
 
                     <!-- Terms Checkbox -->
@@ -192,7 +194,7 @@
                         class="btn-primary w-full py-3 text-white font-semibold rounded-lg mt-6">
                         Create Account
                     </button>
-                }
+                </form>
 
                 <!-- Divider -->
                 <div class="relative my-6">
@@ -205,7 +207,7 @@
                 </div>
 
                 <!-- Sign In Link -->
-                <a asp-controller="Account" asp-action="Login" class="block w-full py-3 border border-slate-700 hover:border-purple-500 text-center text-white font-semibold rounded-lg transition-colors hover:bg-slate-800/50">
+                <a href="/login" class="block w-full py-3 border border-slate-700 hover:border-purple-500 text-center text-white font-semibold rounded-lg transition-colors hover:bg-slate-800/50">
                     Sign In
                 </a>
             </div>
@@ -218,12 +220,3 @@
     </div>
 </div>
 
-@section Scripts {
-    <script>
-        function togglePasswordVisibility(fieldId) {
-            const field = document.getElementById(fieldId);
-            const isPassword = field.type === 'password';
-            field.type = isPassword ? 'text' : 'password';
-        }
-    </script>
-}

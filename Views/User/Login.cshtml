@@ -68,31 +68,10 @@
                 </div>
 
                 <!-- Error/Success Messages -->
-                @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
-                {
-                    <div class="mb-6 p-4 bg-red-900/30 border border-red-700/50 rounded-lg text-red-200 text-sm flex items-start gap-3" role="alert">
-                        <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
-                        </svg>
-                        <span>@ViewBag.ErrorMessage</span>
-                    </div>
-                }
-
-                @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
-                {
-                    <div class="mb-6 p-4 bg-green-900/30 border border-green-700/50 rounded-lg text-green-200 text-sm flex items-start gap-3" role="alert">
-                        <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                        </svg>
-                        <span>@ViewBag.SuccessMessage</span>
-                    </div>
-                }
+                <div id="messageContainer"></div>
 
                 <!-- Login Form -->
-                @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "space-y-5" }))
-                {
-                    @Html.AntiForgeryToken()
-
+                <form asp-action="Login" asp-controller="User" method="post" id="loginForm" class="space-y-5">
                     <!-- Email Field -->
                     <div>
                         <label for="email" class="block text-sm font-semibold text-slate-200 mb-2">
@@ -107,9 +86,7 @@
                             aria-describedby="email-error"
                             class="form-input w-full px-4 py-3 rounded-lg text-white placeholder-slate-500"
                             placeholder="you@example.com">
-                        <span id="email-error" class="text-red-400 text-sm mt-1 block">
-                            @Html.ValidationMessageFor(m => m.Email)
-                        </span>
+                        <span id="email-error" class="text-red-400 text-sm mt-1 block"></span>
                     </div>
 
                     <!-- Password Field -->
@@ -139,9 +116,7 @@
                                 </svg>
                             </button>
                         </div>
-                        <span id="password-error" class="text-red-400 text-sm mt-1 block">
-                            @Html.ValidationMessageFor(m => m.Password)
-                        </span>
+                        <span id="password-error" class="text-red-400 text-sm mt-1 block"></span>
                     </div>
 
                     <!-- Remember Me Checkbox -->
@@ -162,7 +137,7 @@
                         class="btn-primary w-full py-3 text-white font-semibold rounded-lg mt-6">
                         Sign In
                     </button>
-                }
+                </form>
 
                 <!-- Divider -->
                 <div class="relative my-6">
@@ -175,7 +150,7 @@
                 </div>
 
                 <!-- Sign Up Link -->
-                <a asp-controller="Account" asp-action="Register" class="block w-full py-3 border border-slate-700 hover:border-purple-500 text-center text-white font-semibold rounded-lg transition-colors hover:bg-slate-800/50">
+                <a href="/register" class="block w-full py-3 border border-slate-700 hover:border-purple-500 text-center text-white font-semibold rounded-lg transition-colors hover:bg-slate-800/50">
                     Create Account
                 </a>
             </div>
@@ -187,13 +162,3 @@
         </div>
     </div>
 </div>
-
-@section Scripts {
-    <script>
-        function togglePasswordVisibility(fieldId) {
-            const field = document.getElementById(fieldId);
-            const isPassword = field.type === 'password';
-            field.type = isPassword ? 'text' : 'password';
-        }
-    </script>
-}

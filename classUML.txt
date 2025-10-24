@@ -1,9 +1,11 @@
 classDiagram
     class User {
         int UserId
+        string firstName
+        string lasName
         string Username
         string Email
-        string PasswordHash
+        string Password
         DateTime CreatedAt
         +GetPlaylists()
         +CreatePlaylist()

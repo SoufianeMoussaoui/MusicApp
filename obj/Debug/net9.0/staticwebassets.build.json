@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "jrPZzgeiut1ICkXfVtJZZQxGt2s7kIAVBrqxIXpQiTc=",
+  "Hash": "8xmPCJHRdONiuyRBYCBDRNllqEtS2vOnjAIM07fQjWc=",
   "Source": "musicApp",
   "BasePath": "_content/musicApp",
   "Mode": "Default",
@@ -206,12 +206,12 @@
       "OriginalItemSpec": "/home/soufiane/School/Net/musicApp/wwwroot/lib/jquery/dist/jquery.js"
     },
     {
-      "Identity": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/4yy72rwbkk-d9lhdc1nl0.gz",
+      "Identity": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/4yy72rwbkk-duhellzjjy.gz",
       "SourceId": "musicApp",
       "SourceType": "Computed",
       "ContentRoot": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/musicApp",
-      "RelativePath": "musicApp#[.{fingerprint=d9lhdc1nl0}]!.bundle.scp.css.gz",
+      "RelativePath": "musicApp#[.{fingerprint=duhellzjjy}]!.bundle.scp.css.gz",
       "AssetKind": "All",
       "AssetMode": "Reference",
       "AssetRole": "Alternative",
@@ -220,8 +220,8 @@
       "RelatedAsset": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/scopedcss/projectbundle/musicApp.bundle.scp.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "isj0yyi3ql",
-      "Integrity": "zpFmpijG+pXONF5l5ozHQg6W9R1dFOf1AIfhJ1z3apc=",
+      "Fingerprint": "qv9sq9r347",
+      "Integrity": "Bq+/m3uvlnVrO+LIRsRWpeUEIS3C/+YXTO0u05C4Z80=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/scopedcss/projectbundle/musicApp.bundle.scp.css"
@@ -1109,12 +1109,12 @@
       "OriginalItemSpec": "/home/soufiane/School/Net/musicApp/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map"
     },
     {
-      "Identity": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/scq2rvqvgh-d9lhdc1nl0.gz",
+      "Identity": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/scq2rvqvgh-duhellzjjy.gz",
       "SourceId": "musicApp",
       "SourceType": "Computed",
       "ContentRoot": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/",
       "BasePath": "_content/musicApp",
-      "RelativePath": "musicApp#[.{fingerprint=d9lhdc1nl0}]?.styles.css.gz",
+      "RelativePath": "musicApp#[.{fingerprint=duhellzjjy}]?.styles.css.gz",
       "AssetKind": "All",
       "AssetMode": "CurrentProject",
       "AssetRole": "Alternative",
@@ -1123,8 +1123,8 @@
       "RelatedAsset": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/scopedcss/bundle/musicApp.styles.css",
       "AssetTraitName": "Content-Encoding",
       "AssetTraitValue": "gzip",
-      "Fingerprint": "isj0yyi3ql",
-      "Integrity": "zpFmpijG+pXONF5l5ozHQg6W9R1dFOf1AIfhJ1z3apc=",
+      "Fingerprint": "qv9sq9r347",
+      "Integrity": "Bq+/m3uvlnVrO+LIRsRWpeUEIS3C/+YXTO0u05C4Z80=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/scopedcss/bundle/musicApp.styles.css"
@@ -1375,8 +1375,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "ScopedCss",
       "AssetTraitValue": "ApplicationBundle",
-      "Fingerprint": "d9lhdc1nl0",
-      "Integrity": "H83qCRLHtpSuUscVnMtVLK21iSA5sfk5Wibnfwawg2Q=",
+      "Fingerprint": "duhellzjjy",
+      "Integrity": "1er8z65i2mMANS5rhR5RU5XmBE78vFKKfgcOwJ7NEuE=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/scopedcss/bundle/musicApp.styles.css"
@@ -1396,8 +1396,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "ScopedCss",
       "AssetTraitValue": "ProjectBundle",
-      "Fingerprint": "d9lhdc1nl0",
-      "Integrity": "H83qCRLHtpSuUscVnMtVLK21iSA5sfk5Wibnfwawg2Q=",
+      "Fingerprint": "duhellzjjy",
+      "Integrity": "1er8z65i2mMANS5rhR5RU5XmBE78vFKKfgcOwJ7NEuE=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/scopedcss/projectbundle/musicApp.bundle.scp.css"
@@ -21287,12 +21287,12 @@
     },
     {
       "Route": "musicApp.bundle.scp.css",
-      "AssetFile": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/4yy72rwbkk-d9lhdc1nl0.gz",
+      "AssetFile": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/4yy72rwbkk-duhellzjjy.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.001872659176"
+          "Quality": "0.000677048070"
         }
       ],
       "ResponseHeaders": [
@@ -21302,15 +21302,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "533"
+          "Value": "1476"
         },
         {
           "Name": "ETag",
-          "Value": "\"zpFmpijG+pXONF5l5ozHQg6W9R1dFOf1AIfhJ1z3apc=\""
+          "Value": "\"Bq+/m3uvlnVrO+LIRsRWpeUEIS3C/+YXTO0u05C4Z80=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 19 Oct 2025 13:52:17 GMT"
+          "Value": "Thu, 23 Oct 2025 20:52:26 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -21330,13 +21330,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"H83qCRLHtpSuUscVnMtVLK21iSA5sfk5Wibnfwawg2Q=\""
+          "Value": "W/\"1er8z65i2mMANS5rhR5RU5XmBE78vFKKfgcOwJ7NEuE=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-H83qCRLHtpSuUscVnMtVLK21iSA5sfk5Wibnfwawg2Q="
+          "Value": "sha256-1er8z65i2mMANS5rhR5RU5XmBE78vFKKfgcOwJ7NEuE="
         }
       ]
     },
@@ -21351,7 +21351,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1077"
+          "Value": "5447"
         },
         {
           "Name": "Content-Type",
@@ -21359,11 +21359,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"H83qCRLHtpSuUscVnMtVLK21iSA5sfk5Wibnfwawg2Q=\""
+          "Value": "\"1er8z65i2mMANS5rhR5RU5XmBE78vFKKfgcOwJ7NEuE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 19 Oct 2025 13:52:17 GMT"
+          "Value": "Thu, 23 Oct 2025 20:52:26 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -21373,13 +21373,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-H83qCRLHtpSuUscVnMtVLK21iSA5sfk5Wibnfwawg2Q="
+          "Value": "sha256-1er8z65i2mMANS5rhR5RU5XmBE78vFKKfgcOwJ7NEuE="
         }
       ]
     },
     {
       "Route": "musicApp.bundle.scp.css.gz",
-      "AssetFile": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/4yy72rwbkk-d9lhdc1nl0.gz",
+      "AssetFile": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/4yy72rwbkk-duhellzjjy.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -21388,7 +21388,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "533"
+          "Value": "1476"
         },
         {
           "Name": "Content-Type",
@@ -21396,11 +21396,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"zpFmpijG+pXONF5l5ozHQg6W9R1dFOf1AIfhJ1z3apc=\""
+          "Value": "\"Bq+/m3uvlnVrO+LIRsRWpeUEIS3C/+YXTO0u05C4Z80=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 19 Oct 2025 13:52:17 GMT"
+          "Value": "Thu, 23 Oct 2025 20:52:26 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -21418,18 +21418,18 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-zpFmpijG+pXONF5l5ozHQg6W9R1dFOf1AIfhJ1z3apc="
+          "Value": "sha256-Bq+/m3uvlnVrO+LIRsRWpeUEIS3C/+YXTO0u05C4Z80="
         }
       ]
     },
     {
-      "Route": "musicApp.d9lhdc1nl0.bundle.scp.css",
-      "AssetFile": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/4yy72rwbkk-d9lhdc1nl0.gz",
+      "Route": "musicApp.duhellzjjy.bundle.scp.css",
+      "AssetFile": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/4yy72rwbkk-duhellzjjy.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.001872659176"
+          "Quality": "0.000677048070"
         }
       ],
       "ResponseHeaders": [
@@ -21439,15 +21439,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "533"
+          "Value": "1476"
         },
         {
           "Name": "ETag",
-          "Value": "\"zpFmpijG+pXONF5l5ozHQg6W9R1dFOf1AIfhJ1z3apc=\""
+          "Value": "\"Bq+/m3uvlnVrO+LIRsRWpeUEIS3C/+YXTO0u05C4Z80=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 19 Oct 2025 13:52:17 GMT"
+          "Value": "Thu, 23 Oct 2025 20:52:26 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -21467,13 +21467,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"H83qCRLHtpSuUscVnMtVLK21iSA5sfk5Wibnfwawg2Q=\""
+          "Value": "W/\"1er8z65i2mMANS5rhR5RU5XmBE78vFKKfgcOwJ7NEuE=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "d9lhdc1nl0"
+          "Value": "duhellzjjy"
         },
         {
           "Name": "label",
@@ -21481,12 +21481,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-H83qCRLHtpSuUscVnMtVLK21iSA5sfk5Wibnfwawg2Q="
+          "Value": "sha256-1er8z65i2mMANS5rhR5RU5XmBE78vFKKfgcOwJ7NEuE="
         }
       ]
     },
     {
-      "Route": "musicApp.d9lhdc1nl0.bundle.scp.css",
+      "Route": "musicApp.duhellzjjy.bundle.scp.css",
       "AssetFile": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/scopedcss/projectbundle/musicApp.bundle.scp.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -21496,7 +21496,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1077"
+          "Value": "5447"
         },
         {
           "Name": "Content-Type",
@@ -21504,11 +21504,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"H83qCRLHtpSuUscVnMtVLK21iSA5sfk5Wibnfwawg2Q=\""
+          "Value": "\"1er8z65i2mMANS5rhR5RU5XmBE78vFKKfgcOwJ7NEuE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 19 Oct 2025 13:52:17 GMT"
+          "Value": "Thu, 23 Oct 2025 20:52:26 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -21518,7 +21518,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "d9lhdc1nl0"
+          "Value": "duhellzjjy"
         },
         {
           "Name": "label",
@@ -21526,13 +21526,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-H83qCRLHtpSuUscVnMtVLK21iSA5sfk5Wibnfwawg2Q="
+          "Value": "sha256-1er8z65i2mMANS5rhR5RU5XmBE78vFKKfgcOwJ7NEuE="
         }
       ]
     },
     {
-      "Route": "musicApp.d9lhdc1nl0.bundle.scp.css.gz",
-      "AssetFile": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/4yy72rwbkk-d9lhdc1nl0.gz",
+      "Route": "musicApp.duhellzjjy.bundle.scp.css.gz",
+      "AssetFile": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/4yy72rwbkk-duhellzjjy.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -21541,7 +21541,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "533"
+          "Value": "1476"
         },
         {
           "Name": "Content-Type",
@@ -21549,11 +21549,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"zpFmpijG+pXONF5l5ozHQg6W9R1dFOf1AIfhJ1z3apc=\""
+          "Value": "\"Bq+/m3uvlnVrO+LIRsRWpeUEIS3C/+YXTO0u05C4Z80=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 19 Oct 2025 13:52:17 GMT"
+          "Value": "Thu, 23 Oct 2025 20:52:26 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -21571,7 +21571,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "d9lhdc1nl0"
+          "Value": "duhellzjjy"
         },
         {
           "Name": "label",
@@ -21579,18 +21579,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-zpFmpijG+pXONF5l5ozHQg6W9R1dFOf1AIfhJ1z3apc="
+          "Value": "sha256-Bq+/m3uvlnVrO+LIRsRWpeUEIS3C/+YXTO0u05C4Z80="
         }
       ]
     },
     {
-      "Route": "musicApp.d9lhdc1nl0.styles.css",
-      "AssetFile": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/scq2rvqvgh-d9lhdc1nl0.gz",
+      "Route": "musicApp.duhellzjjy.styles.css",
+      "AssetFile": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/scq2rvqvgh-duhellzjjy.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.001872659176"
+          "Quality": "0.000677048070"
         }
       ],
       "ResponseHeaders": [
@@ -21600,15 +21600,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "533"
+          "Value": "1476"
         },
         {
           "Name": "ETag",
-          "Value": "\"zpFmpijG+pXONF5l5ozHQg6W9R1dFOf1AIfhJ1z3apc=\""
+          "Value": "\"Bq+/m3uvlnVrO+LIRsRWpeUEIS3C/+YXTO0u05C4Z80=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 19 Oct 2025 13:52:17 GMT"
+          "Value": "Thu, 23 Oct 2025 20:52:26 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -21628,13 +21628,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"H83qCRLHtpSuUscVnMtVLK21iSA5sfk5Wibnfwawg2Q=\""
+          "Value": "W/\"1er8z65i2mMANS5rhR5RU5XmBE78vFKKfgcOwJ7NEuE=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "d9lhdc1nl0"
+          "Value": "duhellzjjy"
         },
         {
           "Name": "label",
@@ -21642,12 +21642,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-H83qCRLHtpSuUscVnMtVLK21iSA5sfk5Wibnfwawg2Q="
+          "Value": "sha256-1er8z65i2mMANS5rhR5RU5XmBE78vFKKfgcOwJ7NEuE="
         }
       ]
     },
     {
-      "Route": "musicApp.d9lhdc1nl0.styles.css",
+      "Route": "musicApp.duhellzjjy.styles.css",
       "AssetFile": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/scopedcss/bundle/musicApp.styles.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -21657,7 +21657,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1077"
+          "Value": "5447"
         },
         {
           "Name": "Content-Type",
@@ -21665,11 +21665,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"H83qCRLHtpSuUscVnMtVLK21iSA5sfk5Wibnfwawg2Q=\""
+          "Value": "\"1er8z65i2mMANS5rhR5RU5XmBE78vFKKfgcOwJ7NEuE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 19 Oct 2025 13:52:17 GMT"
+          "Value": "Thu, 23 Oct 2025 20:52:26 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -21679,7 +21679,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "d9lhdc1nl0"
+          "Value": "duhellzjjy"
         },
         {
           "Name": "label",
@@ -21687,13 +21687,13 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-H83qCRLHtpSuUscVnMtVLK21iSA5sfk5Wibnfwawg2Q="
+          "Value": "sha256-1er8z65i2mMANS5rhR5RU5XmBE78vFKKfgcOwJ7NEuE="
         }
       ]
     },
     {
-      "Route": "musicApp.d9lhdc1nl0.styles.css.gz",
-      "AssetFile": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/scq2rvqvgh-d9lhdc1nl0.gz",
+      "Route": "musicApp.duhellzjjy.styles.css.gz",
+      "AssetFile": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/scq2rvqvgh-duhellzjjy.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -21702,7 +21702,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "533"
+          "Value": "1476"
         },
         {
           "Name": "Content-Type",
@@ -21710,11 +21710,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"zpFmpijG+pXONF5l5ozHQg6W9R1dFOf1AIfhJ1z3apc=\""
+          "Value": "\"Bq+/m3uvlnVrO+LIRsRWpeUEIS3C/+YXTO0u05C4Z80=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 19 Oct 2025 13:52:17 GMT"
+          "Value": "Thu, 23 Oct 2025 20:52:26 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -21732,7 +21732,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "d9lhdc1nl0"
+          "Value": "duhellzjjy"
         },
         {
           "Name": "label",
@@ -21740,18 +21740,18 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-zpFmpijG+pXONF5l5ozHQg6W9R1dFOf1AIfhJ1z3apc="
+          "Value": "sha256-Bq+/m3uvlnVrO+LIRsRWpeUEIS3C/+YXTO0u05C4Z80="
         }
       ]
     },
     {
       "Route": "musicApp.styles.css",
-      "AssetFile": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/scq2rvqvgh-d9lhdc1nl0.gz",
+      "AssetFile": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/scq2rvqvgh-duhellzjjy.gz",
       "Selectors": [
         {
           "Name": "Content-Encoding",
           "Value": "gzip",
-          "Quality": "0.001872659176"
+          "Quality": "0.000677048070"
         }
       ],
       "ResponseHeaders": [
@@ -21761,15 +21761,15 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "533"
+          "Value": "1476"
         },
         {
           "Name": "ETag",
-          "Value": "\"zpFmpijG+pXONF5l5ozHQg6W9R1dFOf1AIfhJ1z3apc=\""
+          "Value": "\"Bq+/m3uvlnVrO+LIRsRWpeUEIS3C/+YXTO0u05C4Z80=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 19 Oct 2025 13:52:17 GMT"
+          "Value": "Thu, 23 Oct 2025 20:52:26 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -21789,13 +21789,13 @@
         },
         {
           "Name": "ETag",
-          "Value": "W/\"H83qCRLHtpSuUscVnMtVLK21iSA5sfk5Wibnfwawg2Q=\""
+          "Value": "W/\"1er8z65i2mMANS5rhR5RU5XmBE78vFKKfgcOwJ7NEuE=\""
         }
       ],
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-H83qCRLHtpSuUscVnMtVLK21iSA5sfk5Wibnfwawg2Q="
+          "Value": "sha256-1er8z65i2mMANS5rhR5RU5XmBE78vFKKfgcOwJ7NEuE="
         }
       ]
     },
@@ -21810,7 +21810,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "1077"
+          "Value": "5447"
         },
         {
           "Name": "Content-Type",
@@ -21818,11 +21818,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"H83qCRLHtpSuUscVnMtVLK21iSA5sfk5Wibnfwawg2Q=\""
+          "Value": "\"1er8z65i2mMANS5rhR5RU5XmBE78vFKKfgcOwJ7NEuE=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 19 Oct 2025 13:52:17 GMT"
+          "Value": "Thu, 23 Oct 2025 20:52:26 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -21832,13 +21832,13 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-H83qCRLHtpSuUscVnMtVLK21iSA5sfk5Wibnfwawg2Q="
+          "Value": "sha256-1er8z65i2mMANS5rhR5RU5XmBE78vFKKfgcOwJ7NEuE="
         }
       ]
     },
     {
       "Route": "musicApp.styles.css.gz",
-      "AssetFile": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/scq2rvqvgh-d9lhdc1nl0.gz",
+      "AssetFile": "/home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/scq2rvqvgh-duhellzjjy.gz",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -21847,7 +21847,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "533"
+          "Value": "1476"
         },
         {
           "Name": "Content-Type",
@@ -21855,11 +21855,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"zpFmpijG+pXONF5l5ozHQg6W9R1dFOf1AIfhJ1z3apc=\""
+          "Value": "\"Bq+/m3uvlnVrO+LIRsRWpeUEIS3C/+YXTO0u05C4Z80=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 19 Oct 2025 13:52:17 GMT"
+          "Value": "Thu, 23 Oct 2025 20:52:26 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -21877,7 +21877,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-zpFmpijG+pXONF5l5ozHQg6W9R1dFOf1AIfhJ1z3apc="
+          "Value": "sha256-Bq+/m3uvlnVrO+LIRsRWpeUEIS3C/+YXTO0u05C4Z80="
         }
       ]
     }
