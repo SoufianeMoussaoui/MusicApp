@@ -9,6 +9,7 @@ public class User
     public int Id { get; set; }
     public string? Firstname { get; set; }
     public string? Lastname { get; set; }
+    
     [Required(ErrorMessage = "Username required")]
     [NotNull]
     public string? Username { get; set; }

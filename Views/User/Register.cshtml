@@ -1,3 +1,5 @@
+@model musicApp.Models.User;
+
 @{
     ViewBag.Title = "Sign Up";
 }
@@ -47,10 +49,14 @@
                 </div>
 
                 <!-- Error/Success Messages -->
-                <div id="messageContainer"></div>
+                <div id="messageContainer">
+            
+
+                </div>
 
                 <!-- Registration Form -->
-                <form asp-action="Registrer"asp-controller="User"  method="post" id="registerForm" class="space-y-4">
+                <form asp-action="Register" asp-controller="User"  method="post" id="registerForm" class="space-y-4">
+                    @Html.AntiForgeryToken()
                     <!-- Username Field -->
                     <div>
                         <label for="username" class="block text-sm font-semibold text-slate-200 mb-2">
@@ -164,8 +170,7 @@
                             <button 
                                 type="button" 
                                 class="password-toggle absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"
-                                aria-label="Toggle password visibility"
-                                onclick="togglePasswordVisibility('confirmPassword')">
+                                aria-label="Toggle password visibility">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
@@ -202,12 +207,12 @@
                         <div class="w-full border-t border-slate-700"></div>
                     </div>
                     <div class="relative flex justify-center text-sm">
-                        <span class="px-2 bg-slate-900/60 text-slate-400">Already have an account?</span>
+                        <span class="px-2 bg-slate-900/60 stext-slate-400">Already have an account?</span>
                     </div>
                 </div>
 
                 <!-- Sign In Link -->
-                <a href="/login" class="block w-full py-3 border border-slate-700 hover:border-purple-500 text-center text-white font-semibold rounded-lg transition-colors hover:bg-slate-800/50">
+                <a href="/User/Login" class="block w-full py-3 border border-slate-700 hover:border-purple-500 text-center text-white font-semibold rounded-lg transition-colors hover:bg-slate-800/50">
                     Sign In
                 </a>
             </div>

@@ -18,7 +18,7 @@ namespace musicApp.Controllers
         {
             _context = context;
         }
-        
+
         [HttpGet]
         public IActionResult Login()
         {
@@ -31,28 +31,37 @@ namespace musicApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(User model)
+        [ValidateAntiForgeryToken]
+        public IActionResult Login(string username, string password)
         {
-            if (ModelState.IsValid)
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
             {
-                var user = _context.User.FirstOrDefault(u => u.Email == model.Email);
 
-                if (user != null && BCrypt.Net.BCrypt.Verify(model.Password, user.Password))
-                {
-                    HttpContext.Session.SetString("UserId", user.Id.ToString());
-                    HttpContext.Session.SetString("UserEmail", user.Email);
+                TempData["ErrorMessage"] = "Please enter both username and password.";
+                return View();
 
-                    return RedirectToAction("Dashboard", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Invalid email or password");
-                }
+
             }
-            return View(model);
+            var user = _context.User.FirstOrDefault(u => u.Username == username);
+
+            if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.Password))
+            {
+                TempData["ErrorMessage"] = "Invalid username or password. Please try again.";
+                return View();
+            }
+            HttpContext.Session.SetString("UserId", user.Id.ToString());
+            HttpContext.Session.SetString("Username", user.Username);
+            HttpContext.Session.SetString("Email", user.Email);
+
+            TempData["SuccessMessage"] = $"Login successful! Welcome back {user.Firstname ?? user.Username}.";
+
+            return RedirectToAction("Index", "Home");
         }
 
+
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult Register(User model)
         {
             if (ModelState.IsValid)
@@ -78,13 +87,12 @@ namespace musicApp.Controllers
                     Password = BCrypt.Net.BCrypt.HashPassword(model.Password),
                     CreatedAt = DateTime.UtcNow
                 };
-                
-                _context.User.Add(model);
+
+                _context.User.Add(user);
                 _context.SaveChanges();
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Login");
 
-                
             }
 
             return View(model);
