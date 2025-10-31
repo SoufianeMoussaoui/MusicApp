@@ -2,6 +2,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using musicApp.Data;
+using Supabase;
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -9,17 +10,32 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
     
-// Add services to the container.
+
 builder.Services.AddControllersWithViews();
+
+var supabaseUrl = builder.Configuration["Supabase:Url"];
+var supabaseKey = builder.Configuration["Supabase:Key"];
+
+builder.Services.AddScoped(provider => 
+    new Client(supabaseUrl, supabaseKey, new SupabaseOptions
+    {
+        AutoConnectRealtime = true
+    }));
+
+
+builder.Services.AddScoped<ISupabaseService, SupabaseService>();
+
+
+
 //builder.Services.AddSingleton<SupabaseService>();
 
 
-builder.Services.AddDistributedMemoryCache(); // Required for session
+builder.Services.AddDistributedMemoryCache(); 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Session expires after 30 minutes of inactivity
-    options.Cookie.HttpOnly = true; // Security: Cookie not accessible via JavaScript
-    options.Cookie.IsEssential = true; // Required for GDPR compliance
+    options.IdleTimeout = TimeSpan.FromMinutes(30); 
+    options.Cookie.HttpOnly = true; 
+    options.Cookie.IsEssential = true; 
 });
 
 var app = builder.Build();

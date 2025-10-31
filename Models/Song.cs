@@ -2,10 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
-
+using Postgrest.Models;
+using Supabase;
 namespace musicApp.Models;
 
-public class Song
+[Table("songs")]
+public class Song : BaseModel
 {
 
     public int SongId { set; get; }

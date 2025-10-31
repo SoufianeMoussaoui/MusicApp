@@ -19,7 +19,7 @@ public class User
     [NotNull]
     public string? Email { get; set; }
 
-    [Required(ErrorMessage = "Password is required")]
+    [Required(ErrorMessage = "Password is ")]
     [MinLength(6, ErrorMessage = "Password must be at least 6 characters")]
     [NotNull]
     public string? Password { get; set; }

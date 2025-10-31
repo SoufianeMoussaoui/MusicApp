@@ -1,11 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
+using Postgrest.Models;
 
 namespace musicApp.Models;
 
 
-public class Album
+[Table("album")]
+public class Album : BaseModel
 {
     public int AlbumId { get; set; }
     [NotNull]

@@ -1,0 +1,328 @@
+﻿@model DiscoverViewModel
+
+@{
+    ViewBag.Title = "Discover - MusicFlow";
+}
+
+<style>
+    .gradient-bg {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    }
+
+    .sidebar-item {
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .sidebar-item:hover {
+        background-color: rgba(168, 85, 247, 0.1);
+        transform: translateX(4px);
+    }
+
+    .song-card, .album-card {
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        border-radius: 12px;
+    }
+
+    .song-card:hover, .album-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(168, 85, 247, 0.3);
+    }
+
+    .play-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .song-card:hover .play-overlay, .album-card:hover .play-overlay {
+        opacity: 1;
+    }
+
+    .play-btn {
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .play-btn:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 30px rgba(168, 85, 247, 0.6);
+    }
+
+    .genre-badge {
+        display: inline-block;
+        padding: 6px 14px;
+        background-color: rgba(168, 85, 247, 0.1);
+        border: 1px solid rgba(168, 85, 247, 0.5);
+        border-radius: 20px;
+        color: #a78bfa;
+        font-size: 12px;
+        font-weight: 500;
+        margin-right: 8px;
+        margin-bottom: 8px;
+    }
+
+    .notification-badge {
+        position: absolute;
+        top: -4px;
+        right: -4px;
+        background: #ec4899;
+        color: white;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    .user-avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+    }
+</style>
+
+<div class="gradient-bg min-h-screen">
+    <!-- Header -->
+    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path>
+                    </svg>
+                </div>
+                <span class="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">MusicFlow</span>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="hidden md:flex flex-1 max-w-md mx-8">
+                <div class="relative w-full">
+                    <input type="text" placeholder="Search for artists, songs, albums!" class="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20">
+                    <button class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-purple-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Section -->
+            <div class="flex items-center gap-4">
+                <!-- Notification Icon -->
+                <div class="relative cursor-pointer group">
+                    <svg class="w-6 h-6 text-slate-400 hover:text-purple-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                    </svg>
+                    @if (Model.UnreadNotifications > 0)
+                    {
+                        <span class="notification-badge">@Model.UnreadNotifications</span>
+                    }
+                </div>
+
+                <!-- Auth Section -->
+                @if (Model.IsAuthenticated)
+                {
+                    <div class="flex items-center gap-3">
+                        <span class="text-sm text-slate-300 hidden sm:block">@Model.UserName</span>
+                        <div class="user-avatar">
+                            @Model.UserName.FirstOrDefault().ToString().ToUpper()
+                        </div>
+                        <a href="@Url.Action("Logout", "User")" class="text-sm text-slate-400 hover:text-purple-400">Logout</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="flex items-center gap-3">
+                        <a href="@Url.Action("Login", "User")" class="text-sm font-medium text-slate-300 hover:text-purple-400 transition-colors">Sign In</a>
+                        <a href="@Url.Action("Register", "User")" class="text-sm font-medium px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all">Sign Up</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside class="hidden lg:w-64 lg:flex lg:flex-col border-r border-slate-800 bg-slate-900/40 backdrop-blur sticky top-20 h-fit">
+            <nav class="p-6 space-y-8">
+                <!-- Browse Section -->
+                <div>
+                    <h3 class="text-xs font-bold text-amber-500 uppercase tracking-widest mb-4">Browse</h3>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="#" class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Home</a>
+                        </li>
+                        <li>
+                            <a href="#" class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Trending Songs</a>
+                        </li>
+                        <li>
+                            <a href="#" class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Trending Albums</a>
+                        </li>
+                        <li>
+                            <a href="#" class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Recently Added</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Charts Section -->
+                <div>
+                    <h3 class="text-xs font-bold text-amber-500 uppercase tracking-widest mb-4">Charts</h3>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="#" class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Top Songs</a>
+                        </li>
+                        <li>
+                            <a href="#" class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Top Albums</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Genres Section -->
+                <div>
+                    <h3 class="text-xs font-bold text-amber-500 uppercase tracking-widest mb-4">Genres</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <button class="genre-badge">All Genres</button>
+                        <button class="genre-badge">Hip-Hop</button>
+                        <button class="genre-badge">Pop</button>
+                        <button class="genre-badge">Rock</button>
+                    </div>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 px-4 md:px-8 py-8">
+            <!-- Trending Songs Section -->
+            <section class="mb-16">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-3xl font-bold text-white">Trending Songs</h2>
+                    <a href="#" class="text-purple-400 hover:text-purple-300 text-sm font-medium">View All</a>
+                </div>
+
+                @if (Model.TrendingSongs.Any())
+                {
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        @foreach (var song in Model.TrendingSongs)
+                        {
+                            <div class="song-card group">
+                                <div class="relative aspect-square bg-slate-800 rounded-lg overflow-hidden">
+                                    @if (!string.IsNullOrEmpty(song.CoverUrl))
+                                    {
+                                        <img src="@song.CoverUrl" alt="@song.Title" class="w-full h-full object-cover">
+                                    }
+                                    else
+                                    {
+                                        <div class="w-full h-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                                            <svg class="w-16 h-16 text-white/30" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path>
+                                            </svg>
+                                        </div>
+                                    }
+
+                                    <div class="play-overlay">
+                                        <div class="play-btn">
+                                            <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 20 20">
+                                                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <h3 class="text-white font-semibold truncate">@song.Title</h3>
+                                    <p class="text-slate-400 text-sm truncate">@song.Artist</p>
+                                    <p class="text-slate-500 text-xs mt-1">@song.Plays.ToString("N0") plays</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-12">
+                        <p class="text-slate-400">No trending songs available</p>
+                    </div>
+                }
+            </section>
+
+            <!-- Trending Albums Section -->
+            <section class="mb-16">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-3xl font-bold text-white">Trending Albums</h2>
+                    <a href="#" class="text-purple-400 hover:text-purple-300 text-sm font-medium">View All</a>
+                </div>
+
+                @if (Model.TrendingAlbums.Any())
+                {
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        @foreach (var album in Model.TrendingAlbums)
+                        {
+                            <div class="album-card group">
+                                <div class="relative aspect-square bg-slate-800 rounded-lg overflow-hidden">
+                                    @if (!string.IsNullOrEmpty(album.CoverUrl))
+                                    {
+                                        <img src="@album.CoverUrl" alt="@album.Title" class="w-full h-full object-cover">
+                                    }
+                                    else
+                                    {
+                                        <div class="w-full h-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                                            <svg class="w-16 h-16 text-white/30" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path>
+                                            </svg>
+                                        </div>
+                                    }
+
+                                    <div class="play-overlay">
+                                        <div class="play-btn">
+                                            <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 20 20">
+                                                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-4">
+                                    <h3 class="text-white font-semibold truncate">@album.Title</h3>
+                                    <p class="text-slate-400 text-sm truncate">@album.Artist</p>
+                                    <p class="text-slate-500 text-xs mt-1">@album.SongsCount songs • @album.Plays.ToString("N0") plays</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-12">
+                        <p class="text-slate-400">No trending albums available</p>
+                    </div>
+                }
+            </section>
+        </main>
+    </div>
+</div>
