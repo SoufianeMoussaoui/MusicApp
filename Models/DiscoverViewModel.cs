@@ -8,7 +8,7 @@ namespace musicApp.Models
         public List<Album> TrendingAlbums { get; set; } = new List<Album>();
         public int UnreadNotifications { get; set; } = 0;
         public bool IsAuthenticated { get; set; } = false;
-        public string UserName { get; set; }
-        public string UserEmail { get; set; }
+        public string? UserName { get; set; }
+        public string? UserEmail { get; set; }
     }
 }

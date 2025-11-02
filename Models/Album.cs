@@ -11,8 +11,8 @@ public class Album : BaseModel
 {
     public int AlbumId { get; set; }
     [NotNull]
-    [Required(ErrorMessage = "Name is required")]
-    public string? Name { get; set; }
+    [Required(ErrorMessage = "Title is required")]
+    public string? Title { get; set; }
     [NotNull]
     [Required(ErrorMessage = "Name is required")]
     public string? Artist { get; set; }
@@ -21,4 +21,5 @@ public class Album : BaseModel
     public int ReleaseYear { get; set; }
     [Required]
     public string? CoverImage { get; set; }
+    public int SongCount {get; set;}
 }

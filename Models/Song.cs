@@ -24,6 +24,7 @@ public class Song : BaseModel
     [NotNull]
     public int DurationSeconds { get; set; }
     public string? FilePath { get; set; }
+    public string? CoverUrl {get; set;}
     public bool IsUserUploaded { get; set; }
 
 }

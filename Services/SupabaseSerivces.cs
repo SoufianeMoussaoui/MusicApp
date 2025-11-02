@@ -28,15 +28,22 @@ public class SupabaseService : ISupabaseService
         }
         
     }
-
-
-    public async Task<Song> GetSongAsync(int id)
+    public async Task<List<Album>> GetAllAlbumsAsync()
     {
-        var response = await _client
-            .From<Song>()
-            .Where(x => x.SongId == id)
-            .Single();
-        
-        return response;
+        try
+        {
+            var respone = await _client
+                .From<Album>()
+                .Get();
+                
+            return respone.Models;
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine($"Error fetching data: {e.Message}");
+            return new List<Album>();
+        }
     }
+
+
 }

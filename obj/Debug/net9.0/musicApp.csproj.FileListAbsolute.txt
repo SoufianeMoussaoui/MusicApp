@@ -367,3 +367,13 @@
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
 /home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/scq2rvqvgh-duhellzjjy.gz
 /home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/4yy72rwbkk-duhellzjjy.gz
+/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Supabase.Functions.dll
+/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Supabase.Gotrue.dll
+/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/MimeMapping.dll
+/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Supabase.Postgrest.dll
+/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Supabase.Realtime.dll
+/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Supabase.Core.dll
+/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Supabase.dll
+/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Supabase.Storage.dll
+/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/System.Reactive.dll
+/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Websocket.Client.dll

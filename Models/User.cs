@@ -6,6 +6,8 @@ namespace musicApp.Models;
 
 public class User
 {
+    public List<Notifications> Notifications { get; set; } = new List<Notifications>();
+
     public int Id { get; set; }
     public string? Firstname { get; set; }
     public string? Lastname { get; set; }
@@ -28,6 +30,18 @@ public class User
     [DataType(DataType.Date)]
     public DateTime CreatedAt { get; set; }
 
-
+    public int CountAllNotifications()
+    {
+        return Notifications?.Count ?? 0;
+    }
+    
+    public int CountUnreadNotifications()
+    {
+        return Notifications?.Count(n => !n.IsRead) ?? 0;
+    }
+    public int CountReadNotifications()
+    {
+        return Notifications?.Count(n => n.IsRead) ?? 0;
+    }
 
 }
