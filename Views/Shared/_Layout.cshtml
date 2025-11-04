@@ -11,45 +11,65 @@
 </head>
 <body class="bg-slate-950 text-slate-100">
     <!-- Header & Navigation -->
+     <!-- Header -->
     <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-50">
-        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
             <!-- Logo -->
-            <div class="flex items-center gap-3 group">
-                <div class="relative">
-                    <div class="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-300"></div>
-                    <img id="logo-placeholder" src="/placeholder.svg?height=32&width=32" alt="MusicFlow logo" class="relative h-8 w-8 rounded-lg bg-slate-800">
-                    <!-- TODO: Replace the src with your actual logo image path -->
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path>
+                    </svg>
                 </div>
                 <span class="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">MusicFlow</span>
             </div>
 
-            <!-- Navigation Links -->
-            <ul class="hidden md:flex items-center gap-8">
-                <li>
-                    <a asp-controller="Home" asp-action="Index" class="text-slate-400 hover:text-purple-400 font-medium transition-colors">
-                        Home
-                    </a>
-                </li>
-                <li>
-                    <a asp-controller="User" asp-action="Login" class="text-slate-400 hover:text-purple-400 font-medium transition-colors">
-                        Login
-                    </a>
-                </li>
-                <li>
-                    <a asp-controller="User" asp-action="Register" class="px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white rounded-lg font-medium transition-all hover:shadow-lg">
-                        Sign Up
-                    </a>
-                </li>
-            </ul>
+            <!-- Search Bar -->
+            <div class="hidden md:flex flex-1 max-w-md mx-8">
+                <div class="relative w-full">
+                    <input type="text" placeholder="Search for artists, songs, albums!" class="w-full px-4 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20">
+                    <button class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-purple-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
 
-            <!-- Mobile Menu Button -->
-            <button class="md:hidden text-slate-400 hover:text-purple-400">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                </svg>
-            </button>
-        </nav>
+            <!-- Right Section -->
+            <div class="flex items-center gap-4">
+                <!-- Auth Section -->
+                @if (Model.IsAuthenticated)
+                {
+                <div class="relative cursor-pointer group">
+                    <svg class="w-6 h-6 text-slate-400 hover:text-purple-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                    </svg>
+                    @if (Model.UnreadNotifications > 0)
+                    {
+                        <span class="notification-badge">@Model.UnreadNotifications</span>
+                    }
+                </div>
+
+                    <div class="flex items-center gap-3">
+                        <span class="text-sm text-slate-300 hidden sm:block">@Model</span>
+                        <div class="user-avatar">
+                            @Model.UserName.FirstOrDefault().ToString().ToUpper()
+                        </div>
+                        <a href="@Url.Action("Logout", "User")" class="text-sm text-slate-400 hover:text-purple-400">Logout</a>
+                    </div>
+                }
+                else
+                {
+                    <div class="flex items-center gap-3">
+                        <a href="@Url.Action("Login", "User")" class="text-sm font-medium text-slate-300 hover:text-purple-400 transition-colors">Login</a>
+                        <a href="@Url.Action("Register", "User")" class="text-sm font-medium px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all">Sign Up</a>
+                    </div>
+                }
+            </div>
+        </div>
     </header>
+
 
     <!-- Main Content -->
     <main class="min-h-screen">

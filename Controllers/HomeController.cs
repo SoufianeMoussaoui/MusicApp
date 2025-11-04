@@ -28,33 +28,29 @@ public class HomeController : Controller
         try
         {
             var songs = await _supabaseService.GetAllSongsAsync();
-            var albums = await _supabaseService.GetAllAlbumsAsync();
 
             var trendingSongs = songs
                 .OrderByDescending(s => s.DurationSeconds)
                 .Take(8)
                 .ToList();
 
-            var trendingAlbums = albums
-                .OrderByDescending(a => a.SongCount)
-                .Take(6)
-                .ToList();
-
             var isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("UserId"));
             var userName = HttpContext.Session.GetString("UserName") ?? "";
             var userEmail = HttpContext.Session.GetString("UserEmail") ?? "";
+            var nbNotif = 0;
             if (isAuthenticated)
             {
-                
+                var UserId = HttpContext.Session.GetString("UserId");
+                 var user = await _context.User.FindAsync(UserId);
+                 nbNotif = user.CountAllNotifications();
             }
             var viewModel = new DiscoverViewModel
             {
                 TrendingSongs = trendingSongs,
-                TrendingAlbums = trendingAlbums,
                 IsAuthenticated = isAuthenticated,
                 UserName = userName,
                 UserEmail = userEmail,
-                UnreadNotifications = 0
+                UnreadNotifications = nbNotif
             };
 
             return View(viewModel);
