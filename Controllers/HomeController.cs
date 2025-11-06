@@ -7,7 +7,7 @@ namespace musicApp.Controllers;
 
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using musicApp.Data;
-using SQLitePCL;
+using musicApp.Services;
 
 public class HomeController : Controller
 {
@@ -41,8 +41,8 @@ public class HomeController : Controller
             if (isAuthenticated)
             {
                 var UserId = HttpContext.Session.GetString("UserId");
-                 var user = await _context.User.FindAsync(UserId);
-                 nbNotif = user.CountAllNotifications();
+                var user = await _context.User.FindAsync(UserId);
+                nbNotif = user.CountAllNotifications();
             }
             var viewModel = new DiscoverViewModel
             {
@@ -63,43 +63,7 @@ public class HomeController : Controller
     }
 
 
-    private async Task<List<Song>> GetTrendingSongsAsync()
-    {
-        try
-        {
-            var response = await _supabaseClient
-                .From<Song>()
-                .Order(x => x.SongId, Postgrest.Constants.Ordering.Descending)
-                .Limit(10)
-                .Get();
 
-            return response.Models;
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Error fetching trending songs: {ex.Message}");
-            return new List<Song>();
-        }
-    }
-
-    private async Task<List<Album>> GetTrendingAlbumsAsync()
-    {
-        try
-        {
-            var response = await _supabaseClient
-                .From<Album>()
-                .Order(x => x.AlbumId, Postgrest.Constants.Ordering.Descending)
-                .Limit(6)
-                .Get();
-
-            return response.Models;
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine($"Error fetching trending albums: {ex.Message}");
-            return new List<Album>();
-        }
-    }
 
     public IActionResult Index()
     {

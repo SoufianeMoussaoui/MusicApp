@@ -1,25 +1,38 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
-using Postgrest.Models;
+
+using Supabase.Postgrest.Models;
 
 namespace musicApp.Models;
 
 
-[Table("album")]
+
+
+[Table("albums")]
 public class Album : BaseModel
 {
+    [Column("album_id")]
     public int AlbumId { get; set; }
-    [NotNull]
+    
     [Required(ErrorMessage = "Title is required")]
+    [Column("title")]
     public string? Title { get; set; }
-    [NotNull]
-    [Required(ErrorMessage = "Name is required")]
+    
+    [Required(ErrorMessage = "Artist is required")]
+    [Column("artist")]
     public string? Artist { get; set; }
-    [NotNull]
-    [Required(ErrorMessage ="The albmu release year is required")]
+    
+    [Required(ErrorMessage = "The album release year is required")]
+    [Column("release_year")]
     public int ReleaseYear { get; set; }
-    [Required]
+    
+    [Column("cover_image")]
     public string? CoverImage { get; set; }
-    public int SongCount {get; set;}
+    
+    [Column("song_count")]
+    public int SongCount { get; set; }
+    
+    [Column("created_at")]
+    public DateTime CreatedAt { get; set; }
 }

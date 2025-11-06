@@ -3,18 +3,32 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using musicApp.Models;
-using Postgrest.Models;
 
+
+using System.ComponentModel.DataAnnotations.Schema;
+using Supabase.Postgrest.Models;
+
+namespace musicApp.Models;
+
+[Table("notifications")]
 public class Notifications : BaseModel
 {
-    public int Id {get; set;}
+    [Column("notification_id")]
+    public int NotificationId { get; set; }
+    
+    [Column("user_id")]
+    public int UserId { get; set; }
 
-    [NotNull]
-    [Required(ErrorMessage = "the message is reqired")]
-    public string? Content {get; set;}
+    [Required(ErrorMessage = "The message is required")]
+    [Column("content")]
+    public string? Content { get; set; }
 
-    public int Count {get; set;} = 0;
-    public bool IsRead  {get; set;} = false;    
-    public DateTime CreatedAt {get; set;}
-
+    [Column("count")]
+    public int Count { get; set; } = 0;
+    
+    [Column("is_read")]
+    public bool IsRead { get; set; } = false;    
+    
+    [Column("created_at")]
+    public DateTime CreatedAt { get; set; }
 }

@@ -1,19 +1,30 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
+using Supabase.Postgrest.Models;
+
 
 namespace musicApp.Models;
 
 
-public class UserPlayback
+[Table("user_playback")]
+public class UserPlayback : BaseModel
 {
+    [Column("playback_id")]
     public int UserPlaybackId { get; set; }
+    [Column("user_id")]
     public int UserId { get; set; }
+
+    [Column("song_id")]
     public int SongId { get; set; }
+    
     [NotNull]
+    [Column("current_position")]
     public int CurrentPosition { get; set; }
 
     [DataType(DataType.Date)]
+    [Column("last_played")]
     public DateTime LastPlayed { get; set; }
 
 }

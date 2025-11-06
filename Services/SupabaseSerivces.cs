@@ -1,49 +1,53 @@
 using musicApp.Models;
 using Supabase;
-using Postgrest.Models;
 
-public class SupabaseService : ISupabaseService
+
+namespace musicApp.Services
 {
-    private readonly Supabase.Client _client;
-
-    public SupabaseService(Supabase.Client client)
+    public class SupabaseServices : ISupabaseService
     {
-        _client = client;
-    }
+        private readonly Supabase.Client _client;
 
-    public async Task<List<Song>> GetAllSongsAsync()
-    {
-        try
+        public SupabaseServices(Supabase.Client client)
         {
-            var respone = await _client
-                .From<Song>()
-                .Get();
-                
-            return respone.Models;
+            _client = client;
         }
-        catch(Exception e)
-        {
-            Console.WriteLine($"Error fetching data: {e.Message}");
-            return new List<Song>();
-        }
-        
-    }
-    public async Task<List<Album>> GetAllAlbumsAsync()
-    {
-        try
-        {
-            var respone = await _client
-                .From<Album>()
-                .Get();
-                
-            return respone.Models;
-        }
-        catch(Exception e)
-        {
-            Console.WriteLine($"Error fetching data: {e.Message}");
-            return new List<Album>();
-        }
-    }
 
+        public async Task<List<Song>> GetAllSongsAsync()
+        {
+            try
+            {
+                var respone = await _client
+                    .From<Song>()
+                    .Get();
+
+                return respone.Models;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error fetching data: {e.Message}");
+                return new List<Song>();
+            }
+
+        }
+        public async Task<List<Album>> GetAllAlbumsAsync()
+        {
+            try
+            {
+                var respone = await _client
+                    .From<Album>()
+                    .Get();
+
+                return respone.Models;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error fetching data: {e.Message}");
+                return new List<Album>();
+            }
+        }
+
+
+    }
 
 }

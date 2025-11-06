@@ -76,17 +76,9 @@
               "target": "Package",
               "version": "[9.0.0, )"
             },
-            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+            "supabase": {
               "target": "Package",
-              "version": "[9.0.4, )"
-            },
-            "postgrest-csharp": {
-              "target": "Package",
-              "version": "[3.5.1, )"
-            },
-            "supabase-csharp": {
-              "target": "Package",
-              "version": "[0.16.2, )"
+              "version": "[1.1.1, )"
             }
           },
           "imports": [

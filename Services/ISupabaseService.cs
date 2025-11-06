@@ -1,8 +1,11 @@
 using musicApp.Models;
 
-
-public interface ISupabaseService
+namespace musicApp.Services
 {
-    Task<List<Song>> GetAllSongsAsync();
-    //Task<Song> GetSongAsync(int id);
+    public interface ISupabaseService
+    {
+        Task<List<Song>> GetAllSongsAsync();
+        Task<List<Album>> GetAllAlbumsAsync();
+    }
 }
+
