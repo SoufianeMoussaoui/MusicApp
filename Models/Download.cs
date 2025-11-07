@@ -3,14 +3,15 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using Supabase.Postgrest.Models;
+
 
 
 namespace musicApp.Models;
 
 [Table("downloads")]
-public class Download : BaseModel
+public class Download 
 {
+    [Key]
     [Column("download_id")]
     public int DownloadId { get; set; }
     

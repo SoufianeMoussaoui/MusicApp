@@ -1,17 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
-
-using Supabase.Postgrest.Models;
-
+using Microsoft.Data.SqlClient;
 namespace musicApp.Models;
 
-
-
-
-[Table("albums")]
-public class Album : BaseModel
+public class Album
 {
+    [Key]
     [Column("album_id")]
     public int AlbumId { get; set; }
     
@@ -30,9 +25,11 @@ public class Album : BaseModel
     [Column("cover_image")]
     public string? CoverImage { get; set; }
     
-    [Column("song_count")]
-    public int SongCount { get; set; }
+    [Column("song_id")]
+    public int SongId { get; set; }
     
     [Column("created_at")]
     public DateTime CreatedAt { get; set; }
+
+    
 }

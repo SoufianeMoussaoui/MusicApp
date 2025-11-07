@@ -22,6 +22,9 @@ namespace musicApp.Data
         public DbSet<UserPlayback> UserPlayback { get; set; } = default!;
         public DbSet<PlaylistSong> PlaylistSong { get; set; } = default!;
         public DbSet<Notifications> Notifications { get; set; } = default!;
+        public DbSet<DiscoverViewModel> DiscoverViewModels { get; set; } = default!;
+
+    
 
     }
 }

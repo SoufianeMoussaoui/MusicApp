@@ -6,20 +6,20 @@ using musicApp.Models;
 
 
 using System.ComponentModel.DataAnnotations.Schema;
-using Supabase.Postgrest.Models;
 
 namespace musicApp.Models;
 
 [Table("notifications")]
-public class Notifications : BaseModel
+public class Notifications 
 {
+    [Key]
     [Column("notification_id")]
     public int NotificationId { get; set; }
     
     [Column("user_id")]
     public int UserId { get; set; }
 
-    [Required(ErrorMessage = "The message is required")]
+    [Required(ErrorMessage = "The notification content is required")]
     [Column("content")]
     public string? Content { get; set; }
 
@@ -29,6 +29,7 @@ public class Notifications : BaseModel
     [Column("is_read")]
     public bool IsRead { get; set; } = false;    
     
-    [Column("created_at")]
-    public DateTime CreatedAt { get; set; }
+    [Column("read_at")]
+    public DateTime ReadAt { get; set; }
+
 }

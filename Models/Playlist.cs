@@ -1,17 +1,17 @@
 // Playlist.cs
 using System.ComponentModel.DataAnnotations;
-using Supabase;
 
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
-using Supabase.Postgrest.Models;
+
 
 
 namespace musicApp.Models;
 
 [Table("playlists")]
-public class Playlist : BaseModel
+public class Playlist 
 {
+    [Key]
     [Column("playlist_id")]
     public int PlaylistId { get; set; }
     

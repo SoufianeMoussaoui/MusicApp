@@ -4,15 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
-using Supabase;
-using Supabase.Postgrest.Models;
-
 
 namespace musicApp.Models;
 
 [Table("users")]
-public class User : BaseModel 
+public class User  
 {
+    [Key]
     [Column("user_id")]
     public int UserId { get; set; }
     
@@ -42,6 +40,7 @@ public class User : BaseModel
     [Column("created_at")]
     public DateTime CreatedAt { get; set; }
     
+    /*
     public List<Notifications> Notifications { get; set; } = new List<Notifications>();
 
     public int CountAllNotifications()
@@ -58,4 +57,5 @@ public class User : BaseModel
     {
         return Notifications?.Count(n => n.IsRead) ?? 0;
     }
+    */
 }

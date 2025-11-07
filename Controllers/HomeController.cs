@@ -1,24 +1,19 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using musicApp.Models;
-using Supabase;
+
 namespace musicApp.Controllers;
 
-using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 using musicApp.Data;
-using musicApp.Services;
+
 
 public class HomeController : Controller
 {
-    private readonly ISupabaseService _supabaseService;
-    private readonly Client _supabaseClient;
     private readonly AppDbContext _context;
 
-    public HomeController(Client supabaseClient, ISupabaseService supabaseService, AppDbContext context)
+    public HomeController(AppDbContext context)
     {
-        _supabaseClient = supabaseClient;
-        _supabaseService = supabaseService;
         _context = context;
     }
 
@@ -27,30 +22,43 @@ public class HomeController : Controller
     {
         try
         {
-            var songs = await _supabaseService.GetAllSongsAsync();
+            var songs = await _context.Song
+            .Include(s => s.AlbumId) 
+            .OrderByDescending(s => s.PlayCounts) 
+            .ThenByDescending(s => s.UploadeAt) 
+            .Take(12)
+            .ToListAsync();
 
-            var trendingSongs = songs
-                .OrderByDescending(s => s.DurationSeconds)
-                .Take(8)
-                .ToList();
+            var albums = await _context.Album
+                .Include(a => a.SongId)
+                .OrderByDescending(a => a.ReleaseYear)
+                .Take(6)
+                .ToListAsync();
 
             var isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("UserId"));
             var userName = HttpContext.Session.GetString("UserName") ?? "";
             var userEmail = HttpContext.Session.GetString("UserEmail") ?? "";
-            var nbNotif = 0;
+        
+            var unreadNotifications = 0;
+            /*
             if (isAuthenticated)
             {
-                var UserId = HttpContext.Session.GetString("UserId");
-                var user = await _context.User.FindAsync(UserId);
-                nbNotif = user.CountAllNotifications();
+                var userid = HttpContext.Session.GetString("UserId");
+                var response = await _context
+                    .From<Notifications>()
+                    
+               
             }
+            */
+
             var viewModel = new DiscoverViewModel
             {
-                TrendingSongs = trendingSongs,
+                TrendingSongs = songs,
+                TrendingAlbums = albums,
                 IsAuthenticated = isAuthenticated,
                 UserName = userName,
                 UserEmail = userEmail,
-                UnreadNotifications = nbNotif
+                UnreadNotifications = unreadNotifications
             };
 
             return View(viewModel);
@@ -63,7 +71,7 @@ public class HomeController : Controller
     }
 
 
-
+    //private DeleTeNotification(){}
 
     public IActionResult Index()
     {

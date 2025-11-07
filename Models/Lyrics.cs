@@ -1,14 +1,14 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Supabase;
-using Supabase.Postgrest.Models;
 
 
 namespace musicApp.Models;
 
 
 [Table("lyrics")]
-public class Lyrics : BaseModel
+public class Lyrics 
 {
+    [Key]
     [Column("lyrics_id")]
     public int LyricsId { get; set; }
     

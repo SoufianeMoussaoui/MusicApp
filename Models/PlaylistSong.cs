@@ -3,11 +3,12 @@ namespace musicApp.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Supabase.Postgrest.Models;
+
 
 [Table("playlist_songs")]
-public class PlaylistSong : BaseModel
+public class PlaylistSong 
 {
+    [Key]
     [Column("playlist_song_id")]
     public int PlaylistSongId { get; set; }
     

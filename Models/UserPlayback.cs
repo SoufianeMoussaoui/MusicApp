@@ -2,15 +2,16 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
-using Supabase.Postgrest.Models;
+
 
 
 namespace musicApp.Models;
 
 
 [Table("user_playback")]
-public class UserPlayback : BaseModel
+public class UserPlayback 
 {
+    [Key]
     [Column("playback_id")]
     public int UserPlaybackId { get; set; }
     [Column("user_id")]

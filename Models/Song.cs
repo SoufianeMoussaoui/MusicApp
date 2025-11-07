@@ -1,15 +1,19 @@
 
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
-using Supabase.Postgrest.Models;
+
 
 namespace musicApp.Models;
 
-[Table("songs")]
-public class Song : BaseModel
+public class Song 
 {
+    [Key]
+    [Column("song_id")]
     public int SongId { set; get; }
+
+    [Column("user_id")]
     public int UserId { get; set; }
 
     [Required(ErrorMessage = "Title required")]
@@ -22,9 +26,14 @@ public class Song : BaseModel
     public string? AlbumId { get; set; }
     [NotNull]
     public int DurationSeconds { get; set; }
+    public int PlayCounts {get; set;} = 0;
+    
     public string? FilePath { get; set; }
-    public string? CoverUrl {get; set;}
-    public bool IsUserUploaded { get; set; }
+    
+    public string? CoverPath {get; set;}
+
+    public DateTime UploadeAt {get; set;}
+    public bool IsUserUploaded { get; set; } = false;
 
 }
 

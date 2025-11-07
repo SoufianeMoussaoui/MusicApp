@@ -65,7 +65,6 @@
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Microsoft.IdentityModel.Tokens.dll
-/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Microsoft.IO.RecyclableMemoryStream.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Microsoft.NET.StringTools.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Microsoft.SqlServer.Server.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Microsoft.VisualStudio.Web.CodeGeneration.dll
@@ -75,7 +74,6 @@
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll
-/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/MimeMapping.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Mono.TextTemplating.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Newtonsoft.Json.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/NuGet.Common.dll
@@ -90,13 +88,6 @@
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/SQLitePCLRaw.batteries_v2.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/SQLitePCLRaw.core.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/SQLitePCLRaw.provider.e_sqlite3.dll
-/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Supabase.dll
-/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Supabase.Core.dll
-/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Supabase.Functions.dll
-/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Supabase.Gotrue.dll
-/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Supabase.Postgrest.dll
-/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Supabase.Realtime.dll
-/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Supabase.Storage.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/System.ClientModel.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/System.CodeDom.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/System.Composition.AttributedModel.dll
@@ -108,12 +99,10 @@
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/System.Formats.Asn1.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/System.IdentityModel.Tokens.Jwt.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/System.Memory.Data.dll
-/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/System.Reactive.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/System.Reflection.MetadataLoadContext.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/System.Runtime.Caching.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/System.Security.Cryptography.ProtectedData.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/System.Text.Json.dll
-/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Websocket.Client.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/af/Humanizer.resources.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/ar/Humanizer.resources.dll
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/az/Humanizer.resources.dll
@@ -376,3 +365,5 @@
 /home/soufiane/School/Net/musicApp/obj/Debug/net9.0/musicApp.pdb
 /home/soufiane/School/Net/musicApp/obj/Debug/net9.0/musicApp.genruntimeconfig.cache
 /home/soufiane/School/Net/musicApp/obj/Debug/net9.0/ref/musicApp.dll
+/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Npgsql.dll
+/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll

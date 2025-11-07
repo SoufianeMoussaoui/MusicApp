@@ -1,9 +1,12 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace musicApp.Models
 {
     public class DiscoverViewModel
     {
+        [Key]
+        public int Id {get; set;}
         public List<Song> TrendingSongs { get; set; } = new List<Song>();
         public List<Album> TrendingAlbums { get; set; } = new List<Album>();
         public int UnreadNotifications { get; set; } = 0;
