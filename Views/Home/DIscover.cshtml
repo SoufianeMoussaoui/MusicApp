@@ -165,7 +165,7 @@
                     <a href="#" class="text-purple-400 hover:text-purple-300 text-sm font-medium">View All</a>
                 </div>
 
-                @if (Model.TrendingSongs.Any())
+                @if (Model.TrendingSongs != null && Model.TrendingSongs.Any())
                 {
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         @foreach (var song in Model.TrendingSongs)
@@ -176,7 +176,6 @@
                                     {
                                         <img src="@song.CoverPath" alt="@song.Title" class="w-full h-full object-cover">
                                     }
-                
                                     else
                                     {
                                         <div class="w-full h-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
@@ -197,8 +196,8 @@
 
                                 <div class="mt-4">
                                     <h3 class="text-white font-semibold truncate">@song.Title</h3>
-                                    <p class="text-slate-400 text-sm truncate"></p>
-                                    <!-- <p class="text-slate-500 text-xs mt-1">/*song.Plays.ToString("N0")*/ plays</p> -->
+                                    <p class="text-slate-400 text-sm truncate">@song.ArtistId</p>
+                                    <p class="text-slate-500 text-xs mt-1">@song.PlayCounts.ToString("N0") plays</p>
                                 </div>
                             </div>
                         }
@@ -219,7 +218,7 @@
                     <a href="#" class="text-purple-400 hover:text-purple-300 text-sm font-medium">View All</a>
                 </div>
 
-                @if (Model.TrendingAlbums.Any())
+                @if (Model.TrendingAlbums != null && Model.TrendingAlbums.Any())
                 {
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         @foreach (var album in Model.TrendingAlbums)
@@ -251,7 +250,7 @@
                                 <div class="mt-4">
                                     <h3 class="text-white font-semibold truncate">@album.Title</h3>
                                     <p class="text-slate-400 text-sm truncate">@album.Artist</p>
-                                    <p class="text-slate-500 text-xs mt-1">album.SongCounts songs • plays</p>
+                                    <p class="text-slate-500 text-xs mt-1">@album.ReleaseYear</p>
                                 </div>
                             </div>
                         }

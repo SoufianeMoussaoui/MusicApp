@@ -65,7 +65,7 @@ namespace musicApp.Migrations
 
                     b.HasIndex("DiscoverViewModelId");
 
-                    b.ToTable("Album");
+                    b.ToTable("Album", (string)null);
                 });
 
             modelBuilder.Entity("musicApp.Models.DiscoverViewModel", b =>
@@ -90,7 +90,7 @@ namespace musicApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DiscoverViewModels");
+                    b.ToTable("DiscoverViewModels", (string)null);
                 });
 
             modelBuilder.Entity("musicApp.Models.Download", b =>
@@ -116,7 +116,7 @@ namespace musicApp.Migrations
 
                     b.HasKey("DownloadId");
 
-                    b.ToTable("downloads");
+                    b.ToTable("downloads", (string)null);
                 });
 
             modelBuilder.Entity("musicApp.Models.Lyrics", b =>
@@ -146,7 +146,7 @@ namespace musicApp.Migrations
 
                     b.HasKey("LyricsId");
 
-                    b.ToTable("lyrics");
+                    b.ToTable("lyrics", (string)null);
                 });
 
             modelBuilder.Entity("musicApp.Models.Notifications", b =>
@@ -181,7 +181,7 @@ namespace musicApp.Migrations
 
                     b.HasKey("NotificationId");
 
-                    b.ToTable("notifications");
+                    b.ToTable("notifications", (string)null);
                 });
 
             modelBuilder.Entity("musicApp.Models.Playlist", b =>
@@ -211,7 +211,7 @@ namespace musicApp.Migrations
 
                     b.HasKey("PlaylistId");
 
-                    b.ToTable("playlists");
+                    b.ToTable("playlists", (string)null);
                 });
 
             modelBuilder.Entity("musicApp.Models.PlaylistSong", b =>
@@ -241,7 +241,7 @@ namespace musicApp.Migrations
 
                     b.HasKey("PlaylistSongId");
 
-                    b.ToTable("playlist_songs");
+                    b.ToTable("playlist_songs", (string)null);
                 });
 
             modelBuilder.Entity("musicApp.Models.Song", b =>
@@ -293,7 +293,7 @@ namespace musicApp.Migrations
 
                     b.HasIndex("DiscoverViewModelId");
 
-                    b.ToTable("Song");
+                    b.ToTable("Song", (string)null);
                 });
 
             modelBuilder.Entity("musicApp.Models.User", b =>
@@ -338,7 +338,7 @@ namespace musicApp.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("users");
+                    b.ToTable("users", (string)null);
 
                     b.UseTptMappingStrategy();
                 });
@@ -370,7 +370,7 @@ namespace musicApp.Migrations
 
                     b.HasKey("UserPlaybackId");
 
-                    b.ToTable("user_playback");
+                    b.ToTable("user_playback", (string)null);
                 });
 
             modelBuilder.Entity("musicApp.Models.Artist", b =>
@@ -390,7 +390,7 @@ namespace musicApp.Migrations
                         .HasColumnType("text[]")
                         .HasColumnName("links");
 
-                    b.ToTable("artists");
+                    b.ToTable("artists", (string)null);
                 });
 
             modelBuilder.Entity("musicApp.Models.Album", b =>

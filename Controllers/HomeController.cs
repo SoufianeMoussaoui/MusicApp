@@ -18,58 +18,47 @@ public class HomeController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Discover()
+[HttpGet]
+public async Task<IActionResult> Discover()
+{
+    try
     {
-        try
-        {
-            var songs = await _context.Song
-            .Include(s => s.AlbumId) 
+        // Remove the Include statements - they're causing the issues
+        var songs = await _context.Song
             .OrderByDescending(s => s.PlayCounts) 
-            .ThenByDescending(s => s.UploadeAt) 
-            .Take(12)
+            //.ThenByDescending(s => s.UploadeAt) 
+            //.Take(12)
             .ToListAsync();
 
-            var albums = await _context.Album
-                .Include(a => a.SongId)
-                .OrderByDescending(a => a.ReleaseYear)
-                .Take(6)
-                .ToListAsync();
+        var albums = await _context.Album
+            //.OrderByDescending(a => a.ReleaseYear)
+            .Take(6)
+            .ToListAsync();
 
-            var isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("UserId"));
-            var userName = HttpContext.Session.GetString("UserName") ?? "";
-            var userEmail = HttpContext.Session.GetString("UserEmail") ?? "";
-        
-            var unreadNotifications = 0;
-            /*
-            if (isAuthenticated)
-            {
-                var userid = HttpContext.Session.GetString("UserId");
-                var response = await _context
-                    .From<Notifications>()
-                    
-               
-            }
-            */
+        var isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("UserId"));
+        var userName = HttpContext.Session.GetString("UserName") ?? "";
+        var userEmail = HttpContext.Session.GetString("UserEmail") ?? "";
+    
+        var unreadNotifications = 0;
 
-            var viewModel = new DiscoverViewModel
-            {
-                TrendingSongs = songs,
-                TrendingAlbums = albums,
-                IsAuthenticated = isAuthenticated,
-                UserName = userName,
-                UserEmail = userEmail,
-                UnreadNotifications = unreadNotifications
-            };
-
-            return View(viewModel);
-        }
-        catch (Exception ex)
+        var viewModel = new DiscoverViewModel
         {
-            Console.WriteLine($"Error loading discover page: {ex.Message}");
-            return View(new DiscoverViewModel());
-        }
-    }
+            TrendingSongs = songs,
+            TrendingAlbums = albums,
+            IsAuthenticated = isAuthenticated,
+            UserName = userName,
+            UserEmail = userEmail,
+            UnreadNotifications = unreadNotifications
+        };
 
+        return View(viewModel);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error loading discover page: {ex.Message}");
+        return View(new DiscoverViewModel());
+    }
+}
 
     //private DeleTeNotification(){}
 

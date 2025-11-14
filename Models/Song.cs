@@ -23,7 +23,8 @@ public class Song
     [NotNull]
     public string? ArtistId { get; set; }
 
-    public string? AlbumId { get; set; }
+    public int AlbumId { get; set; }
+
     [NotNull]
     public int DurationSeconds { get; set; }
     public int PlayCounts {get; set;} = 0;
