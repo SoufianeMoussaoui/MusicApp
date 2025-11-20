@@ -19,9 +19,9 @@ public class Song
     [Required(ErrorMessage = "Title required")]
     [NotNull]
     public string? Title { get; set; }
-    [Required(ErrorMessage = "Title required")]
-    [NotNull]
-    public string? ArtistId { get; set; }
+    
+    [Column("artist_id")]
+    public int? ArtistId { get; set; }
 
     public int AlbumId { get; set; }
 
