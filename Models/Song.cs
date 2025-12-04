@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 
 namespace musicApp.Models;
@@ -31,6 +32,7 @@ public class Song
     
     public string? FilePath { get; set; }
     
+    [Column("coverpath")]
     public string? CoverPath {get; set;}
 
     public DateTime UploadeAt {get; set;}

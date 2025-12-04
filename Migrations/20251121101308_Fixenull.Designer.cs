@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using musicApp.Data;
@@ -12,9 +13,11 @@ using musicApp.Data;
 namespace musicApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251121101308_Fixenull")]
+    partial class Fixenull
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -261,8 +264,7 @@ namespace musicApp.Migrations
                         .HasColumnName("artist_id");
 
                     b.Property<string>("CoverPath")
-                        .HasColumnType("text")
-                        .HasColumnName("coverpath");
+                        .HasColumnType("text");
 
                     b.Property<int?>("DiscoverViewModelId")
                         .HasColumnType("integer");

@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSession();
 builder.Services.AddControllersWithViews();
-
+                       
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -30,7 +30,14 @@ var app = builder.Build();
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider("/home/soufiane/Music"),
-    RequestPath = "/music"
+    RequestPath = "/music",
+     ServeUnknownFileTypes = true, // Add this to serve all file types
+    OnPrepareResponse = ctx =>
+    {
+        // Allow CORS for media files
+        ctx.Context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
+        ctx.Context.Response.Headers.Append("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    }
 });
 
 if (!app.Environment.IsDevelopment())

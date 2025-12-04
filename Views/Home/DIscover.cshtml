@@ -3,6 +3,15 @@
     ViewBag.Title = "Discover - MusicFlow";
 }
 
+@functions {
+    string GetWebPath(string fullPath)
+    {
+        if (string.IsNullOrEmpty(fullPath)) return "";
+        var relativePath = fullPath.Replace("/home/soufiane/Music", "");
+        return $"/music{relativePath}";
+    }
+}
+
 <style>
     .gradient-bg {
         background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
@@ -24,47 +33,7 @@
         position: relative;
         overflow: hidden;
         border-radius: 12px;
-    }
-    <style>
-    .play-overlay {
-        position: absolute;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.5);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        transition: opacity 0.3s;
-    }
-    
-    .group:hover .play-overlay {
-        opacity: 1;
-    }
-    
-    .play-btn {
-        background: rgba(255, 255, 255, 0.9);
-        width: 56px;
-        height: 56px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: transform 0.2s;
-        border: none;
         cursor: pointer;
-    }
-    
-    .play-btn:hover {
-        transform: scale(1.1);
-        background: white;
-    }
-    
-    .play-btn svg {
-        color: #1a1a1a;
-    }
-    
-    #progressBar, #volumeBar {
-        accent-color: #1db954;
     }
 
     .song-card:hover,
@@ -89,7 +58,7 @@
         opacity: 1;
     }
 
-    .play-btn {
+    .play-icon-overlay {
         width: 56px;
         height: 56px;
         background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
@@ -97,11 +66,10 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        cursor: pointer;
         transition: all 0.3s ease;
     }
 
-    .play-btn:hover {
+    .play-icon-overlay:hover {
         transform: scale(1.1);
         box-shadow: 0 0 30px rgba(168, 85, 247, 0.6);
     }
@@ -118,66 +86,29 @@
         margin-right: 8px;
         margin-bottom: 8px;
     }
-
-    .notification-badge {
-        position: absolute;
-        top: -4px;
-        right: -4px;
-        background: #ec4899;
-        color: white;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 12px;
-        font-weight: bold;
-    }
-
-    .user-avatar {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: bold;
-    }
 </style>
 
 <div class="gradient-bg min-h-screen">
-
     <!-- Main Content -->
     <div class="flex">
         <!-- Sidebar -->
-        <aside
-            class="hidden lg:w-64 lg:flex lg:flex-col border-r border-slate-800 bg-slate-900/40 backdrop-blur sticky top-20 h-fit">
+        <aside class="hidden lg:w-64 lg:flex lg:flex-col border-r border-slate-800 bg-slate-900/40 backdrop-blur sticky top-20 h-fit">
             <nav class="p-6 space-y-8">
                 <!-- Browse Section -->
                 <div>
                     <h3 class="text-xs font-bold text-amber-500 uppercase tracking-widest mb-4">Browse</h3>
                     <ul class="space-y-3">
                         <li>
-                            <a href="#"
-                                class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Home</a>
+                            <a href="#" class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Home</a>
                         </li>
                         <li>
-                            <a href="#"
-                                class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Trending
-                                Songs</a>
+                            <a href="#" class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Trending Songs</a>
                         </li>
                         <li>
-                            <a href="#"
-                                class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Trending
-                                Albums</a>
+                            <a href="#" class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Trending Albums</a>
                         </li>
                         <li>
-                            <a href="#"
-                                class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Recently
-                                Added</a>
+                            <a href="#" class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Recently Added</a>
                         </li>
                     </ul>
                 </div>
@@ -187,14 +118,10 @@
                     <h3 class="text-xs font-bold text-amber-500 uppercase tracking-widest mb-4">Charts</h3>
                     <ul class="space-y-3">
                         <li>
-                            <a href="#"
-                                class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Top
-                                Songs</a>
+                            <a href="#" class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Top Songs</a>
                         </li>
                         <li>
-                            <a href="#"
-                                class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Top
-                                Albums</a>
+                            <a href="#" class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Top Albums</a>
                         </li>
                     </ul>
                 </div>
@@ -226,81 +153,39 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         @foreach (var song in Model.TrendingSongs)
                         {
-                            <div class="song-card group">
+                            <a href="@Url.Action("Details", "Song", new { id = song.SongId })" class="song-card group block">
                                 <div class="relative aspect-square bg-slate-800 rounded-lg overflow-hidden">
-                                   @if (!string.IsNullOrEmpty(song.CoverPath))
+                                    @if (!string.IsNullOrEmpty(song.CoverPath))
                                     {
-                                        <img src="/music@song.CoverPath" alt="@song.Title" class="w-full h-full object-cover">
+                                        <img src="@GetWebPath(song.CoverPath)" 
+                                             alt="@song.Title" 
+                                             class="w-full h-full object-cover">
                                     }
                                     else
                                     {
-                                        <div
-                                            class="w-full h-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                                        <div class="w-full h-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
                                             <svg class="w-16 h-16 text-white/30" fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z">
-                                                </path>
+                                                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path>
                                             </svg>
                                         </div>
                                     }
-                        
-                                        <div id="audioPlayer" class="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 hidden z-50">
-                                            <div class="container mx-auto px-4 py-4">
-                                                <div class="flex items-center gap-4">
-                                                
-                                                    <img id="playerCover" src="" alt="" class="w-16 h-16 rounded object-cover">
-                                                    
 
-                                                    <div class="flex-1 min-w-0">
-                                                        <h4 id="playerTitle" class="text-white font-semibold truncate">Song Title</h4>
-                                                        <p id="playerArtist" class="text-gray-400 text-sm truncate">Artist Name</p>
-                                                    </div>
-                                                    
-                                                
-                                                    <div class="flex items-center gap-4">
-                                                        <button id="playerPlayPause" class="bg-white rounded-full p-3 hover:scale-105 transition">
-                                                            <svg class="play-icon w-6 h-6 fill-current text-gray-900" viewBox="0 0 20 20">
-                                                                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"></path>
-                                                            </svg>
-                                                            <svg class="pause-icon hidden w-6 h-6 fill-current text-gray-900" viewBox="0 0 20 20">
-                                                                <path d="M5.5 3.5A1.5 1.5 0 017 2h1a1.5 1.5 0 011.5 1.5v13A1.5 1.5 0 018 18H7a1.5 1.5 0 01-1.5-1.5v-13zm7 0A1.5 1.5 0 0114 2h1a1.5 1.5 0 011.5 1.5v13a1.5 1.5 0 01-1.5 1.5h-1a1.5 1.5 0 01-1.5-1.5v-13z"></path>
-                                                            </svg>
-                                                        </button>
-                                                        
-                              
-                                                        <div class="flex-1 min-w-[200px]">
-                                                            <div class="flex items-center gap-2 text-xs text-gray-400">
-                                                                <span id="currentTime">0:00</span>
-                                                                <input type="range" id="progressBar" class="flex-1" min="0" max="100" value="0">
-                                                                <span id="duration">0:00</span>
-                                                            </div>
-                                                        </div>
-                                                        
-                                        
-                                                        <div class="flex items-center gap-2">
-                                                            <svg class="w-5 h-5 text-gray-400 fill-current" viewBox="0 0 20 20">
-                                                                <path d="M10 3.75a.75.75 0 00-1.264-.546L5.203 6H2.5A1.5 1.5 0 001 7.5v5A1.5 1.5 0 002.5 14h2.703l3.533 2.796A.75.75 0 0010 16.25V3.75zM12.5 7.5a.75.75 0 011.28-.53 4 4 0 010 5.66.75.75 0 01-1.28-.53v-4.6z"></path>
-                                                            </svg>
-                                                            <input type="range" id="volumeBar" class="w-20" min="0" max="100" value="100">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            
-
-                                            <audio id="audioElement"></audio>
+                                    <!-- Play Icon Overlay -->
+                                    <div class="play-overlay">
+                                        <div class="play-icon-overlay">
+                                            <svg class="w-6 h-6 text-white fill-current ml-1" viewBox="0 0 20 20">
+                                                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"></path>
+                                            </svg>
                                         </div>
-
-                                
-
+                                    </div>
                                 </div>
 
                                 <div class="mt-4">
                                     <h3 class="text-white font-semibold truncate">@song.Title</h3>
-                                    <p class="text-slate-400 text-sm truncate"></p>
+                                    <p class="text-slate-400 text-sm truncate">Artist Name</p>
                                     <p class="text-slate-500 text-xs mt-1">@song.PlayCounts.ToString("N0") plays</p>
                                 </div>
-                            </div>
+                            </a>
                         }
                     </div>
                 }
@@ -332,22 +217,17 @@
                                     }
                                     else
                                     {
-                                        <div
-                                            class="w-full h-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                                        <div class="w-full h-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
                                             <svg class="w-16 h-16 text-white/30" fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z">
-                                                </path>
+                                                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path>
                                             </svg>
                                         </div>
                                     }
 
                                     <div class="play-overlay">
-                                        <div class="play-btn">
-                                            <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 20 20">
-                                                <path
-                                                    d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z">
-                                                </path>
+                                        <div class="play-icon-overlay">
+                                            <svg class="w-6 h-6 text-white fill-current ml-1" viewBox="0 0 20 20">
+                                                <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"></path>
                                             </svg>
                                         </div>
                                     </div>
@@ -372,115 +252,3 @@
         </main>
     </div>
 </div>
-
-<script>
-    let currentAudio = null;
-    let currentSongId = null;
-
-    function playSong(songId, filePath, title, coverPath) {
-        const audioElement = document.getElementById('audioElement');
-        const audioPlayer = document.getElementById('audioPlayer');
-        const playerTitle = document.getElementById('playerTitle');
-        const playerCover = document.getElementById('playerCover');
-        
-        // If clicking the same song, toggle play/pause
-        if (currentSongId === songId && currentAudio) {
-            if (audioElement.paused) {
-                audioElement.play();
-            } else {
-                audioElement.pause();
-            }
-            return;
-        }
-        
-        // Load new song
-        currentSongId = songId;
-        audioElement.src = filePath;
-        audioElement.load();
-        audioElement.play();
-        
-        // Update player UI
-        playerTitle.textContent = title;
-        playerCover.src = coverPath.replace('/home/soufiane/Music', '/music');
-        audioPlayer.classList.remove('hidden');
-        
-        updatePlayButtons(songId, false);
-    }
-
-    function updatePlayButtons(songId, isPaused) {
-        // Update all play buttons
-        document.querySelectorAll('[data-song-id]').forEach(card => {
-            const btn = card.querySelector('.play-btn');
-            const playIcon = btn.querySelector('.play-icon');
-            const pauseIcon = btn.querySelector('.pause-icon');
-            
-            if (card.dataset.songId === songId && !isPaused) {
-                playIcon.classList.add('hidden');
-                pauseIcon.classList.remove('hidden');
-            } else {
-                playIcon.classList.remove('hidden');
-                pauseIcon.classList.add('hidden');
-            }
-        });
-    }
-
-    // Audio player controls
-    document.addEventListener('DOMContentLoaded', function() {
-        const audioElement = document.getElementById('audioElement');
-        const playPauseBtn = document.getElementById('playerPlayPause');
-        const progressBar = document.getElementById('progressBar');
-        const volumeBar = document.getElementById('volumeBar');
-        const currentTimeEl = document.getElementById('currentTime');
-        const durationEl = document.getElementById('duration');
-        
-        // Play/Pause button
-        playPauseBtn.addEventListener('click', function() {
-            if (audioElement.paused) {
-                audioElement.play();
-            } else {
-                audioElement.pause();
-            }
-        });
-        
-        // Update play/pause icon
-        audioElement.addEventListener('play', function() {
-            playPauseBtn.querySelector('.play-icon').classList.add('hidden');
-            playPauseBtn.querySelector('.pause-icon').classList.remove('hidden');
-            updatePlayButtons(currentSongId, false);
-        });
-        
-        audioElement.addEventListener('pause', function() {
-            playPauseBtn.querySelector('.play-icon').classList.remove('hidden');
-            playPauseBtn.querySelector('.pause-icon').classList.add('hidden');
-            updatePlayButtons(currentSongId, true);
-        });
-        
-        // Progress bar
-        audioElement.addEventListener('timeupdate', function() {
-            const progress = (audioElement.currentTime / audioElement.duration) * 100;
-            progressBar.value = progress || 0;
-            currentTimeEl.textContent = formatTime(audioElement.currentTime);
-        });
-        
-        audioElement.addEventListener('loadedmetadata', function() {
-            durationEl.textContent = formatTime(audioElement.duration);
-        });
-        
-        progressBar.addEventListener('input', function() {
-            const time = (progressBar.value / 100) * audioElement.duration;
-            audioElement.currentTime = time;
-        });
-        
-        // Volume control
-        volumeBar.addEventListener('input', function() {
-            audioElement.volume = volumeBar.value / 100;
-        });
-        
-        function formatTime(seconds) {
-            if (isNaN(seconds)) return '0:00';
-            const mins = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return `${mins}:${secs.toString().padStart(2, '0')}`;
-        }
-    });
-</script>

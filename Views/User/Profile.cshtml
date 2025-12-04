@@ -1,0 +1,488 @@
+@model ProfileViewModel
+@{
+    ViewBag.Title = "My Profile - MusicFlow";
+}
+
+@functions {
+    string GetWebPath(string fullPath)
+    {
+        if (string.IsNullOrEmpty(fullPath)) return "";
+        var relativePath = fullPath.Replace("/home/soufiane/Music", "");
+        return $"/music{relativePath}";
+    }
+}
+
+<style>
+    .gradient-bg {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    }
+
+    .profile-header-bg {
+        background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(236, 72, 153, 0.2) 100%);
+    }
+
+    .stats-card {
+        background: rgba(30, 41, 59, 0.5);
+        border: 1px solid rgba(168, 85, 247, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .stats-card:hover {
+        border-color: rgba(168, 85, 247, 0.3);
+        transform: translateY(-4px);
+    }
+
+    .profile-card {
+        background: rgba(30, 41, 59, 0.5);
+        border: 1px solid rgba(168, 85, 247, 0.1);
+        backdrop-filter: blur(10px);
+    }
+
+    .action-button {
+        transition: all 0.3s ease;
+        background: rgba(168, 85, 247, 0.1);
+        border: 1px solid rgba(168, 85, 247, 0.3);
+    }
+
+    .action-button:hover {
+        background: rgba(168, 85, 247, 0.2);
+        transform: scale(1.05);
+        box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
+    }
+
+    .song-item, .playlist-item {
+        transition: all 0.3s ease;
+        background: rgba(15, 23, 42, 0.3);
+        border: 1px solid rgba(168, 85, 247, 0.05);
+    }
+
+    .song-item:hover, .playlist-item:hover {
+        background: rgba(15, 23, 42, 0.5);
+        border-color: rgba(168, 85, 247, 0.2);
+        transform: translateX(4px);
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 4px 10px;
+        background-color: rgba(168, 85, 247, 0.1);
+        border: 1px solid rgba(168, 85, 247, 0.3);
+        border-radius: 12px;
+        color: #a78bfa;
+        font-size: 11px;
+        font-weight: 500;
+    }
+
+    .create-playlist-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(4px);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .modal-content {
+        background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+        border: 1px solid rgba(168, 85, 247, 0.3);
+        border-radius: 16px;
+        padding: 2rem;
+        max-width: 500px;
+        width: 90%;
+    }
+</style>
+
+<div class="gradient-bg min-h-screen">
+    <!-- Profile Header -->
+    <div class="profile-header-bg border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 py-8">
+            <div class="flex flex-col md:flex-row items-start md:items-center gap-6">
+                <!-- Profile Avatar -->
+                <div class="w-32 h-32 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center text-white text-4xl font-bold border-4 border-slate-800">
+                    @Model.user?.Firstname?[0]@Model.user?.Lastname?[0]
+                </div>
+                
+                <!-- Profile Info -->
+                <div class="flex-1">
+                    <h1 class="text-3xl font-bold text-white mb-2">
+                        @Model.user?.Firstname @Model.user?.Lastname
+                    </h1>
+                    <p class="text-slate-300 mb-4">@@@Model.user?.Username • Member since @Model.user?.CreatedAt.ToString("MMMM yyyy")</p>
+                    
+                    <!-- Stats -->
+                    <div class="flex flex-wrap gap-4">
+                        <div class="stats-card px-4 py-3 rounded-xl">
+                            <p class="text-2xl font-bold text-white">@Model.TotalPlays</p>
+                            <p class="text-slate-400 text-sm">Total Plays</p>
+                        </div>
+                        <div class="stats-card px-4 py-3 rounded-xl">
+                            <p class="text-2xl font-bold text-white">@Model.TotalPlaylists</p>
+                            <p class="text-slate-400 text-sm">Playlists</p>
+                        </div>
+                        <div class="stats-card px-4 py-3 rounded-xl">
+                            <p class="text-2xl font-bold text-white">@Model.TotalDownloads</p>
+                            <p class="text-slate-400 text-sm">Downloads</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex gap-3">
+                    <a href="@Url.Action("Edit", "Profile")" 
+                       class="action-button px-6 py-3 rounded-xl flex items-center justify-center text-white">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                        Edit Profile
+                    </a>
+                    <button id="createPlaylistBtn" 
+                            class="action-button px-6 py-3 rounded-xl flex items-center justify-center text-white">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        New Playlist
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column: Recently Played -->
+            <div class="lg:col-span-2">
+                <!-- Recently Played Section -->
+                <section class="mb-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-white">Recently Played</h2>
+                        <a href="#" class="text-purple-400 hover:text-purple-300 text-sm font-medium">View All</a>
+                    </div>
+                    
+                    @if (Model.RecentlyPlayed != null && Model.RecentlyPlayed.Any())
+                    {
+                        <div class="space-y-3">
+                            @foreach (var song in Model.RecentlyPlayed)
+                            {
+                                <a href="@Url.Action("Details", "Song", new { id = song.SongId })" 
+                                   class="song-item flex items-center p-4 rounded-xl">
+                                    <div class="w-14 h-14 bg-slate-800 rounded-lg flex items-center justify-center mr-4">
+                                        @if (!string.IsNullOrEmpty(song.CoverPath))
+                                        {
+                                            <img src="@GetWebPath(song.CoverPath)" 
+                                                 alt="@song.Title" 
+                                                 class="w-full h-full object-cover rounded-lg">
+                                        }
+                                        else
+                                        {
+                                            <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path>
+                                            </svg>
+                                        }
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="text-white font-medium">@song.Title</h3>
+                                        <p class="text-slate-400 text-sm">@song.PlayCounts plays</p>
+                                    </div>
+                                    <div class="text-slate-500 text-sm">
+                                        @TimeSpan.FromSeconds(song.DurationSeconds).ToString(@"mm\:ss")
+                                    </div>
+                                </a>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="profile-card p-8 rounded-xl text-center">
+                            <svg class="w-16 h-16 text-slate-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
+                            </svg>
+                            <p class="text-slate-400">No recently played songs</p>
+                            <p class="text-slate-500 text-sm mt-2">Start listening to music to see your history here</p>
+                        </div>
+                    }
+                </section>
+
+                <!-- Downloads Section -->
+                <section>
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-white">Recent Downloads</h2>
+                        <a href="#" class="text-purple-400 hover:text-purple-300 text-sm font-medium">View All</a>
+                    </div>
+                    
+                    @if (Model.Downloads != null && Model.Downloads.Any())
+                    {
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            @foreach (var download in Model.Downloads)
+                            {
+                                <div class="song-item p-4 rounded-xl">
+                                    <div class="flex items-center">
+                                        <div class="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center mr-4">
+                                            <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                            </svg>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p class="text-white text-sm font-medium">Song #@download.SongId</p>
+                                            <p class="text-slate-400 text-xs">Downloaded @download.DownloadedAt.ToString("MMM dd")</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="profile-card p-6 rounded-xl text-center">
+                            <p class="text-slate-400">No downloads yet</p>
+                        </div>
+                    }
+                </section>
+            </div>
+
+            <!-- Right Column: Playlists & Info -->
+            <div class="lg:col-span-1">
+                <!-- Playlists Section -->
+                <section class="mb-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-white">My Playlists</h2>
+                        <span class="badge">@Model.TotalPlaylists</span>
+                    </div>
+                    
+                    @if (Model.Playlists != null && Model.Playlists.Any())
+                    {
+                        <div class="space-y-3">
+                            @foreach (var playlist in Model.Playlists)
+                            {
+                                <div class="playlist-item p-4 rounded-xl">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center mr-4">
+                                                <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM14 11a1 1 0 011 1v1h1a1 1 0 110 2h-1v1a1 1 0 11-2 0v-1h-1a1 1 0 110-2h1v-1a1 1 0 011-1z"></path>
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <h3 class="text-white font-medium">@playlist.Name</h3>
+                                                <p class="text-slate-400 text-sm">Created @playlist.CreatedAt.ToString("MMM dd, yyyy")</p>
+                                            </div>
+                                        </div>
+                                        <button class="delete-playlist-btn text-slate-500 hover:text-red-400" 
+                                                data-id="@playlist.PlaylistId">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                            </svg>
+                                        </button>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(playlist.Description))
+                                    {
+                                        <p class="text-slate-500 text-sm mt-3">@playlist.Description</p>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="profile-card p-6 rounded-xl text-center">
+                            <svg class="w-16 h-16 text-slate-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+                            </svg>
+                            <p class="text-slate-400">No playlists yet</p>
+                            <p class="text-slate-500 text-sm mt-2">Create your first playlist to organize your favorite songs</p>
+                        </div>
+                    }
+                </section>
+
+                <!-- Account Info -->
+                <section class="profile-card p-6 rounded-xl">
+                    <h3 class="text-xl font-bold text-white mb-4">Account Information</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-slate-400 text-sm">Email</p>
+                            <p class="text-white">@Model.user?.Email</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-400 text-sm">Username</p>
+                            <p class="text-white">@Model.user?.Username</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-400 text-sm">Favorite Genre</p>
+                            <p class="text-white">@(Model.user?.Genre ?? "Not set")</p>
+                        </div>
+                        <div>
+                            <p class="text-slate-400 text-sm">Member Since</p>
+                            <p class="text-white">@Model.user?.CreatedAt.ToString("MMMM dd, yyyy")</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 pt-6 border-t border-slate-800">
+                        <a href="@Url.Action("Logout", "User")" 
+                           class="action-button w-full py-3 rounded-xl flex items-center justify-center text-white">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                            </svg>
+                            Logout
+                        </a>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Create Playlist Modal -->
+<div id="createPlaylistModal" class="create-playlist-modal">
+    <div class="modal-content">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-xl font-bold text-white">Create New Playlist</h3>
+            <button id="closeModalBtn" class="text-slate-400 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <form id="playlistForm">
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-slate-300 text-sm mb-2">Playlist Name</label>
+                    <input type="text" id="playlistName" 
+                           class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+                           placeholder="My Awesome Playlist" required>
+                </div>
+                <div>
+                    <label class="block text-slate-300 text-sm mb-2">Description (Optional)</label>
+                    <textarea id="playlistDescription" 
+                              class="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg text-white placeholder-slate-400 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+                              placeholder="Describe your playlist..." rows="3"></textarea>
+                </div>
+            </div>
+            
+            <div class="mt-8 flex justify-end gap-3">
+                <button type="button" id="cancelBtn" class="px-6 py-3 border border-slate-700 text-slate-300 rounded-xl hover:bg-slate-800">
+                    Cancel
+                </button>
+                <button type="submit" class="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl hover:opacity-90">
+                    Create Playlist
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('createPlaylistModal');
+            const createBtn = document.getElementById('createPlaylistBtn');
+            const closeBtn = document.getElementById('closeModalBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const playlistForm = document.getElementById('playlistForm');
+            const deleteButtons = document.querySelectorAll('.delete-playlist-btn');
+
+            // Show modal
+            createBtn.addEventListener('click', function() {
+                modal.style.display = 'flex';
+            });
+
+            // Hide modal
+            function hideModal() {
+                modal.style.display = 'none';
+                playlistForm.reset();
+            }
+
+            closeBtn.addEventListener('click', hideModal);
+            cancelBtn.addEventListener('click', hideModal);
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    hideModal();
+                }
+            });
+
+            // Create playlist form submission
+            playlistForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('playlistName').value;
+                const description = document.getElementById('playlistDescription').value;
+                
+                try {
+                    const response = await fetch('@Url.Action("CreatePlaylist", "Profile")', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ name, description })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        hideModal();
+                        location.reload(); // Refresh to show new playlist
+                    } else {
+                        alert('Error: ' + result.message);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('Failed to create playlist. Please try again.');
+                }
+            });
+
+            // Delete playlist buttons
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', async function() {
+                    const playlistId = this.getAttribute('data-id');
+                    const playlistItem = this.closest('.playlist-item');
+                    
+                    if (!confirm('Are you sure you want to delete this playlist?')) {
+                        return;
+                    }
+                    
+                    try {
+                        const response = await fetch('@Url.Action("DeletePlaylist", "Profile")', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ id: playlistId })
+                        });
+                        
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            playlistItem.remove();
+                            
+                            // Update badge count
+                            const badge = document.querySelector('.badge');
+                            if (badge) {
+                                const currentCount = parseInt(badge.textContent);
+                                badge.textContent = currentCount - 1;
+                            }
+                        } else {
+                            alert('Error: ' + result.message);
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('Failed to delete playlist. Please try again.');
+                    }
+                });
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.style.display === 'flex') {
+                    hideModal();
+                }
+            });
+        });
+    </script>
+}

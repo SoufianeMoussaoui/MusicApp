@@ -27,7 +27,7 @@ public class HomeController : Controller
                 .ThenByDescending(s => s.UploadeAt)
                 .Take(12)
                 .ToListAsync();
-
+ 
             var albums = await _context.Album
                 .OrderByDescending(a => a.ReleaseYear)
                 .Take(6)
@@ -51,11 +51,19 @@ public class HomeController : Controller
                 UserEmail = userEmail,
                 UnreadNotifications = unreadNotifications
             };
+            
+            ViewBag.IsAuthenticated = isAuthenticated;
+            ViewBag.UserName = userName;
+            ViewBag.UserEmail = userEmail;
 
             return View(viewModel);
         }
         catch (Exception ex)
         {
+            var isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("UserId"));
+            ViewBag.IsAuthenticated = isAuthenticated;
+            ViewBag.UserName = HttpContext.Session.GetString("UserName") ?? "";
+            ViewBag.UserEmail = HttpContext.Session.GetString("UserEmail") ?? "";
             Console.WriteLine($"Error loading discover page: {ex.Message}");
             return View(new DiscoverViewModel());
         }

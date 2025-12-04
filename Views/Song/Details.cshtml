@@ -1,0 +1,562 @@
+@model Song
+@{
+    ViewBag.Title = $"{Model?.Title} - MusicFlow";
+}
+
+@functions {
+    string GetWebPath(string fullPath)
+    {
+        if (string.IsNullOrEmpty(fullPath)) return "";
+        var relativePath = fullPath.Replace("/home/soufiane/Music", "");
+        return $"/music{relativePath}";
+    }
+}
+
+<style>
+    .gradient-bg {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+    }
+
+    .player-controls {
+        background: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(168, 85, 247, 0.2);
+    }
+
+    .progress-bar {
+        -webkit-appearance: none;
+        appearance: none;
+        height: 4px;
+        border-radius: 2px;
+        background: rgba(168, 85, 247, 0.2);
+        cursor: pointer;
+    }
+
+    .progress-bar::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #a855f7;
+        cursor: pointer;
+    }
+
+    .info-card {
+        background: rgba(30, 41, 59, 0.5);
+        border: 1px solid rgba(168, 85, 247, 0.1);
+        transition: all 0.3s ease;
+    }
+
+    .info-card:hover {
+        border-color: rgba(168, 85, 247, 0.3);
+        transform: translateY(-2px);
+    }
+
+    .action-button {
+        transition: all 0.3s ease;
+        background: rgba(168, 85, 247, 0.1);
+        border: 1px solid rgba(168, 85, 247, 0.3);
+    }
+
+    .action-button:hover {
+        background: rgba(168, 85, 247, 0.2);
+        transform: scale(1.05);
+        box-shadow: 0 4px 20px rgba(168, 85, 247, 0.3);
+    }
+
+    .lyrics-container {
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(168, 85, 247, 0.1);
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .lyrics-line {
+        transition: all 0.2s ease;
+    }
+
+    .lyrics-line:hover {
+        color: #a855f7;
+        transform: translateX(4px);
+    }
+
+    .back-button {
+        transition: all 0.3s ease;
+    }
+
+    .back-button:hover {
+        transform: translateX(-4px);
+    }
+</style>
+
+<div class="gradient-bg min-h-screen">
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <!-- Back Button -->
+        <div class="mb-8">
+            <a href="@Url.Action("Discover", "Home")"
+                class="inline-flex items-center text-purple-400 hover:text-purple-300 back-button">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Back to Discover
+            </a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Left Column: Song Cover and Info -->
+            <div class="lg:col-span-1">
+                <div class="sticky top-24">
+                    <!-- Song Cover -->
+                    <div class="aspect-square rounded-2xl overflow-hidden mb-6 shadow-2xl">
+                        @if (!string.IsNullOrEmpty(ViewBag.CoverPath))
+                        {
+                            <img src="@GetWebPath(ViewBag.CoverPath)" alt="@Model.Title" class="w-full h-full object-cover">
+                        }
+                        else
+                        {
+                            <div
+                                class="w-full h-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center">
+                                <svg class="w-32 h-32 text-white/30" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z">
+                                    </path>
+                                </svg>
+                            </div>
+                        }
+                    </div>
+
+                    <!-- Song Info Card -->
+                    <div class="info-card rounded-2xl p-6 mb-6">
+                        <h1 class="text-3xl font-bold text-white mb-2">@Model.Title</h1>
+                        <p class="text-purple-400 text-lg mb-4">@ViewBag.ArtistName</p>
+
+                        <div class="space-y-4">
+                            <div class="flex items-center text-slate-400">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span>@TimeSpan.FromSeconds(Model.DurationSeconds).ToString(@"mm\:ss")</span>
+                            </div>
+
+                            <div class="flex items-center text-slate-400">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                                    </path>
+                                </svg>
+                                <span>@Model.PlayCounts.ToString("N0") plays</span>
+                            </div>
+
+                            <div class="flex items-center text-slate-400">
+                                <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                    </path>
+                                </svg>
+                                <span>Uploaded @Model.UploadeAt.ToString("MMMM dd, yyyy")</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <button class="action-button py-3 rounded-xl flex items-center justify-center text-white">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                            </svg>
+                            Download
+                        </button>
+                        <button class="action-button py-3 rounded-xl flex items-center justify-center text-white">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
+                            </svg>
+                            Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Player and Lyrics -->
+            <div class="lg:col-span-2">
+                <!-- Audio Player -->
+                <div class="player-controls rounded-2xl p-6 mb-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="flex items-center">
+                            <button id="playButton"
+                                class="w-14 h-14 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 flex items-center justify-center hover:shadow-lg hover:shadow-purple-500/30 transition-all">
+                                <svg id="playIcon" class="w-6 h-6 text-white fill-current ml-1" viewBox="0 0 20 20">
+                                    <path
+                                        d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z">
+                                    </path>
+                                </svg>
+                            </button>
+                            <div class="ml-4">
+                                <h3 class="text-white font-semibold">Now Playing</h3>
+                                <p class="text-slate-400 text-sm">@Model.Title • @ViewBag.ArtistName</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-4">
+                            <button id="prevButton" class="text-slate-400 hover:text-white">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                            </button>
+                            <button id="nextButton" class="text-slate-400 hover:text-white">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </button>
+                            <button id="repeatButton" class="text-slate-400 hover:text-purple-400">
+                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="mb-4">
+                        <div class="flex justify-between text-sm text-slate-400 mb-2">
+                            <span id="currentTime">0:00</span>
+                            <span
+                                id="totalDuration">@TimeSpan.FromSeconds(Model.DurationSeconds).ToString(@"mm\:ss")</span>
+                        </div>
+                        <input type="range" id="progressBar" min="0" max="100" value="0" class="progress-bar w-full">
+                    </div>
+
+                    <!-- Volume Controls -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <button id="muteButton" class="text-slate-400 hover:text-white">
+                                <svg id="volumeIcon" class="w-5 h-5" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z">
+                                    </path>
+                                </svg>
+                            </button>
+                            <input type="range" id="volumeControl" min="0" max="100" value="80"
+                                class="progress-bar w-32">
+                        </div>
+
+                        <div class="flex items-center space-x-4">
+                            <button id="shuffleButton" class="text-slate-400 hover:text-white">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+                                </svg>
+                            </button>
+                            <button id="playlistButton" class="text-slate-400 hover:text-white">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z">
+                                    </path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <audio id="audioPlayer" preload="metadata">
+                    @if (!string.IsNullOrEmpty(ViewBag.AudioPath))
+                    {
+                        <source src="@GetWebPath(ViewBag.AudioPath)" type="audio/mpeg">
+                        <source src="@GetWebPath(ViewBag.AudioPath)" type="audio/ogg">
+                    }
+                </audio>
+                <!-- Lyrics Section -->
+                <div class="rounded-2xl overflow-hidden">
+                    <div class="bg-gradient-to-r from-purple-900/30 to-pink-900/30 p-6">
+                        <h2 class="text-2xl font-bold text-white mb-2">Lyrics</h2>
+                        <p class="text-slate-400">@ViewBag.ArtistName • @Model.Title</p>
+                    </div>
+
+                    <div class="lyrics-container p-6">
+                        @if (!string.IsNullOrEmpty(Model.Title))
+                        {
+                            <!-- This is a placeholder for lyrics. In a real app, you would fetch lyrics from your Lyrics model -->
+                            <div class="space-y-4">
+                                <p class="text-slate-300 lyrics-line">
+                                    [Intro]<br>
+                                    Yeah, yeah<br>
+                                    MusicFlow, let's go
+                                </p>
+
+                                <p class="text-slate-300 lyrics-line">
+                                    [Verse 1]<br>
+                                    In the silence of the night<br>
+                                    Where the stars are shining bright<br>
+                                    I can hear the melody<br>
+                                    Calling out to you and me
+                                </p>
+
+                                <p class="text-slate-300 lyrics-line">
+                                    [Chorus]<br>
+                                    Feel the rhythm, hear the sound<br>
+                                    In this moment, we are found<br>
+                                    Every beat, every note<br>
+                                    In our hearts, they gently float
+                                </p>
+
+                                <p class="text-slate-300 lyrics-line">
+                                    [Verse 2]<br>
+                                    Through the speakers, loud and clear<br>
+                                    Chasing away every fear<br>
+                                    In this symphony we share<br>
+                                    Showing that we truly care
+                                </p>
+
+                                <p class="text-slate-300 lyrics-line">
+                                    [Bridge]<br>
+                                    Music flows like rivers deep<br>
+                                    Promises that we will keep<br>
+                                    In every chord, in every line<br>
+                                    Everything will be just fine
+                                </p>
+
+                                <p class="text-slate-300 lyrics-line">
+                                    [Outro]<br>
+                                    Yeah, yeah<br>
+                                    MusicFlow...<br>
+                                    Fading out...
+                                </p>
+                            </div>
+
+                            <div class="mt-6 pt-6 border-t border-slate-800">
+                                <p class="text-slate-500 text-sm">
+                                    <i>Lyrics would be fetched from the database in a complete implementation.
+                                        Connect this view to your Lyrics model to display actual lyrics.</i>
+                                </p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center py-12">
+                                <svg class="w-16 h-16 text-slate-600 mx-auto mb-4" fill="none" stroke="currentColor"
+                                    viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1"
+                                        d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3">
+                                    </path>
+                                </svg>
+                                <p class="text-slate-400">No lyrics available for this song</p>
+                                <p class="text-slate-500 text-sm mt-2">Be the first to add lyrics!</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Related Songs (Placeholder) -->
+                <div class="mt-8">
+                    <h3 class="text-xl font-bold text-white mb-4">More from @ViewBag.ArtistName</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- Placeholder for related songs -->
+                        <div class="bg-slate-800/50 rounded-xl p-4 flex items-center">
+                            <div class="w-12 h-12 bg-purple-900/30 rounded-lg flex items-center justify-center mr-4">
+                                <svg class="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-white font-medium">Another Hit Song</p>
+                                <p class="text-slate-400 text-sm">@ViewBag.ArtistName • 3:45</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800/50 rounded-xl p-4 flex items-center">
+                            <div class="w-12 h-12 bg-pink-900/30 rounded-lg flex items-center justify-center mr-4">
+                                <svg class="w-6 h-6 text-pink-400" fill="currentColor" viewBox="0 0 20 20">
+                                    <path
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z">
+                                    </path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-white font-medium">Fan Favorite</p>
+                                <p class="text-slate-400 text-sm">@ViewBag.ArtistName • 4:20</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get audio element if it exists
+            const audioPlayer = document.getElementById('audioPlayer');
+            if (!audioPlayer) {
+                console.error('Audio player not found. Check if audio path is set.');
+                return;
+            }
+
+            // Get DOM elements
+            const playButton = document.getElementById('playButton');
+            const playIcon = document.getElementById('playIcon');
+            const progressBar = document.getElementById('progressBar');
+            const currentTime = document.getElementById('currentTime');
+            const totalDuration = document.getElementById('totalDuration');
+            const volumeControl = document.getElementById('volumeControl');
+            const muteButton = document.getElementById('muteButton');
+            const volumeIcon = document.getElementById('volumeIcon');
+
+            // Format time in mm:ss
+            function formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs.toString().padStart(2, '0')}`;
+            }
+
+            // Update UI when audio metadata is loaded
+            audioPlayer.addEventListener('loadedmetadata', function () {
+                if (!isNaN(audioPlayer.duration)) {
+                    const duration = Math.floor(audioPlayer.duration);
+                    totalDuration.textContent = formatTime(duration);
+                    progressBar.max = duration;
+                } else {
+                    // Use model duration as fallback
+                    totalDuration.textContent = formatTime(@Model.DurationSeconds);
+                    progressBar.max = @Model.DurationSeconds;
+                }
+            });
+
+            // Update progress as audio plays
+            audioPlayer.addEventListener('timeupdate', function () {
+                if (!isNaN(audioPlayer.duration)) {
+                    const current = Math.floor(audioPlayer.currentTime);
+                    const duration = Math.floor(audioPlayer.duration);
+
+                    progressBar.value = current;
+                    currentTime.textContent = formatTime(current);
+
+                    // Update max if needed
+                    if (duration > 0) {
+                        progressBar.max = duration;
+                        totalDuration.textContent = formatTime(duration);
+                    }
+                }
+            });
+
+            // Play/Pause button
+            playButton.addEventListener('click', function () {
+                if (audioPlayer.paused) {
+                    audioPlayer.play().then(() => {
+                        playIcon.innerHTML = '<path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"></path>';
+                    }).catch(error => {
+                        console.error('Error playing audio:', error);
+                        alert('Unable to play audio. Please check if the file exists.');
+                    });
+                } else {
+                    audioPlayer.pause();
+                    playIcon.innerHTML = '<path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"></path>';
+                }
+            });
+
+            // Progress bar seeking
+            progressBar.addEventListener('input', function () {
+                audioPlayer.currentTime = this.value;
+                currentTime.textContent = formatTime(this.value);
+            });
+
+            // Volume control
+            volumeControl.addEventListener('input', function () {
+                const volume = this.value / 100;
+                audioPlayer.volume = volume;
+                audioPlayer.muted = (volume === 0);
+
+                // Update volume icon
+                updateVolumeIcon(volume);
+            });
+
+            // Mute button
+            muteButton.addEventListener('click', function () {
+                audioPlayer.muted = !audioPlayer.muted;
+                if (audioPlayer.muted) {
+                    volumeControl.value = 0;
+                } else {
+                    volumeControl.value = audioPlayer.volume * 100;
+                }
+                updateVolumeIcon(audioPlayer.muted ? 0 : audioPlayer.volume);
+            });
+
+            // Update volume icon based on volume level
+            function updateVolumeIcon(volume) {
+                if (volume === 0 || audioPlayer.muted) {
+                    volumeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L6.59 6.59m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />';
+                } else if (volume < 0.5) {
+                    volumeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />';
+                } else {
+                    volumeIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />';
+                }
+            }
+
+            // Handle audio end
+            audioPlayer.addEventListener('ended', function () {
+                playIcon.innerHTML = '<path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"></path>';
+                progressBar.value = 0;
+                currentTime.textContent = "0:00";
+            });
+
+            // Error handling
+            audioPlayer.addEventListener('error', function (e) {
+                console.error('Audio error:', e);
+                console.error('Audio source:', audioPlayer.src);
+
+                // Show error message
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'mt-4 p-3 bg-red-900/30 border border-red-700 rounded-lg text-red-200';
+                errorDiv.innerHTML = `
+                        <p class="font-medium">Unable to play audio</p>
+                        <p class="text-sm mt-1">Error code: ${audioPlayer.error?.code || 'Unknown'}</p>
+                        <p class="text-sm">File: ${audioPlayer.src}</p>
+                        <p class="text-xs mt-2">Please check if the file exists and is accessible.</p>
+                    `;
+
+                const playerControls = document.querySelector('.player-controls');
+                playerControls.appendChild(errorDiv);
+
+                playButton.disabled = true;
+                playButton.classList.add("opacity-50", "cursor-not-allowed");
+            });
+
+            // Initialize volume
+            audioPlayer.volume = volumeControl.value / 100;
+            updateVolumeIcon(audioPlayer.volume);
+
+            // Debug: Log audio source
+            console.log('Audio source:', audioPlayer.src);
+
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function (e) {
+                // Space bar to play/pause (when not in input field)
+                if (e.code === 'Space' && !e.target.matches('input, textarea, button, [contenteditable]')) {
+                    e.preventDefault();
+                    playButton.click();
+                }
+            });
+
+            // Try to load audio immediately for testing
+            setTimeout(() => {
+                if (audioPlayer.readyState < 2) { // HAVE_CURRENT_DATA or less
+                    console.log('Audio loading...');
+                }
+            }, 500);
+        });
+    </script>
+}

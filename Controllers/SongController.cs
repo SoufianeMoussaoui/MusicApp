@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using musicApp.Data;
 using musicApp.Models;
+using NuGet.Protocol.Plugins;
 
 namespace musicApp.Controllers
 {
@@ -19,135 +20,49 @@ namespace musicApp.Controllers
             _context = context;
         }
 
-        // GET: Song
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.Song.ToListAsync());
-        }
 
-        // GET: Song/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
+            var isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("UserId"));
+
+            if (!isAuthenticated)
             {
-                return NotFound();
-            }
+                HttpContext.Session.SetString("RedirectAfterLogin", id.ToString());
 
+                TempData["ErrorMessage"] = "Please login to listen to music";
+                return RedirectToAction("Login", "User");
+            }
             var song = await _context.Song
-                .FirstOrDefaultAsync(m => m.SongId == id);
+                .FirstOrDefaultAsync(s => s.SongId == id);
             if (song == null)
             {
                 return NotFound();
             }
 
-            return View(song);
-        }
-
-        // GET: Song/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Song/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SongId,UserId,Title,Artist,Album,DurationSeconds,FilePath,IsUserUploaded")] Song song)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(song);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(song);
-        }
-
-        // GET: Song/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var song = await _context.Song.FindAsync(id);
-            if (song == null)
-            {
-                return NotFound();
-            }
-            return View(song);
-        }
-
-        // POST: Song/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SongId,UserId,Title,Artist,Album,DurationSeconds,FilePath,IsUserUploaded")] Song song)
-        {
-            if (id != song.SongId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(song);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SongExists(song.SongId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(song);
-        }
-
-        // GET: Song/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var song = await _context.Song
-                .FirstOrDefaultAsync(m => m.SongId == id);
-            if (song == null)
-            {
-                return NotFound();
-            }
-
-            return View(song);
-        }
-
-        // POST: Song/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var song = await _context.Song.FindAsync(id);
-            if (song != null)
-            {
-                _context.Song.Remove(song);
-            }
+            var artistName = await GetArtistName(song.ArtistId);
+            song.PlayCounts++;
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+
+            ViewBag.ArtistName = artistName;
+            ViewBag.CoverPath = song.CoverPath;
+            ViewBag.AudioPath = song.FilePath;
+
+            return View(song);
         }
+
+
+        private async Task<string> GetArtistName(int? artistId)
+        {
+            var artist = await _context.Artist
+                .Where(a => a.ArtistId == artistId)
+                .FirstOrDefaultAsync();
+
+            return artist.Username ?? "Unknown Artist";
+        }
+
+
 
         private bool SongExists(int id)
         {
