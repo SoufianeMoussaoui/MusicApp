@@ -179,40 +179,65 @@ public class UserController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public IActionResult Register(User model)
+    public IActionResult Register(string username, string email, string password, string firstName = null, string lastName = null, string confirmPassword = null)
     {
-        if (ModelState.IsValid)
+        // Basic validation
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
         {
-            if (_context.User.Any(u => u.Email == model.Email))
+            TempData["ErrorMessage"] = "Username, Email, and Password are required.";
+            return View();
+        }
+
+        if (password.Length < 6)
+        {
+            TempData["ErrorMessage"] = "Password must be at least 6 characters";
+            return View();
+        }
+
+        if (password != confirmPassword)
+        {
+            TempData["ErrorMessage"] = "Passwords do not match";
+            return View();
+        }
+
+        try
+        {
+            // Check for existing user
+            if (_context.User.Any(u => u.Email == email))
             {
-                ModelState.AddModelError("Email", "Email already registered");
-                return View(model);
+                TempData["ErrorMessage"] = "Email already registered";
+                return View();
             }
 
-            if (_context.User.Any(u => u.Username == model.Username))
+            if (_context.User.Any(u => u.Username == username))
             {
-                ModelState.AddModelError("Username", "Username already taken");
-                return View(model);
+                TempData["ErrorMessage"] = "Username already taken";
+                return View();
             }
 
+            // Create new user
             var user = new User
             {
-                Username = model.Username,
-                Firstname = model.Firstname,
-                Lastname = model.Lastname,
-                Email = model.Email,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.PasswordHash),
+                Username = username,
+                Firstname = firstName,
+                Lastname = lastName,
+                Email = email,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(password),
                 CreatedAt = DateTime.UtcNow
             };
 
             _context.User.Add(user);
             _context.SaveChanges();
 
+            TempData["SuccessMessage"] = "Registration successful! Please login.";
             return RedirectToAction("Login");
-
         }
-
-        return View(model);
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Registration error: {ex.Message}");
+            TempData["ErrorMessage"] = "An error occurred during registration. Please try again.";
+            return View();
+        }
     }
 
 

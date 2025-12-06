@@ -1,0 +1,10 @@
+/home/soufiane/School/Net/musicApp/obj/Debug/net8.0/musicApp.csproj.AssemblyReference.cache
+/home/soufiane/School/Net/musicApp/obj/Debug/net8.0/rpswa.dswa.cache.json
+/home/soufiane/School/Net/musicApp/obj/Debug/net8.0/musicApp.GeneratedMSBuildEditorConfig.editorconfig
+/home/soufiane/School/Net/musicApp/obj/Debug/net8.0/musicApp.AssemblyInfoInputs.cache
+/home/soufiane/School/Net/musicApp/obj/Debug/net8.0/musicApp.AssemblyInfo.cs
+/home/soufiane/School/Net/musicApp/obj/Debug/net8.0/musicApp.csproj.CoreCompileInputs.cache
+/home/soufiane/School/Net/musicApp/obj/Debug/net8.0/musicApp.MvcApplicationPartsAssemblyInfo.cache
+/home/soufiane/School/Net/musicApp/obj/Debug/net8.0/musicApp.RazorAssemblyInfo.cache
+/home/soufiane/School/Net/musicApp/obj/Debug/net8.0/musicApp.RazorAssemblyInfo.cs
+/home/soufiane/School/Net/musicApp/obj/Debug/net8.0/musicApp.sourcelink.json
