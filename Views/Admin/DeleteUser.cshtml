@@ -1,0 +1,133 @@
+@model DeleteConfirmationViewModel
+@{
+    ViewBag.Title = $"Delete {Model.Type} - {Model.Name}";
+    ViewBag.IsAuthenticated = true;
+}
+
+<style>
+    .warning-card {
+        background: rgba(120, 53, 15, 0.2);
+        border: 1px solid rgba(251, 146, 60, 0.3);
+        backdrop-filter: blur(10px);
+    }
+</style>
+
+<div class="gradient-bg min-h-screen">
+    <div class="max-w-2xl mx-auto px-4 py-8">
+        <!-- Back Button -->
+        <div class="mb-6">
+            @if (Model.Type == "User")
+            {
+                <a href="@Url.Action("Users", "Admin")" 
+                   class="inline-flex items-center text-purple-400 hover:text-purple-300">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Back to Users
+                </a>
+            }
+            else
+            {
+                <a href="@Url.Action("Songs", "Admin")" 
+                   class="inline-flex items-center text-purple-400 hover:text-purple-300">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    Back to Songs
+                </a>
+            }
+        </div>
+
+        <!-- Warning Card -->
+        <div class="warning-card p-8 rounded-2xl">
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 bg-red-900/30 border border-red-700 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-10 h-10 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.998-.833-2.732 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                    </svg>
+                </div>
+                
+                <h1 class="text-3xl font-bold text-white mb-4">Delete @Model.Type</h1>
+                <p class="text-slate-300 text-lg mb-2">Are you sure you want to delete:</p>
+                <p class="text-2xl font-bold text-white mb-2">"@Model.Name"</p>
+                <p class="text-slate-400">Created: @Model.CreatedAt.ToString("MMMM dd, yyyy")</p>
+            </div>
+
+            <div class="bg-slate-900/50 p-6 rounded-xl mb-8">
+                <h3 class="text-xl font-bold text-white mb-4">⚠️ This action cannot be undone</h3>
+                <ul class="text-slate-300 space-y-2">
+                    @if (Model.Type == "User")
+                    {
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-red-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                            <span>The user will be marked as inactive (soft delete)</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-red-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                            <span>User will no longer be able to login</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-red-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                            <span>User data will be preserved for analytics</span>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-red-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                            <span>The song will be permanently deleted from the database</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-red-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                            <span>All related data (play counts, downloads) will be removed</span>
+                        </li>
+                        <li class="flex items-start">
+                            <svg class="w-5 h-5 text-red-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                            <span>The audio file will remain on the server</span>
+                        </li>
+                    }
+                </ul>
+            </div>
+
+            <!-- Confirmation Form -->
+            <form method="post" asp-action="DeleteConfirmed">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.Id" />
+                
+                <div class="flex justify-center space-x-4">
+                    @if (Model.Type == "User")
+                    {
+                        <a href="@Url.Action("Users", "Admin")" 
+                           class="px-8 py-3 border border-slate-700 text-slate-300 rounded-lg hover:bg-slate-800 transition-colors">
+                            Cancel
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Songs", "Admin")" 
+                           class="px-8 py-3 border border-slate-700 text-slate-300 rounded-lg hover:bg-slate-800 transition-colors">
+                            Cancel
+                        </a>
+                    }
+                    
+                    <button type="submit" 
+                            class="px-8 py-3 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-lg hover:opacity-90 transition-opacity">
+                        Delete @Model.Type
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

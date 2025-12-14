@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using musicApp.Data;
@@ -12,9 +13,11 @@ using musicApp.Data;
 namespace musicApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251214085911_Change_in_user")]
+    partial class Change_in_user
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -323,14 +326,6 @@ namespace musicApp.Migrations
                         .HasColumnType("text")
                         .HasColumnName("genre");
 
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_active");
-
-                    b.Property<bool>("IsAdmin")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_admin");
-
                     b.Property<string>("Lastname")
                         .HasColumnType("text")
                         .HasColumnName("last_name");
@@ -340,9 +335,9 @@ namespace musicApp.Migrations
                         .HasColumnType("text")
                         .HasColumnName("password_hash");
 
-                    b.Property<long>("TotalSecondsPlayed")
-                        .HasColumnType("bigint")
-                        .HasColumnName("total_seconds_played");
+                    b.Property<int>("TotalPlays2")
+                        .HasColumnType("integer")
+                        .HasColumnName("total_plays");
 
                     b.Property<string>("Username")
                         .IsRequired()

@@ -1,0 +1,95 @@
+@model Song
+@{
+    ViewBag.Title = $"Song Details - {Model.Title}";
+    ViewBag.IsAuthenticated = true;
+}
+
+<div class="gradient-bg min-h-screen">
+    <div class="max-w-4xl mx-auto px-4 py-8">
+        <!-- Back Button -->
+        <div class="mb-6">
+            <a href="@Url.Action("Songs", "Admin")" 
+               class="inline-flex items-center text-purple-400 hover:text-purple-300">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Back to Songs
+            </a>
+        </div>
+
+        <!-- Song Details Card -->
+        <div class="admin-card p-8 rounded-2xl">
+            <div class="flex justify-between items-start mb-8">
+                <div>
+                    <h1 class="text-3xl font-bold text-white mb-2">@Model.Title</h1>
+                    <p class="text-slate-400">Song ID: @Model.SongId</p>
+                </div>
+                <div class="flex space-x-3">
+                    <a href="@Url.Action("DeleteSong", "Admin", new { id = Model.SongId })" 
+                       class="px-4 py-2 rounded-lg border border-red-700 text-red-400 hover:bg-red-900/30 transition-colors">
+                        Delete Song
+                    </a>
+                </div>
+            </div>
+
+            <!-- Song Information Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <div class="bg-slate-900/50 p-6 rounded-xl">
+                    <p class="text-slate-400 text-sm mb-2">Artist</p>
+                    <p class="text-white font-medium">@(Model.Artist?.Username ?? "Unknown Artist")</p>
+                </div>
+                <div class="bg-slate-900/50 p-6 rounded-xl">
+                    <p class="text-slate-400 text-sm mb-2">Uploaded By (User ID)</p>
+                    <p class="text-white font-medium">@Model.UserId</p>
+                </div>
+                <div class="bg-slate-900/50 p-6 rounded-xl">
+                    <p class="text-slate-400 text-sm mb-2">Upload Date</p>
+                    <p class="text-white font-medium">@Model.UploadeAt.ToString("MMMM dd, yyyy HH:mm")</p>
+                </div>
+                <div class="bg-slate-900/50 p-6 rounded-xl">
+                    <p class="text-slate-400 text-sm mb-2">Duration</p>
+                    <p class="text-white font-medium">@TimeSpan.FromSeconds(Model.DurationSeconds).ToString(@"mm\:ss")</p>
+                </div>
+            </div>
+
+            <!-- Statistics -->
+            <div class="mb-8">
+                <h3 class="text-xl font-bold text-white mb-6">Song Statistics</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="admin-card p-6 rounded-xl">
+                        <p class="text-slate-400 text-sm mb-2">Total Plays</p>
+                        <p class="stat-number">@Model.PlayCounts</p>
+                    </div>
+                    <div class="admin-card p-6 rounded-xl">
+                        <p class="text-slate-400 text-sm mb-2">Album ID</p>
+                        <p class="stat-number">@Model.AlbumId</p>
+                    </div>
+                    <div class="admin-card p-6 rounded-xl">
+                        <p class="text-slate-400 text-sm mb-2">Artist ID</p>
+                        <p class="stat-number">@(Model.ArtistId?.ToString() ?? "N/A")</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- File Information -->
+            <div class="bg-slate-900/50 p-6 rounded-xl">
+                <h3 class="text-xl font-bold text-white mb-4">File Information</h3>
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-slate-400 text-sm mb-1">Audio File Path</p>
+                        <p class="text-white font-mono text-sm bg-slate-800 p-3 rounded">@Model.FilePath</p>
+                    </div>
+                    <div>
+                        <p class="text-slate-400 text-sm mb-1">Cover Image Path</p>
+                        <p class="text-white font-mono text-sm bg-slate-800 p-3 rounded">@(Model.CoverPath ?? "No cover image")</p>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="@(Model.IsUserUploaded ? "badge-active" : "badge-inactive")">
+                            @(Model.IsUserUploaded ? "User Uploaded" : "System Song")
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -37,11 +37,26 @@
                 {
                     <!-- Authenticated User -->
                     <div class="flex items-center space-x-3">
+                        @if (Context.Session.GetString("IsAdmin") == "True")
+                        {
+                            <a href="@Url.Action("Index", "Admin")"
+                                class="px-3 py-2 border border-purple-700 text-purple-300 rounded-lg hover:bg-purple-900/30 transition-colors text-sm">
+                                Admin Panel
+                            </a>
+                        }
+
+                        <!-- User Info - Combined into one div -->
                         <div class="hidden sm:block text-right">
-                            <p class="text-sm text-white">@ViewBag.UserName</p>
-                            <p class="text-xs text-slate-400">@ViewBag.UserEmail</p>
+                            @{
+                                var username = Context.Session.GetString("Username") ?? ViewBag.UserName;
+                                var email = Context.Session.GetString("Email") ?? ViewBag.UserEmail;
+                            }
+                            <p class="text-sm text-white">@username</p>
+                            <p class="text-xs text-slate-400">@email</p>
                         </div>
-                        <a href="@Url.Action("Profile", "User ")"
+
+                        <!-- Profile Button -->
+                        <a href="@Url.Action("Profile", "User")"
                             class="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:opacity-90 transition-opacity">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -49,6 +64,8 @@
                             </svg>
                             <span class="hidden sm:inline">Profile</span>
                         </a>
+
+                        <!-- Logout Button -->
                         <a href="@Url.Action("Logout", "User")"
                             class="px-4 py-2 border border-slate-700 text-slate-300 rounded-lg hover:bg-slate-800 transition-colors">
                             Logout
@@ -57,6 +74,7 @@
                 }
                 else
                 {
+                    <!-- Guest User -->
                     <div class="flex items-center space-x-3">
                         <a href="@Url.Action("Login", "User")"
                             class="px-4 py-2 border border-slate-700 text-slate-300 rounded-lg hover:bg-slate-800 transition-colors">

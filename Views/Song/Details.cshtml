@@ -88,6 +88,66 @@
     .back-button:hover {
         transform: translateX(-4px);
     }
+        .lyrics-container {
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(168, 85, 247, 0.1);
+        max-height: 500px;
+        overflow-y: auto;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(168, 85, 247, 0.3) rgba(15, 23, 42, 0.3);
+    }
+
+    .lyrics-container::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .lyrics-container::-webkit-scrollbar-track {
+        background: rgba(15, 23, 42, 0.3);
+        border-radius: 4px;
+    }
+
+    .lyrics-container::-webkit-scrollbar-thumb {
+        background: rgba(168, 85, 247, 0.3);
+        border-radius: 4px;
+    }
+
+    .lyrics-container::-webkit-scrollbar-thumb:hover {
+        background: rgba(168, 85, 247, 0.5);
+    }
+
+    .lyrics-line {
+        transition: all 0.2s ease;
+        line-height: 1.8;
+        font-size: 1.05rem;
+    }
+
+    .lyrics-line:hover {
+        color: #a855f7;
+        transform: translateX(8px);
+    }
+
+    .lyrics-section {
+        position: relative;
+    }
+
+    .lyrics-section h3 {
+        position: sticky;
+        top: 0;
+        background: rgba(15, 23, 42, 0.95);
+        padding: 8px 0;
+        z-index: 10;
+        backdrop-filter: blur(4px);
+    }
+
+    /* Highlight current playing line (if synced with audio) */
+    .lyrics-line.current {
+        color: #a855f7;
+        font-weight: 600;
+        background: rgba(168, 85, 247, 0.1);
+        border-left-color: #a855f7;
+        padding-left: 12px;
+        margin-left: -12px;
+    }
 </style>
 
 <div class="gradient-bg min-h-screen">
@@ -99,8 +159,7 @@
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                 </svg>
-                Back to Discover
-            </a>
+               </a>
         </div>
 
         <!-- Main Content -->
@@ -284,61 +343,10 @@
                     </div>
 
                     <div class="lyrics-container p-6">
-                        @if (!string.IsNullOrEmpty(Model.Title))
+                        @if (ViewBag.HasLyrics)
                         {
-                            <!-- This is a placeholder for lyrics. In a real app, you would fetch lyrics from your Lyrics model -->
-                            <div class="space-y-4">
-                                <p class="text-slate-300 lyrics-line">
-                                    [Intro]<br>
-                                    Yeah, yeah<br>
-                                    MusicFlow, let's go
-                                </p>
-
-                                <p class="text-slate-300 lyrics-line">
-                                    [Verse 1]<br>
-                                    In the silence of the night<br>
-                                    Where the stars are shining bright<br>
-                                    I can hear the melody<br>
-                                    Calling out to you and me
-                                </p>
-
-                                <p class="text-slate-300 lyrics-line">
-                                    [Chorus]<br>
-                                    Feel the rhythm, hear the sound<br>
-                                    In this moment, we are found<br>
-                                    Every beat, every note<br>
-                                    In our hearts, they gently float
-                                </p>
-
-                                <p class="text-slate-300 lyrics-line">
-                                    [Verse 2]<br>
-                                    Through the speakers, loud and clear<br>
-                                    Chasing away every fear<br>
-                                    In this symphony we share<br>
-                                    Showing that we truly care
-                                </p>
-
-                                <p class="text-slate-300 lyrics-line">
-                                    [Bridge]<br>
-                                    Music flows like rivers deep<br>
-                                    Promises that we will keep<br>
-                                    In every chord, in every line<br>
-                                    Everything will be just fine
-                                </p>
-
-                                <p class="text-slate-300 lyrics-line">
-                                    [Outro]<br>
-                                    Yeah, yeah<br>
-                                    MusicFlow...<br>
-                                    Fading out...
-                                </p>
-                            </div>
-
-                            <div class="mt-6 pt-6 border-t border-slate-800">
-                                <p class="text-slate-500 text-sm">
-                                    <i>Lyrics would be fetched from the database in a complete implementation.
-                                        Connect this view to your Lyrics model to display actual lyrics.</i>
-                                </p>
+                            <div id="lyricsContent" class="space-y-6">
+                                <span>Lyrics: <br>@ViewBag.Lyrics</span>
                             </div>
                         }
                         else
@@ -351,7 +359,6 @@
                                     </path>
                                 </svg>
                                 <p class="text-slate-400">No lyrics available for this song</p>
-                                <p class="text-slate-500 text-sm mt-2">Be the first to add lyrics!</p>
                             </div>
                         }
                     </div>

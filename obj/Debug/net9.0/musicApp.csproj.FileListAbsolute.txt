@@ -478,6 +478,7 @@
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/dotnet9/shared/Microsoft.AspNetCore.App/9.0.11/Microsoft.AspNetCore.App.runtimeconfig.json
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/dotnet9/shared/Microsoft.NETCore.App/9.0.11/Microsoft.NETCore.App.deps.json
 /home/soufiane/School/Net/musicApp/bin/Debug/net9.0/dotnet9/shared/Microsoft.NETCore.App/9.0.11/Microsoft.NETCore.App.runtimeconfig.json
+/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/global.json
 /home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/6bf5cb6vtw-lugek5hnai.gz
 /home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/1q828y2dnu-61n19gt1b8.gz
 /home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/b50h5q83fm-fr7q2aak1r.gz

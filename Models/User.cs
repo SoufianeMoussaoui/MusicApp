@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace musicApp.Models;
 
 [Table("users")]
@@ -36,28 +35,18 @@ public class User
     [Column("password_hash")]
     public string? PasswordHash { get; set; }
     
+    [Column("total_seconds_played")]
+    public long TotalSecondsPlayed { get; set; } = 0;
+    
     [Column("genre")]
     public string? Genre { get; set; }
 
     [Column("created_at")]
     public DateTime CreatedAt { get; set; }
     
-    /*
-    public List<Notifications> Notifications { get; set; } = new List<Notifications>();
-
-    public int CountAllNotifications()
-    {
-        return Notifications?.Count ?? 0;
-    }
+    [Column("is_admin")]
+    public bool IsAdmin { get; set; } = false;
     
-    public int CountUnreadNotifications()
-    {
-        return Notifications?.Count(n => !n.IsRead) ?? 0;
-    }
-    
-    public int CountReadNotifications()
-    {
-        return Notifications?.Count(n => n.IsRead) ?? 0;
-    }
-    */
+    [Column("is_active")]
+    public bool IsActive { get; set; } = true;
 }

@@ -20,9 +20,8 @@ public class UserPlayback
     [Column("song_id")]
     public int SongId { get; set; }
     
-    [NotNull]
-    [Column("current_position")]
-    public int CurrentPosition { get; set; }
+    //[Column("current_position")]
+    //public List<Song> SongHistory { get; set; } = new List<Song>();
 
     [DataType(DataType.Date)]
     [Column("last_played")]
