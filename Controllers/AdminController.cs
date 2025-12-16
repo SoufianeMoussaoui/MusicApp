@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using musicApp.Data;
 using musicApp.Models;
 using BCrypt.Net;
+using Microsoft.Win32.SafeHandles;
+using System.Runtime.CompilerServices;
+using System.Reflection.Metadata.Ecma335;
 
 namespace musicApp.Controllers
 {
@@ -30,7 +33,11 @@ namespace musicApp.Controllers
             }
 
             var user = await _context.User.FindAsync(userId);
-            return user?.IsAdmin == true;
+            if (user == null)
+                return false;
+
+            var isAdmin = user?.IsAdmin == true;
+            return isAdmin;
         }
 
         // GET: Admin
@@ -99,6 +106,40 @@ namespace musicApp.Controllers
             };
 
             return View(viewModel);
+        }
+        private async Task<UserStatistics> GetUserStatistics(int userId)
+        {
+            var stats = new UserStatistics();
+
+            try
+            {
+                // Get total plays
+                stats.TotalPlays = await _context.UserPlayback
+                    .Where(up => up.UserId == userId)
+                    .CountAsync();
+
+                // Get total playlists
+                stats.TotalPlaylists = await _context.Playlist
+                    .Where(p => p.UserId == userId)
+                    .CountAsync();
+
+                // Get total downloads
+                stats.TotalDownloads = await _context.Download
+                    .Where(d => d.UserId == userId)
+                    .CountAsync();
+
+                // Get total seconds played
+                stats.TotalSecondsPlayed = await _context.User
+                    .Where(up => up.UserId == userId)
+                    .SumAsync(up => up.TotalSecondsPlayed);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting user statistics: {ex.Message}");
+                // Return default statistics if there's an error
+            }
+
+            return stats;
         }
 
         // GET: Admin/UserDetails/5
@@ -222,7 +263,6 @@ namespace musicApp.Controllers
             return View(viewModel);
         }
 
-        // GET: Admin/DeleteUser/5
         public async Task<IActionResult> DeleteUser(int? id)
         {
             if (!await IsAdminUser())
@@ -253,8 +293,6 @@ namespace musicApp.Controllers
 
             return View(viewModel);
         }
-
-        // GET: Admin/DeleteSong/5
         public async Task<IActionResult> DeleteSong(int? id)
         {
             if (!await IsAdminUser())
@@ -300,12 +338,14 @@ namespace musicApp.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            var query = _context.Song.Include(s => s.Artist).AsQueryable();
+            var query = _context.Song
+                .Include(s => s.Artist)
+                .AsQueryable();
 
             if (!string.IsNullOrEmpty(search))
             {
                 query = query.Where(s =>
-                    s.Title.Contains(search) ||
+                    s.Title.Contains(search) || 
                     (s.Artist != null && s.Artist.Username.Contains(search)));
             }
 

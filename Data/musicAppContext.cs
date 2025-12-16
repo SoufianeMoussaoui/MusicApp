@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using musicApp.Models; // your model classes
+using musicApp.Models;
 
 namespace musicApp.Data
 {
@@ -10,7 +10,6 @@ namespace musicApp.Data
         {
         }
 
-        // Add all DbSets from your old contexts
         public DbSet<User> User { get; set; } = default!;
         public DbSet<Album> Album { get; set; } = default!;
 
@@ -23,6 +22,9 @@ namespace musicApp.Data
         public DbSet<PlaylistSong> PlaylistSong { get; set; } = default!;
         public DbSet<Notifications> Notifications { get; set; } = default!;
         public DbSet<DiscoverViewModel> DiscoverViewModels { get; set; } = default!;
+        // public DbSet<ProfileViewModel> ProfileViewModel { get; set; } = default!;
+        //public DbSet<AdminViewModels> AdminViewModels { get; set; } = default!;
+
 
     
 

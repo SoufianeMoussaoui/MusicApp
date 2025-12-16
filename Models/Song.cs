@@ -24,6 +24,9 @@ public class Song
     [Column("artist_id")]
     public int? ArtistId { get; set; }
 
+    [ForeignKey("ArtistId")]
+    public virtual Artist? Artist { get; set; }
+
     public int AlbumId { get; set; }
 
     [NotNull]
