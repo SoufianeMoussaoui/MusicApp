@@ -45,16 +45,6 @@
                             </a>
                         }
 
-                        <!-- User Info - Combined into one div -->
-                        <div class="hidden sm:block text-right">
-                            @{
-                                var username = Context.Session.GetString("Username") ?? ViewBag.UserName;
-                                var email = Context.Session.GetString("Email") ?? ViewBag.UserEmail;
-                            }
-                            <p class="text-sm text-white">@username</p>
-                            <p class="text-xs text-slate-400">@email</p>
-                        </div>
-
                         <!-- Profile Button -->
                         <a href="@Url.Action("Profile", "User")"
                             class="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:opacity-90 transition-opacity">

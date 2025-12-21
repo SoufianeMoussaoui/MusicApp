@@ -543,3 +543,4 @@
 /home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/g5uc534uqx-jfsiqqwiad.gz
 /home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/scq2rvqvgh-duhellzjjy.gz
 /home/soufiane/School/Net/musicApp/obj/Debug/net9.0/compressed/4yy72rwbkk-duhellzjjy.gz
+/home/soufiane/School/Net/musicApp/bin/Debug/net9.0/Microsoft.Extensions.FileProviders.Abstractions.dll

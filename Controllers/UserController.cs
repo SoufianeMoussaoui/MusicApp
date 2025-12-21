@@ -184,7 +184,6 @@ public class UserController : Controller
     {
         try
         {
-            Console.WriteLine("=== DeletePlaylist Called ===");
 
             var userIdString = HttpContext.Session.GetString("UserId");
             Console.WriteLine($"UserId from session: {userIdString}");
@@ -193,8 +192,6 @@ public class UserController : Controller
             {
                 return Json(new { success = false, message = "Please login to delete playlists" });
             }
-
-            Console.WriteLine($"Deleting playlist ID: {request?.Id}");
 
             if (request?.Id == null || request.Id <= 0)
             {
@@ -213,8 +210,6 @@ public class UserController : Controller
                     message = "Playlist not found or you don't have permission to delete it"
                 });
             }
-
-            // First, delete any PlaylistSong entries (if you have this table)
             var playlistSongs = await _context.PlaylistSong
                 .Where(ps => ps.PlaylistId == request.Id)
                 .ToListAsync();
@@ -224,7 +219,6 @@ public class UserController : Controller
                 _context.PlaylistSong.RemoveRange(playlistSongs);
             }
 
-            // Then delete the playlist
             _context.Playlist.Remove(playlist);
             await _context.SaveChangesAsync();
 
@@ -238,8 +232,6 @@ public class UserController : Controller
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error deleting playlist: {ex.Message}");
-            Console.WriteLine($"Stack trace: {ex.StackTrace}");
             return Json(new
             {
                 success = false,
@@ -247,12 +239,112 @@ public class UserController : Controller
             });
         }
     }
+    // Add these methods to your UserController.cs
 
-    // Add this class for the request
-    public class DeletePlaylistRequest
+    [HttpGet]
+    public async Task<IActionResult> EditProfile()
     {
-        public int Id { get; set; }
+        var userIdString = HttpContext.Session.GetString("UserId");
+        if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
+        {
+            TempData["ErrorMessage"] = "Please login to edit your profile.";
+            return RedirectToAction("Login", "User");
+        }
+
+        var user = await _context.User.FindAsync(userId);
+        if (user == null)
+        {
+            TempData["ErrorMessage"] = "User not found.";
+            return RedirectToAction("Login", "User");
+        }
+
+        var viewModel = new EditProfileViewModel
+        {
+            UserId = user.UserId,
+            Username = user.Username ?? "",
+            Email = user.Email ?? "",
+            Firstname = user.Firstname,
+            Lastname = user.Lastname,
+            Genre = user.Genre
+        };
+
+        return View(viewModel);
     }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> EditProfile(EditProfileViewModel viewModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(viewModel);
+        }
+
+        var userIdString = HttpContext.Session.GetString("UserId");
+        if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
+        {
+            TempData["ErrorMessage"] = "Please login to edit your profile.";
+            return RedirectToAction("Login", "User");
+        }
+
+        if (viewModel.UserId != userId)
+        {
+            TempData["ErrorMessage"] = "You can only edit your own profile.";
+            return RedirectToAction("Profile", "User");
+        }
+
+        try
+        {
+            var user = await _context.User.FindAsync(userId);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "User not found.";
+                return RedirectToAction("Login", "User");
+            }
+
+            var existingUsername = await _context.User
+                .AnyAsync(u => u.Username == viewModel.Username && u.UserId != userId);
+
+            if (existingUsername)
+            {
+                ModelState.AddModelError("Username", "Username is already taken.");
+                return View(viewModel);
+            }
+
+            var existingEmail = await _context.User
+                .AnyAsync(u => u.Email == viewModel.Email && u.UserId != userId);
+
+            if (existingEmail)
+            {
+                ModelState.AddModelError("Email", "Email is already registered.");
+                return View(viewModel);
+            }
+
+            // Update user properties
+            user.Username = viewModel.Username;
+            user.Email = viewModel.Email;
+            user.Firstname = viewModel.Firstname;
+            user.Lastname = viewModel.Lastname;
+            user.Genre = viewModel.Genre;
+
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+
+            // Update session with new username
+            HttpContext.Session.SetString("Username", user.Username);
+            HttpContext.Session.SetString("Email", user.Email);
+
+            TempData["SuccessMessage"] = "Profile updated successfully!";
+            return RedirectToAction("Profile", "User");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error updating profile: {ex.Message}");
+            TempData["ErrorMessage"] = "An error occurred while updating your profile. Please try again.";
+            return View(viewModel);
+        }
+    }
+
 
     [HttpPost]
     [ValidateAntiForgeryToken]
@@ -273,12 +365,12 @@ public class UserController : Controller
             TempData["ErrorMessage"] = "Invalid username or password. Please try again.";
             return View();
         }
-        
+
         HttpContext.Session.SetString("UserId", user.UserId.ToString());
         HttpContext.Session.SetString("Username", user.Username);
         HttpContext.Session.SetString("Email", user.Email);
         HttpContext.Session.SetString("IsAdmin", user.IsAdmin.ToString());
-        
+
         if (user.IsAdmin)
         {
             return RedirectToAction("Index", "Admin");
@@ -368,5 +460,8 @@ public class UserController : Controller
         HttpContext.Session.Clear();
         return RedirectToAction("Login", "User");
     }
-
+    public class DeletePlaylistRequest
+    {
+        public int Id { get; set; }
+    }
 }

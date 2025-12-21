@@ -14,6 +14,7 @@
           "Microsoft.EntityFrameworkCore.Sqlite": "9.0.10",
           "Microsoft.EntityFrameworkCore.SqlServer": "9.0.10",
           "Microsoft.EntityFrameworkCore.Tools": "9.0.10",
+          "Microsoft.Extensions.FileProviders.Abstractions": "10.0.1",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "9.0.0",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "9.0.4"
         },
@@ -1352,7 +1353,7 @@
       },
       "Microsoft.Extensions.Caching.Abstractions/9.0.10": {
         "dependencies": {
-          "Microsoft.Extensions.Primitives": "9.0.10"
+          "Microsoft.Extensions.Primitives": "10.0.1"
         },
         "runtime": {
           "lib/net9.0/Microsoft.Extensions.Caching.Abstractions.dll": {
@@ -1367,7 +1368,7 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.10",
           "Microsoft.Extensions.Logging.Abstractions": "9.0.10",
           "Microsoft.Extensions.Options": "9.0.10",
-          "Microsoft.Extensions.Primitives": "9.0.10"
+          "Microsoft.Extensions.Primitives": "10.0.1"
         },
         "runtime": {
           "lib/net9.0/Microsoft.Extensions.Caching.Memory.dll": {
@@ -1378,7 +1379,7 @@
       },
       "Microsoft.Extensions.Configuration.Abstractions/9.0.10": {
         "dependencies": {
-          "Microsoft.Extensions.Primitives": "9.0.10"
+          "Microsoft.Extensions.Primitives": "10.0.1"
         },
         "runtime": {
           "lib/net9.0/Microsoft.Extensions.Configuration.Abstractions.dll": {
@@ -1414,6 +1415,17 @@
           }
         }
       },
+      "Microsoft.Extensions.FileProviders.Abstractions/10.0.1": {
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "10.0.1"
+        },
+        "runtime": {
+          "lib/net9.0/Microsoft.Extensions.FileProviders.Abstractions.dll": {
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.125.57005"
+          }
+        }
+      },
       "Microsoft.Extensions.Logging/9.0.10": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection": "9.0.10",
@@ -1441,7 +1453,7 @@
       "Microsoft.Extensions.Options/9.0.10": {
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "9.0.10",
-          "Microsoft.Extensions.Primitives": "9.0.10"
+          "Microsoft.Extensions.Primitives": "10.0.1"
         },
         "runtime": {
           "lib/net9.0/Microsoft.Extensions.Options.dll": {
@@ -1450,11 +1462,11 @@
           }
         }
       },
-      "Microsoft.Extensions.Primitives/9.0.10": {
+      "Microsoft.Extensions.Primitives/10.0.1": {
         "runtime": {
           "lib/net9.0/Microsoft.Extensions.Primitives.dll": {
-            "assemblyVersion": "9.0.0.0",
-            "fileVersion": "9.0.1025.47515"
+            "assemblyVersion": "10.0.0.0",
+            "fileVersion": "10.0.125.57005"
           }
         }
       },
@@ -2914,6 +2926,13 @@
       "path": "microsoft.extensions.dependencymodel/9.0.10",
       "hashPath": "microsoft.extensions.dependencymodel.9.0.10.nupkg.sha512"
     },
+    "Microsoft.Extensions.FileProviders.Abstractions/10.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+b3DligYSZuoWltU5YdbMpIEUHNZPgPrzWfNiIuDkMdqOl93UxYB5KzS3lgpRfTXJhTNpo/CZ8w/sTkDTPDdxQ==",
+      "path": "microsoft.extensions.fileproviders.abstractions/10.0.1",
+      "hashPath": "microsoft.extensions.fileproviders.abstractions.10.0.1.nupkg.sha512"
+    },
     "Microsoft.Extensions.Logging/9.0.10": {
       "type": "package",
       "serviceable": true,
@@ -2935,12 +2954,12 @@
       "path": "microsoft.extensions.options/9.0.10",
       "hashPath": "microsoft.extensions.options.9.0.10.nupkg.sha512"
     },
-    "Microsoft.Extensions.Primitives/9.0.10": {
+    "Microsoft.Extensions.Primitives/10.0.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-3pl8D1O5ZwMpDkZAT2uXrhQ6NipkwEgDLMFuURiHTf72TvkoMP61QYH3Vk1yrzVHnHBdNZk3cQACz8Zc7YGNhQ==",
-      "path": "microsoft.extensions.primitives/9.0.10",
-      "hashPath": "microsoft.extensions.primitives.9.0.10.nupkg.sha512"
+      "sha512": "sha512-DO8XrJkp5x4PddDuc/CH37yDBCs9BYN6ijlKyR3vMb55BP1Vwh90vOX8bNfnKxr5B2qEI3D8bvbY1fFbDveDHQ==",
+      "path": "microsoft.extensions.primitives/10.0.1",
+      "hashPath": "microsoft.extensions.primitives.10.0.1.nupkg.sha512"
     },
     "Microsoft.Identity.Client/4.61.3": {
       "type": "package",
