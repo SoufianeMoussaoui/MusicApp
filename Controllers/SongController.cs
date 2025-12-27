@@ -66,7 +66,7 @@ namespace musicApp.Controllers
             }
             else
             {
-                
+
                 var playback = new UserPlayback
                 {
                     UserId = userId,
@@ -107,6 +107,7 @@ namespace musicApp.Controllers
             {
                 return Json(new { success = false, message = "Song not found" });
             }
+
             var existingDownload = await _context.Download
                 .FirstOrDefaultAsync(d => d.UserId == userId && d.SongId == id);
 
@@ -128,22 +129,38 @@ namespace musicApp.Controllers
                     Console.WriteLine($"User {userId} downloaded song {id} at {DateTime.UtcNow}");
                 }
 
-                var filePath = song.FilePath?.Replace("/home/soufiane/Music", "/music") ?? "";
-                return Json(new
+                // Get the actual file path
+                var filePath = song.FilePath?.Replace("/home/soufiane/Music", "/home/soufiane/Music") ?? "";
+                // Note: You might need to adjust this path based on your actual file structure
+
+                if (!System.IO.File.Exists(filePath))
                 {
-                    success = true,
-                    message = "Song ready for download",
-                    downloadUrl = Url.Action("GetSongFile", "Song", new { id = id }),
-                    fileName = $"{song.Title}.mp3"
-                });
+                    // Try alternative path
+                    filePath = song.FilePath?.Replace("/music", "/home/soufiane/Music") ?? "";
+
+                    if (!System.IO.File.Exists(filePath))
+                    {
+                        Console.WriteLine($"File not found at: {filePath}");
+                        Console.WriteLine($"Original path: {song.FilePath}");
+                        return Json(new { success = false, message = "Audio file not found on server" });
+                    }
+                }
+
+                var fileInfo = new FileInfo(filePath);
+                var contentType = GetContentType(fileInfo.Extension);
+                var fileName = $"{song.Title?.Replace(" ", "_") ?? "song"}{fileInfo.Extension}";
+
+                var fileBytes = await System.IO.File.ReadAllBytesAsync(filePath);
+
+                return File(fileBytes, contentType, fileName);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Download error: {ex.Message}");
+                Console.WriteLine($"Stack trace: {ex.StackTrace}");
                 return Json(new { success = false, message = "An error occurred while processing download" });
             }
         }
-
         [HttpGet]
         public async Task<IActionResult> GetSongFile(int id)
         {
@@ -222,7 +239,7 @@ namespace musicApp.Controllers
         {
             return _context.Song.Any(e => e.SongId == id);
         }
-                [HttpPost]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddToPlaylist(int songId, int playlistId)
         {
@@ -302,7 +319,7 @@ namespace musicApp.Controllers
                 .OrderByDescending(ps => ps.OrderPosition)
                 .Select(ps => ps.OrderPosition)
                 .FirstOrDefaultAsync();
-            
+
             return maxPosition + 1;
         }
 
