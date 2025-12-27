@@ -222,5 +222,255 @@ namespace musicApp.Controllers
         {
             return _context.Song.Any(e => e.SongId == id);
         }
+                [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddToPlaylist(int songId, int playlistId)
+        {
+            try
+            {
+                Console.WriteLine($"=== AddToPlaylist Called ===");
+                Console.WriteLine($"SongId: {songId}, PlaylistId: {playlistId}");
+
+                var userIdString = HttpContext.Session.GetString("UserId");
+                if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
+                {
+                    Console.WriteLine("User not authenticated");
+                    return Json(new { success = false, message = "Please login to add songs to playlists" });
+                }
+
+                // Verify the playlist belongs to the user
+                var playlist = await _context.Playlist
+                    .FirstOrDefaultAsync(p => p.PlaylistId == playlistId && p.UserId == userId);
+
+                if (playlist == null)
+                {
+                    Console.WriteLine($"Playlist {playlistId} not found or doesn't belong to user {userId}");
+                    return Json(new { success = false, message = "Playlist not found or access denied" });
+                }
+
+                // Verify the song exists
+                var song = await _context.Song.FindAsync(songId);
+                if (song == null)
+                {
+                    Console.WriteLine($"Song {songId} not found");
+                    return Json(new { success = false, message = "Song not found" });
+                }
+
+                // Check if song is already in the playlist
+                var existingEntry = await _context.PlaylistSong
+                    .FirstOrDefaultAsync(ps => ps.PlaylistId == playlistId && ps.SongId == songId);
+
+                if (existingEntry != null)
+                {
+                    Console.WriteLine($"Song {songId} already in playlist {playlistId}");
+                    return Json(new { success = false, message = $"'{song.Title}' is already in '{playlist.Name}'" });
+                }
+
+                // Add song to playlist - use CreatedAt instead of AddedAt
+                var playlistSong = new PlaylistSong
+                {
+                    PlaylistId = playlistId,
+                    SongId = songId,
+                    OrderPosition = await GetNextOrderPosition(playlistId),
+                    CreatedAt = DateTime.UtcNow  // Changed from AddedAt to CreatedAt
+                };
+
+                _context.PlaylistSong.Add(playlistSong);
+                await _context.SaveChangesAsync();
+
+                Console.WriteLine($"Successfully added song {songId} to playlist {playlistId}");
+
+                return Json(new
+                {
+                    success = true,
+                    message = $"'{song.Title}' added to '{playlist.Name}' successfully!",
+                    playlistName = playlist.Name
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding song to playlist: {ex.Message}");
+                Console.WriteLine($"Stack trace: {ex.StackTrace}");
+                return Json(new { success = false, message = $"An error occurred: {ex.Message}" });
+            }
+        }
+
+        private async Task<int> GetNextOrderPosition(int playlistId)
+        {
+            var maxPosition = await _context.PlaylistSong
+                .Where(ps => ps.PlaylistId == playlistId)
+                .OrderByDescending(ps => ps.OrderPosition)
+                .Select(ps => ps.OrderPosition)
+                .FirstOrDefaultAsync();
+            
+            return maxPosition + 1;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUserPlaylistsForSong(int songId)
+        {
+            try
+            {
+                var userIdString = HttpContext.Session.GetString("UserId");
+                if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
+                {
+                    return Json(new { success = false, message = "Please login to view playlists" });
+                }
+
+                // Get user's playlists
+                var playlists = await _context.Playlist
+                    .Where(p => p.UserId == userId)
+                    .OrderBy(p => p.Name)
+                    .Select(p => new
+                    {
+                        p.PlaylistId,
+                        p.Name,
+                        p.Description,
+                        // Get song count by querying PlaylistSong table directly
+                        SongCount = _context.PlaylistSong.Count(ps => ps.PlaylistId == p.PlaylistId),
+                        // Check if song exists in playlist by querying PlaylistSong table
+                        HasSong = _context.PlaylistSong.Any(ps => ps.PlaylistId == p.PlaylistId && ps.SongId == songId)
+                    })
+                    .ToListAsync();
+
+                return Json(new { success = true, playlists });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error getting playlists: {ex.Message}");
+                return Json(new { success = false, message = "Error loading playlists" });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> QuickCreatePlaylist(string name, string description = "", int? songId = null)
+        {
+            try
+            {
+                Console.WriteLine($"=== QuickCreatePlaylist Called ===");
+                Console.WriteLine($"Name: '{name}', Description: '{description}', SongId: {songId}");
+
+                var userIdString = HttpContext.Session.GetString("UserId");
+                if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
+                {
+                    Console.WriteLine("User not authenticated");
+                    return Json(new { success = false, message = "Please login to create playlists" });
+                }
+
+                if (string.IsNullOrEmpty(name?.Trim()))
+                {
+                    return Json(new { success = false, message = "Playlist name is required" });
+                }
+
+                // Check if playlist with same name already exists for this user
+                var existingPlaylist = await _context.Playlist
+                    .FirstOrDefaultAsync(p => p.UserId == userId && p.Name.ToLower() == name.Trim().ToLower());
+
+                if (existingPlaylist != null)
+                {
+                    // If songId is provided, add song to existing playlist
+                    if (songId.HasValue)
+                    {
+                        var song = await _context.Song.FindAsync(songId.Value);
+                        if (song != null)
+                        {
+                            // Check if song already in playlist
+                            var existingEntry = await _context.PlaylistSong
+                                .FirstOrDefaultAsync(ps => ps.PlaylistId == existingPlaylist.PlaylistId && ps.SongId == songId.Value);
+
+                            if (existingEntry == null)
+                            {
+                                var playlistSong = new PlaylistSong
+                                {
+                                    PlaylistId = existingPlaylist.PlaylistId,
+                                    SongId = songId.Value,
+                                    OrderPosition = await GetNextOrderPosition(existingPlaylist.PlaylistId),
+                                    CreatedAt = DateTime.UtcNow  // Changed from AddedAt to CreatedAt
+                                };
+
+                                _context.PlaylistSong.Add(playlistSong);
+                                await _context.SaveChangesAsync();
+
+                                return Json(new
+                                {
+                                    success = true,
+                                    playlistId = existingPlaylist.PlaylistId,
+                                    playlistName = existingPlaylist.Name,
+                                    message = $"Song added to existing playlist '{existingPlaylist.Name}'"
+                                });
+                            }
+                            else
+                            {
+                                return Json(new
+                                {
+                                    success = false,
+                                    message = $"Song already exists in playlist '{existingPlaylist.Name}'"
+                                });
+                            }
+                        }
+                    }
+
+                    return Json(new
+                    {
+                        success = false,
+                        message = $"Playlist '{name}' already exists"
+                    });
+                }
+
+                // Create new playlist
+                var playlist = new Playlist
+                {
+                    UserId = userId,
+                    Name = name.Trim(),
+                    Description = description?.Trim(),
+                    CreatedAt = DateTime.UtcNow
+                };
+
+                _context.Playlist.Add(playlist);
+                await _context.SaveChangesAsync();
+
+                Console.WriteLine($"Playlist created with ID: {playlist.PlaylistId}");
+
+                // If songId is provided, add song to the new playlist
+                if (songId.HasValue)
+                {
+                    var song = await _context.Song.FindAsync(songId.Value);
+                    if (song != null)
+                    {
+                        var playlistSong = new PlaylistSong
+                        {
+                            PlaylistId = playlist.PlaylistId,
+                            SongId = songId.Value,
+                            OrderPosition = 0, // First song in new playlist
+                            CreatedAt = DateTime.UtcNow  // Changed from AddedAt to CreatedAt
+                        };
+
+                        _context.PlaylistSong.Add(playlistSong);
+                        await _context.SaveChangesAsync();
+
+                        Console.WriteLine($"Song {songId.Value} added to new playlist");
+                    }
+                }
+
+                return Json(new
+                {
+                    success = true,
+                    playlistId = playlist.PlaylistId,
+                    playlistName = playlist.Name,
+                    message = $"Playlist '{playlist.Name}' created successfully!"
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error creating playlist: {ex.Message}");
+                Console.WriteLine($"Stack trace: {ex.StackTrace}");
+                return Json(new
+                {
+                    success = false,
+                    message = $"An error occurred: {ex.Message}"
+                });
+            }
+        }
     }
 }
