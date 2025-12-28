@@ -8178,11 +8178,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/soufiane/School/Net/musicApp/musicApp.csproj",
+      "projectUniqueName": "/home/soufiane/School/Net/MusicFlow/musicApp.csproj",
       "projectName": "musicApp",
-      "projectPath": "/home/soufiane/School/Net/musicApp/musicApp.csproj",
+      "projectPath": "/home/soufiane/School/Net/MusicFlow/musicApp.csproj",
       "packagesPath": "/home/soufiane/.nuget/packages/",
-      "outputPath": "/home/soufiane/School/Net/musicApp/obj/",
+      "outputPath": "/home/soufiane/School/Net/MusicFlow/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/soufiane/.nuget/NuGet/NuGet.Config"
@@ -8271,7 +8271,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/home/soufiane/School/Net/musicApp/dotnet9/sdk/9.0.308/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/home/soufiane/School/Net/MusicFlow/dotnet9/sdk/9.0.308/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

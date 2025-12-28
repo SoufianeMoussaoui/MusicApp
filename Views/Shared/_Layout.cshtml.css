@@ -203,3 +203,107 @@
  main {
      animation: fadeIn 0.5s ease-out;
  }
+
+
+ /* Search History Styles */
+.search-history-item {
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.search-history-item:hover {
+    transform: translateY(-1px);
+}
+
+.search-history-remove {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.2s ease;
+}
+
+.search-history-item:hover .search-history-remove {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Animation for new search items */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.search-history-item {
+    animation: slideInRight 0.3s ease-out;
+}
+
+.search-history-item:nth-child(1) { animation-delay: 0.05s; }
+.search-history-item:nth-child(2) { animation-delay: 0.1s; }
+.search-history-item:nth-child(3) { animation-delay: 0.15s; }
+.search-history-item:nth-child(4) { animation-delay: 0.2s; }
+.search-history-item:nth-child(5) { animation-delay: 0.25s; }
+
+/* Add these styles to your existing CSS file */
+
+.search-box {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.8) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(71, 85, 105, 0.3);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.search-box:focus-within {
+    border-color: rgba(168, 85, 247, 0.5);
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1), 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for no results message */
+.no-results {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: rgba(30, 41, 59, 0.5);
+    border-radius: var(--radius);
+    border: 2px dashed rgba(71, 85, 105, 0.3);
+}
+
+.no-results svg {
+    margin: 0 auto 1rem;
+    color: rgba(148, 163, 184, 0.5);
+}
+
+/* Animation for search results */
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.search-results {
+    animation: slideUp 0.3s ease-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .search-box .flex {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .search-box .flex > * {
+        width: 100%;
+    }
+    
+    .search-box button {
+        justify-content: center;
+    }
+}

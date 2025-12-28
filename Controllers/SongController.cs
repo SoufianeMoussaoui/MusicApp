@@ -25,6 +25,7 @@ namespace musicApp.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("UserId"));
+            ViewBag.ShowSearchBar = true;
 
             if (!isAuthenticated)
             {

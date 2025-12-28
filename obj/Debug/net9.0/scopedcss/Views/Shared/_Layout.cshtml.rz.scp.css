@@ -203,3 +203,107 @@
  main[b-kkkyaojmgg] {
      animation: fadeIn-b-kkkyaojmgg 0.5s ease-out;
  }
+
+
+ /* Search History Styles */
+.search-history-item[b-kkkyaojmgg] {
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.search-history-item:hover[b-kkkyaojmgg] {
+    transform: translateY(-1px);
+}
+
+.search-history-remove[b-kkkyaojmgg] {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.2s ease;
+}
+
+.search-history-item:hover .search-history-remove[b-kkkyaojmgg] {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Animation for new search items */
+@keyframes slideInRight-b-kkkyaojmgg {
+    from {
+        opacity: 0;
+        transform: translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.search-history-item[b-kkkyaojmgg] {
+    animation: slideInRight-b-kkkyaojmgg 0.3s ease-out;
+}
+
+.search-history-item:nth-child(1)[b-kkkyaojmgg] { animation-delay: 0.05s; }
+.search-history-item:nth-child(2)[b-kkkyaojmgg] { animation-delay: 0.1s; }
+.search-history-item:nth-child(3)[b-kkkyaojmgg] { animation-delay: 0.15s; }
+.search-history-item:nth-child(4)[b-kkkyaojmgg] { animation-delay: 0.2s; }
+.search-history-item:nth-child(5)[b-kkkyaojmgg] { animation-delay: 0.25s; }
+
+/* Add these styles to your existing CSS file */
+
+.search-box[b-kkkyaojmgg] {
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.8) 0%, rgba(30, 41, 59, 0.8) 100%);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(71, 85, 105, 0.3);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.search-box:focus-within[b-kkkyaojmgg] {
+    border-color: rgba(168, 85, 247, 0.5);
+    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1), 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for no results message */
+.no-results[b-kkkyaojmgg] {
+    text-align: center;
+    padding: 3rem 2rem;
+    background: rgba(30, 41, 59, 0.5);
+    border-radius: var(--radius);
+    border: 2px dashed rgba(71, 85, 105, 0.3);
+}
+
+.no-results svg[b-kkkyaojmgg] {
+    margin: 0 auto 1rem;
+    color: rgba(148, 163, 184, 0.5);
+}
+
+/* Animation for search results */
+@keyframes slideUp-b-kkkyaojmgg {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.search-results[b-kkkyaojmgg] {
+    animation: slideUp-b-kkkyaojmgg 0.3s ease-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    .search-box .flex[b-kkkyaojmgg] {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    
+    .search-box .flex > *[b-kkkyaojmgg] {
+        width: 100%;
+    }
+    
+    .search-box button[b-kkkyaojmgg] {
+        justify-content: center;
+    }
+}

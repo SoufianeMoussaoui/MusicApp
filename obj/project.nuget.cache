@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Jp1tTh1YURE=",
+  "dgSpecHash": "IrWyOu7dJVA=",
   "success": true,
-  "projectFilePath": "/home/soufiane/School/Net/musicApp/musicApp.csproj",
+  "projectFilePath": "/home/soufiane/School/Net/MusicFlow/musicApp.csproj",
   "expectedPackageFiles": [
     "/home/soufiane/.nuget/packages/azure.core/1.38.0/azure.core.1.38.0.nupkg.sha512",
     "/home/soufiane/.nuget/packages/azure.identity/1.11.4/azure.identity.1.11.4.nupkg.sha512",

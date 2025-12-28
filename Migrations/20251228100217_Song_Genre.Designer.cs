@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using musicApp.Data;
@@ -12,9 +13,11 @@ using musicApp.Data;
 namespace musicApp.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251228100217_Song_Genre")]
+    partial class Song_Genre
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,6 +48,9 @@ namespace musicApp.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
+                    b.Property<int?>("DiscoverViewModelId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("ReleaseYear")
                         .HasColumnType("integer")
                         .HasColumnName("release_year");
@@ -60,7 +66,38 @@ namespace musicApp.Migrations
 
                     b.HasKey("AlbumId");
 
+                    b.HasIndex("DiscoverViewModelId");
+
                     b.ToTable("Album");
+                });
+
+            modelBuilder.Entity("musicApp.Models.DiscoverViewModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("IsAuthenticated")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("SearchTerm")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("UnreadNotifications")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("UserEmail")
+                        .HasColumnType("text");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DiscoverViewModels");
                 });
 
             modelBuilder.Entity("musicApp.Models.Download", b =>
@@ -214,48 +251,6 @@ namespace musicApp.Migrations
                     b.ToTable("playlist_songs");
                 });
 
-            modelBuilder.Entity("musicApp.Models.SearchHistory", b =>
-                {
-                    b.Property<int>("SearchHistoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("search_history_id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("SearchHistoryId"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<int>("ResultCount")
-                        .HasColumnType("integer")
-                        .HasColumnName("result_count");
-
-                    b.Property<string>("SearchTerm")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("search_term");
-
-                    b.Property<string>("SearchType")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("search_type");
-
-                    b.Property<string>("SessionId")
-                        .HasColumnType("text")
-                        .HasColumnName("session_id");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("integer")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("SearchHistoryId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("search_history");
-                });
-
             modelBuilder.Entity("musicApp.Models.Song", b =>
                 {
                     b.Property<int>("SongId")
@@ -275,6 +270,9 @@ namespace musicApp.Migrations
                     b.Property<string>("CoverPath")
                         .HasColumnType("text")
                         .HasColumnName("coverpath");
+
+                    b.Property<int?>("DiscoverViewModelId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("DurationSeconds")
                         .HasColumnType("integer");
@@ -306,6 +304,8 @@ namespace musicApp.Migrations
                     b.HasKey("SongId");
 
                     b.HasIndex("ArtistId");
+
+                    b.HasIndex("DiscoverViewModelId");
 
                     b.ToTable("Song");
                 });
@@ -415,13 +415,11 @@ namespace musicApp.Migrations
                     b.ToTable("artists");
                 });
 
-            modelBuilder.Entity("musicApp.Models.SearchHistory", b =>
+            modelBuilder.Entity("musicApp.Models.Album", b =>
                 {
-                    b.HasOne("musicApp.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
+                    b.HasOne("musicApp.Models.DiscoverViewModel", null)
+                        .WithMany("TrendingAlbums")
+                        .HasForeignKey("DiscoverViewModelId");
                 });
 
             modelBuilder.Entity("musicApp.Models.Song", b =>
@@ -429,6 +427,10 @@ namespace musicApp.Migrations
                     b.HasOne("musicApp.Models.Artist", "Artist")
                         .WithMany()
                         .HasForeignKey("ArtistId");
+
+                    b.HasOne("musicApp.Models.DiscoverViewModel", null)
+                        .WithMany("TrendingSongs")
+                        .HasForeignKey("DiscoverViewModelId");
 
                     b.Navigation("Artist");
                 });
@@ -440,6 +442,13 @@ namespace musicApp.Migrations
                         .HasForeignKey("musicApp.Models.Artist", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("musicApp.Models.DiscoverViewModel", b =>
+                {
+                    b.Navigation("TrendingAlbums");
+
+                    b.Navigation("TrendingSongs");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,7 +5,6 @@ namespace musicApp.Models
 {
     public class DiscoverViewModel
     {
-        [Key]
         public int Id {get; set;}
         public List<Song> TrendingSongs { get; set; } = new List<Song>();
         public List<Album> TrendingAlbums { get; set; } = new List<Album>();
@@ -13,5 +12,7 @@ namespace musicApp.Models
         public bool IsAuthenticated { get; set; } = false;
         public string? UserName { get; set; }
         public string? UserEmail { get; set; }
+        public string SearchTerm { get; set; } 
+        public List<SearchHistory> RecentSearches { get; set; } = new List<SearchHistory>(); 
     }
 }

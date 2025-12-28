@@ -29,6 +29,9 @@ public class Song
 
     public int AlbumId { get; set; }
 
+    [Column("genre")]
+    public string? Genre { get; set; }
+    
     [NotNull]
     public int DurationSeconds { get; set; }
     public int PlayCounts {get; set;} = 0;
