@@ -19,76 +19,112 @@ public class HomeController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Discover(string search)
+    public async Task<IActionResult> Discover(string search, string filter = "home", string genre = null)
     {
         try
         {
-            // Get user info from session
             var isAuthenticated = !string.IsNullOrEmpty(HttpContext.Session.GetString("UserId"));
             var userId = isAuthenticated ?
                 int.Parse(HttpContext.Session.GetString("UserId")!) : (int?)null;
             var userName = HttpContext.Session.GetString("UserName") ?? "";
             var userEmail = HttpContext.Session.GetString("UserEmail") ?? "";
             var sessionId = HttpContext.Session.Id;
-            
 
-            // Start with the base query
-            var songQuery = _context.Song.Include(s => s.Artist).AsQueryable();
-            var albumQuery = _context.Album.AsQueryable();
+            IQueryable<Song> songQuery = _context.Song.Include(s => s.Artist).AsQueryable();
+            IQueryable<Album> albumQuery = _context.Album.AsQueryable();
+
+            // Apply genre filter if provided
+            if (!string.IsNullOrEmpty(genre) && genre != "all")
+            {
+                songQuery = songQuery.Where(s => s.Genre != null && s.Genre.ToLower() == genre.ToLower());
+                // Note: Album might not have Genre in your model, adjust if needed
+            }
+
+            // Apply filter based on sidebar selection
+            switch (filter.ToLower())
+            {
+                case "trending-songs":
+                    songQuery = songQuery.OrderByDescending(s => s.PlayCounts);
+                    break;
+
+                case "trending-albums":
+                    // If Album has a popularity metric, use it. Otherwise use release year.
+                    albumQuery = albumQuery.OrderByDescending(a => a.ReleaseYear);
+                    break;
+
+                case "recently-added":
+                    songQuery = songQuery.OrderByDescending(s => s.UploadeAt);
+                    break;
+
+                case "top-songs":
+                    songQuery = songQuery.OrderByDescending(s => s.PlayCounts);
+                    break;
+
+                case "top-albums":
+                    albumQuery = albumQuery.OrderByDescending(a => a.ReleaseYear);
+                    break;
+
+                case "home":
+                default:
+                    // Default: trending songs + albums
+                    songQuery = songQuery.OrderByDescending(s => s.PlayCounts)
+                                        .ThenByDescending(s => s.UploadeAt);
+                    albumQuery = albumQuery.OrderByDescending(a => a.ReleaseYear);
+                    break;
+            }
 
             // Apply search filter if provided
             if (!string.IsNullOrEmpty(search))
             {
-                
-                ViewBag.ShowSearchBar = true;
                 await SaveSearchHistory(search, userId, sessionId);
-
-                // Convert search term to lowercase for case-insensitive comparison
                 var searchLower = search.ToLower();
 
-                // Case-insensitive search for songs
                 songQuery = songQuery.Where(s =>
                     (s.Title != null && s.Title.ToLower().Contains(searchLower)) ||
                     (s.Artist != null && s.Artist.Username != null &&
                      s.Artist.Username.ToLower().Contains(searchLower)) ||
                     (s.Genre != null && s.Genre.ToLower().Contains(searchLower)));
 
-                // Case-insensitive search for albums
                 albumQuery = albumQuery.Where(a =>
                     (a.Title != null && a.Title.ToLower().Contains(searchLower)) ||
                     (a.Artist != null && a.Artist.ToLower().Contains(searchLower)));
             }
 
-            var songs = await songQuery
-                .OrderByDescending(s => s.PlayCounts)
-                .ThenByDescending(s => s.UploadeAt)
-                .Take(12)
+            var songs = await songQuery.Take(12).ToListAsync();
+            var albums = await albumQuery.Take(6).ToListAsync();
+
+            // Get all unique genres for the sidebar
+            var allGenres = await _context.Song
+                .Where(s => s.Genre != null && s.Genre != "")
+                .Select(s => s.Genre!)
+                .Distinct()
+                .OrderBy(g => g)
                 .ToListAsync();
 
-            var albums = await albumQuery
-                .OrderByDescending(a => a.ReleaseYear)
-                .Take(6)
-                .ToListAsync();
-
-            // Get recent searches for this user/session
             var recentSearches = await GetRecentSearches(userId, sessionId);
 
             var viewModel = new DiscoverViewModel
             {
                 TrendingSongs = songs,
                 TrendingAlbums = albums,
-                RecentSearches = recentSearches, // Add recent searches
+                RecentSearches = recentSearches,
                 IsAuthenticated = isAuthenticated,
                 UserName = userName,
                 UserEmail = userEmail,
-                UnreadNotifications = 0,
-                SearchTerm = search ?? ""
+                SearchTerm = search ?? "",
+                CurrentFilter = filter,
+                CurrentGenre = genre,
+                AvailableGenres = allGenres // Add this to your DiscoverViewModel
             };
 
+            ViewBag.ShowSearchBar = true;
             ViewBag.IsAuthenticated = isAuthenticated;
             ViewBag.UserName = userName;
             ViewBag.UserEmail = userEmail;
             ViewBag.SearchTerm = search ?? "";
+            ViewBag.CurrentFilter = filter;
+            ViewBag.CurrentGenre = genre;
+            ViewBag.AvailableGenres = allGenres;
 
             return View(viewModel);
         }
@@ -98,6 +134,7 @@ public class HomeController : Controller
             ViewBag.IsAuthenticated = isAuthenticated;
             ViewBag.UserName = HttpContext.Session.GetString("UserName") ?? "";
             ViewBag.UserEmail = HttpContext.Session.GetString("UserEmail") ?? "";
+            ViewBag.ShowSearchBar = true;
             Console.WriteLine($"Error loading discover page: {ex.Message}");
             return View(new DiscoverViewModel());
         }

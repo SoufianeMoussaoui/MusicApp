@@ -12,7 +12,11 @@ namespace musicApp.Models
         public bool IsAuthenticated { get; set; } = false;
         public string? UserName { get; set; }
         public string? UserEmail { get; set; }
-        public string SearchTerm { get; set; } 
+        public string SearchTerm { get; set; } = "";
         public List<SearchHistory> RecentSearches { get; set; } = new List<SearchHistory>(); 
+        public List<string> AvailableGenres { get; set; } = new List<string>();
+
+        public string CurrentFilter { get; set; } = "home"; // Add this
+        public string? CurrentGenre { get; set; } // Add this
     }
 }

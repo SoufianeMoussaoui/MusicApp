@@ -119,24 +119,35 @@
 <div class="gradient-bg min-h-screen">
     
     <div class="flex">
-        <!-- Sidebar -->
-        <aside class="hidden lg:w-64 lg:flex lg:flex-col border-r border-slate-800 bg-slate-900/40 backdrop-blur sticky top-20 h-fit">
+             <aside class="hidden lg:w-64 lg:flex lg:flex-col border-r border-slate-800 bg-slate-900/40 backdrop-blur sticky top-20 h-fit">
             <nav class="p-6 space-y-8">
                 <!-- Browse Section -->
                 <div>
                     <h3 class="text-xs font-bold text-amber-500 uppercase tracking-widest mb-4">Browse</h3>
                     <ul class="space-y-3">
                         <li>
-                            <a href="#" class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Home</a>
+                            <a href="@Url.Action("Discover", "Home", new { filter = "home", genre = Model.CurrentGenre, search = Model.SearchTerm })" 
+                               class="sidebar-item block px-4 py-2 @(Model.CurrentFilter == "home" ? "bg-purple-900/30 text-white border-l-2 border-purple-500" : "text-slate-300 hover:text-white") font-medium rounded-lg transition-all duration-200">
+                                Home
+                            </a>
                         </li>
                         <li>
-                            <a href="#" class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Trending Songs</a>
+                            <a href="@Url.Action("Discover", "Home", new { filter = "trending-songs", genre = Model.CurrentGenre, search = Model.SearchTerm })" 
+                               class="sidebar-item block px-4 py-2 @(Model.CurrentFilter == "trending-songs" ? "bg-purple-900/30 text-white border-l-2 border-purple-500" : "text-slate-300 hover:text-white") font-medium rounded-lg transition-all duration-200">
+                                Trending Songs
+                            </a>
                         </li>
                         <li>
-                            <a href="#" class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Trending Albums</a>
+                            <a href="@Url.Action("Discover", "Home", new { filter = "trending-albums", genre = Model.CurrentGenre, search = Model.SearchTerm })" 
+                               class="sidebar-item block px-4 py-2 @(Model.CurrentFilter == "trending-albums" ? "bg-purple-900/30 text-white border-l-2 border-purple-500" : "text-slate-300 hover:text-white") font-medium rounded-lg transition-all duration-200">
+                                Trending Albums
+                            </a>
                         </li>
                         <li>
-                            <a href="#" class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Recently Added</a>
+                            <a href="@Url.Action("Discover", "Home", new { filter = "recently-added", genre = Model.CurrentGenre, search = Model.SearchTerm })" 
+                               class="sidebar-item block px-4 py-2 @(Model.CurrentFilter == "recently-added" ? "bg-purple-900/30 text-white border-l-2 border-purple-500" : "text-slate-300 hover:text-white") font-medium rounded-lg transition-all duration-200">
+                                Recently Added
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -146,10 +157,16 @@
                     <h3 class="text-xs font-bold text-amber-500 uppercase tracking-widest mb-4">Charts</h3>
                     <ul class="space-y-3">
                         <li>
-                            <a href="#" class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Top Songs</a>
+                            <a href="@Url.Action("Discover", "Home", new { filter = "top-songs", genre = Model.CurrentGenre, search = Model.SearchTerm })" 
+                               class="sidebar-item block px-4 py-2 @(Model.CurrentFilter == "top-songs" ? "bg-purple-900/30 text-white border-l-2 border-purple-500" : "text-slate-300 hover:text-white") font-medium rounded-lg transition-all duration-200">
+                                Top Songs
+                            </a>
                         </li>
                         <li>
-                            <a href="#" class="sidebar-item block px-4 py-2 text-slate-300 hover:text-white font-medium rounded-lg">Top Albums</a>
+                            <a href="@Url.Action("Discover", "Home", new { filter = "top-albums", genre = Model.CurrentGenre, search = Model.SearchTerm })" 
+                               class="sidebar-item block px-4 py-2 @(Model.CurrentFilter == "top-albums" ? "bg-purple-900/30 text-white border-l-2 border-purple-500" : "text-slate-300 hover:text-white") font-medium rounded-lg transition-all duration-200">
+                                Top Albums
+                            </a>
                         </li>
                     </ul>
                 </div>
@@ -158,10 +175,38 @@
                 <div>
                     <h3 class="text-xs font-bold text-amber-500 uppercase tracking-widest mb-4">Genres</h3>
                     <div class="flex flex-wrap gap-2">
-                        <button class="genre-badge">All Genres</button>
-                        <button class="genre-badge">Hip-Hop</button>
-                        <button class="genre-badge">Pop</button>
-                        <button class="genre-badge">Rock</button>
+                        <a href="@Url.Action("Discover", "Home", new { filter = Model.CurrentFilter, genre = "all", search = Model.SearchTerm })" 
+                           class="genre-badge @(string.IsNullOrEmpty(Model.CurrentGenre) || Model.CurrentGenre == "all" ? "bg-purple-900 text-white border-purple-500" : "")">
+                            All Genres
+                        </a>
+                        
+                        @foreach (var genre in Model.AvailableGenres.Take(8))
+                        {
+                            <a href="@Url.Action("Discover", "Home", new { filter = Model.CurrentFilter, genre = genre, search = Model.SearchTerm })" 
+                               class="genre-badge @(Model.CurrentGenre == genre ? "bg-purple-900 text-white border-purple-500" : "")">
+                                @genre
+                            </a>
+                        }
+                        
+                        @if (Model.AvailableGenres.Count > 8)
+                        {
+                            <div class="relative group">
+                                <button class="genre-badge">
+                                    More...
+                                </button>
+                                <div class="absolute left-0 mt-2 w-48 bg-slate-800 border border-slate-700 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10">
+                                    <div class="p-2 max-h-64 overflow-y-auto">
+                                        @foreach (var genre in Model.AvailableGenres.Skip(8))
+                                        {
+                                            <a href="@Url.Action("Discover", "Home", new { filter = Model.CurrentFilter, genre = genre, search = Model.SearchTerm })" 
+                                               class="block px-3 py-2 text-sm text-slate-300 hover:text-white hover:bg-slate-700 rounded transition-colors">
+                                                @genre
+                                            </a>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </nav>

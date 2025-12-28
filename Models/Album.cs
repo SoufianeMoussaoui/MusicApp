@@ -22,6 +22,9 @@ public class Album
     [Column("release_year")]
     public int ReleaseYear { get; set; }
     
+    [Column("genre")]
+    public string? Genre { get; set; }
+    
     [Column("cover_image")]
     public string? CoverImage { get; set; }
     
