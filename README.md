@@ -1,51 +1,109 @@
-# Music App
+# Music App - Setup Guide
 
-A simple music streaming application built with React.
+This repository contains a Music Streaming Application built with ASP.NET Core MVC. Follow the instructions below to set up and run the project locally.
 
-## Installation
+---
 
-### Prerequisites
+## 🧰 Prerequisites
 
-- Node.js (v14 or higher)
-- npm or yarn
+Make sure you have the following installed:
 
-### Steps
+- .NET 9.0 SDK or higher
+- Visual Studio 2022 or Visual Studio Code
+- PostgreSQL 9.0 or higher
+- Git
 
-1. Clone the repository
+---
+
+## 🚀 Installation
+
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/Dom-Akz/MusicApp.git
 cd MusicApp
 ```
 
-2. Install dependencies
+### 2. Restore dependencies
 
 ```bash
-npm install
-# or
-yarn install
+dotnet restore
 ```
 
-3. Start the development server
+### 3. Update database connection string
+
+Update the connection string in `appsettings.json` to match your database configuration.
+
+### 4. Apply database migrations
 
 ```bash
-npm start
-# or
-yarn start
+dotnet ef database update
 ```
 
-4. Open your browser and navigate to `http://localhost:3000`
-
-## Build for Production
+### 5. Run the application
 
 ```bash
-npm run build
-# or
-yarn build
+dotnet run
 ```
 
-This will create an optimized production build in the `build` folder.
+Open your browser at https://localhost:5001 or http://localhost:5000 to view the project.
 
-## License
+---
 
-This project is open source and available under the MIT License.
+## 🏗️ Build for Production
+
+Build the app for production:
+
+```bash
+dotnet build --configuration Release
+```
+
+Publish the application:
+
+```bash
+dotnet publish --configuration Release --output ./publish
+```
+
+---
+
+## 🧪 Running Tests
+
+Run tests using:
+
+```bash
+dotnet test
+```
+
+---
+
+## ⚙️ Configuration
+
+Update configuration settings in `appsettings.json` and `appsettings.Development.json` as needed. Configure your database connection string and other application settings here.
+
+---
+
+## 📁 Project Structure
+
+```
+MusicApp/
+├── Controllers/
+│   └── ...
+├── Models/
+│   └── ...
+├── Views/
+│   └── ...
+├── Data/
+│   └── ...
+├── Migrations/
+│   └── ...
+├── wwwroot/
+│   ├── css/
+│   ├── js/
+│   └── ...
+├── Program.cs
+├── appsettings.json
+├── musicApp.csproj
+└── README.md
+```
+
+---
