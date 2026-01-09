@@ -132,7 +132,6 @@ namespace musicApp.Controllers
 
                 // Get the actual file path
                 var filePath = song.FilePath?.Replace("/home/soufiane/Music", "/home/soufiane/Music") ?? "";
-                // Note: You might need to adjust this path based on your actual file structure
 
                 if (!System.IO.File.Exists(filePath))
                 {
@@ -246,13 +245,10 @@ namespace musicApp.Controllers
         {
             try
             {
-                Console.WriteLine($"=== AddToPlaylist Called ===");
-                Console.WriteLine($"SongId: {songId}, PlaylistId: {playlistId}");
 
                 var userIdString = HttpContext.Session.GetString("UserId");
                 if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
                 {
-                    Console.WriteLine("User not authenticated");
                     return Json(new { success = false, message = "Please login to add songs to playlists" });
                 }
 
@@ -262,7 +258,6 @@ namespace musicApp.Controllers
 
                 if (playlist == null)
                 {
-                    Console.WriteLine($"Playlist {playlistId} not found or doesn't belong to user {userId}");
                     return Json(new { success = false, message = "Playlist not found or access denied" });
                 }
 
@@ -270,7 +265,6 @@ namespace musicApp.Controllers
                 var song = await _context.Song.FindAsync(songId);
                 if (song == null)
                 {
-                    Console.WriteLine($"Song {songId} not found");
                     return Json(new { success = false, message = "Song not found" });
                 }
 
@@ -280,17 +274,15 @@ namespace musicApp.Controllers
 
                 if (existingEntry != null)
                 {
-                    Console.WriteLine($"Song {songId} already in playlist {playlistId}");
                     return Json(new { success = false, message = $"'{song.Title}' is already in '{playlist.Name}'" });
                 }
 
-                // Add song to playlist - use CreatedAt instead of AddedAt
                 var playlistSong = new PlaylistSong
                 {
                     PlaylistId = playlistId,
                     SongId = songId,
                     OrderPosition = await GetNextOrderPosition(playlistId),
-                    CreatedAt = DateTime.UtcNow  // Changed from AddedAt to CreatedAt
+                    CreatedAt = DateTime.UtcNow  
                 };
 
                 _context.PlaylistSong.Add(playlistSong);
@@ -307,8 +299,6 @@ namespace musicApp.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error adding song to playlist: {ex.Message}");
-                Console.WriteLine($"Stack trace: {ex.StackTrace}");
                 return Json(new { success = false, message = $"An error occurred: {ex.Message}" });
             }
         }
@@ -344,9 +334,7 @@ namespace musicApp.Controllers
                         p.PlaylistId,
                         p.Name,
                         p.Description,
-                        // Get song count by querying PlaylistSong table directly
                         SongCount = _context.PlaylistSong.Count(ps => ps.PlaylistId == p.PlaylistId),
-                        // Check if song exists in playlist by querying PlaylistSong table
                         HasSong = _context.PlaylistSong.Any(ps => ps.PlaylistId == p.PlaylistId && ps.SongId == songId)
                     })
                     .ToListAsync();
@@ -366,13 +354,9 @@ namespace musicApp.Controllers
         {
             try
             {
-                Console.WriteLine($"=== QuickCreatePlaylist Called ===");
-                Console.WriteLine($"Name: '{name}', Description: '{description}', SongId: {songId}");
-
                 var userIdString = HttpContext.Session.GetString("UserId");
                 if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
                 {
-                    Console.WriteLine("User not authenticated");
                     return Json(new { success = false, message = "Please login to create playlists" });
                 }
 
@@ -404,7 +388,7 @@ namespace musicApp.Controllers
                                     PlaylistId = existingPlaylist.PlaylistId,
                                     SongId = songId.Value,
                                     OrderPosition = await GetNextOrderPosition(existingPlaylist.PlaylistId),
-                                    CreatedAt = DateTime.UtcNow  // Changed from AddedAt to CreatedAt
+                                    CreatedAt = DateTime.UtcNow 
                                 };
 
                                 _context.PlaylistSong.Add(playlistSong);
@@ -448,8 +432,6 @@ namespace musicApp.Controllers
                 _context.Playlist.Add(playlist);
                 await _context.SaveChangesAsync();
 
-                Console.WriteLine($"Playlist created with ID: {playlist.PlaylistId}");
-
                 // If songId is provided, add song to the new playlist
                 if (songId.HasValue)
                 {
@@ -461,13 +443,11 @@ namespace musicApp.Controllers
                             PlaylistId = playlist.PlaylistId,
                             SongId = songId.Value,
                             OrderPosition = 0, // First song in new playlist
-                            CreatedAt = DateTime.UtcNow  // Changed from AddedAt to CreatedAt
+                            CreatedAt = DateTime.UtcNow  
                         };
 
                         _context.PlaylistSong.Add(playlistSong);
                         await _context.SaveChangesAsync();
-
-                        Console.WriteLine($"Song {songId.Value} added to new playlist");
                     }
                 }
 
@@ -481,8 +461,6 @@ namespace musicApp.Controllers
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error creating playlist: {ex.Message}");
-                Console.WriteLine($"Stack trace: {ex.StackTrace}");
                 return Json(new
                 {
                     success = false,

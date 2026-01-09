@@ -86,7 +86,7 @@
                         </div>
                     }
 
-                    @* Error Message *@
+                    
                     @if (TempData["ErrorMessage"] != null)
                     {
                         <div class="bg-red-500/10 border border-red-500/50 rounded-lg p-4 mb-4 flex items-start gap-3 animate-fade-in">
@@ -126,7 +126,6 @@
                         <span id="username-error" class="text-red-400 text-sm mt-1 block"></span>
                     </div>
 
-                    <!-- Password Field -->
                     <div>
                         <label for="password" class="block text-sm font-semibold text-slate-200 mb-2">
                             Password
@@ -155,7 +154,6 @@
                         <span id="password-error" class="text-red-400 text-sm mt-1 block"></span>
                     </div>
 
-                    <!-- Remember Me Checkbox -->
                     <div class="flex items-center pt-2">
                         <input 
                             type="checkbox" 
@@ -174,7 +172,6 @@
                     </button>
                 </form>
 
-                <!-- Divider -->
                 <div class="relative my-6">
                     <div class="absolute inset-0 flex items-center">
                         <div class="w-full border-t border-slate-700"></div>
@@ -201,7 +198,6 @@
 
 @section Scripts {
     <script>
-        // Password visibility toggle
         function togglePasswordVisibility() {
             const passwordInput = document.getElementById('Password');
             const eyeIcon = document.getElementById('eye-icon');
@@ -219,8 +215,6 @@
                 `;
             }
         }
-
-        // Form submission with loading state
         document.getElementById('loginForm').addEventListener('submit', function(e) {
             const submitBtn = document.getElementById('submitBtn');
             const btnText = document.getElementById('btnText');

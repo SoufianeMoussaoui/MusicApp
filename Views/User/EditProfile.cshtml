@@ -94,27 +94,21 @@
                 }
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                    <!-- Username -->
                     <div>
                         <label asp-for="Username" class="form-label">Username *</label>
                         <input asp-for="Username" class="form-input" required />
                         <span asp-validation-for="Username" class="text-red-400 text-sm"></span>
                     </div>
-
-                    <!-- Email -->
                     <div>
                         <label asp-for="Email" class="form-label">Email *</label>
                         <input asp-for="Email" type="email" class="form-input" required />
                         <span asp-validation-for="Email" class="text-red-400 text-sm"></span>
                     </div>
 
-                    <!-- First Name -->
                     <div>
                         <label asp-for="Firstname" class="form-label">First Name</label>
                         <input asp-for="Firstname" class="form-input" />
                     </div>
-
-                    <!-- Last Name -->
                     <div>
                         <label asp-for="Lastname" class="form-label">Last Name</label>
                         <input asp-for="Lastname" class="form-input" />
@@ -139,7 +133,6 @@
                     </div>
                 </div>
 
-                <!-- Form Actions -->
                 <div class="flex justify-end space-x-4 pt-6 border-t border-slate-800">
                     <a href="@Url.Action("Profile", "User")" 
                        class="px-6 py-3 border border-slate-700 text-slate-300 rounded-lg hover:bg-slate-800 transition-colors">

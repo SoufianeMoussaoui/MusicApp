@@ -37,7 +37,6 @@ public class HomeController : Controller
             if (!string.IsNullOrEmpty(genre) && genre != "all")
             {
                 songQuery = songQuery.Where(s => s.Genre != null && s.Genre.ToLower() == genre.ToLower());
-                // Note: Album might not have Genre in your model, adjust if needed
             }
 
             // Apply filter based on sidebar selection
@@ -48,7 +47,6 @@ public class HomeController : Controller
                     break;
 
                 case "trending-albums":
-                    // If Album has a popularity metric, use it. Otherwise use release year.
                     albumQuery = albumQuery.OrderByDescending(a => a.ReleaseYear);
                     break;
 
@@ -73,7 +71,7 @@ public class HomeController : Controller
                     break;
             }
 
-            // Apply search filter if provided
+            // Apply search filter
             if (!string.IsNullOrEmpty(search))
             {
                 await SaveSearchHistory(search, userId, sessionId);
@@ -114,7 +112,7 @@ public class HomeController : Controller
                 SearchTerm = search ?? "",
                 CurrentFilter = filter,
                 CurrentGenre = genre,
-                AvailableGenres = allGenres // Add this to your DiscoverViewModel
+                AvailableGenres = allGenres 
             };
 
             ViewBag.ShowSearchBar = true;
@@ -135,16 +133,16 @@ public class HomeController : Controller
             ViewBag.UserName = HttpContext.Session.GetString("UserName") ?? "";
             ViewBag.UserEmail = HttpContext.Session.GetString("UserEmail") ?? "";
             ViewBag.ShowSearchBar = true;
-            Console.WriteLine($"Error loading discover page: {ex.Message}");
             return View(new DiscoverViewModel());
         }
     }
 
+    // this is a TODO function 
     private async Task SaveSearchHistory(string searchTerm, int? userId, string sessionId)
     {
         try
         {
-            // Check if this exact search was done recently (within last 5 minutes)
+
             var recentSearch = await _context.SearchHistory
                 .Where(sh => sh.SearchTerm.ToLower() == searchTerm.ToLower() &&
                              ((userId != null && sh.UserId == userId) ||
@@ -158,8 +156,8 @@ public class HomeController : Controller
                 {
                     UserId = userId,
                     SearchTerm = searchTerm,
-                    SearchType = "song", // You can make this dynamic
-                    ResultCount = 0, // We'll update this after getting results
+                    SearchType = "song", 
+                    ResultCount = 0, 
                     CreatedAt = DateTime.UtcNow,
                     SessionId = userId == null ? sessionId : null
                 };
@@ -169,7 +167,6 @@ public class HomeController : Controller
             }
             else
             {
-                // Update the timestamp of the recent search
                 recentSearch.CreatedAt = DateTime.UtcNow;
                 _context.SearchHistory.Update(recentSearch);
                 await _context.SaveChangesAsync();
@@ -178,7 +175,6 @@ public class HomeController : Controller
         catch (Exception ex)
         {
             Console.WriteLine($"Error saving search history: {ex.Message}");
-            // Don't throw, just log the error
         }
     }
     private async Task<List<SearchHistory>> GetRecentSearches(int? userId, string sessionId)

@@ -138,8 +138,6 @@
         z-index: 10;
         backdrop-filter: blur(4px);
     }
-
-    /* Highlight current playing line (if synced with audio) */
     .lyrics-line.current {
         color: #a855f7;
         font-weight: 600;
@@ -815,12 +813,7 @@
             audioPlayer.volume = volumeControl.value / 100;
             updateVolumeIcon(audioPlayer.volume);
 
-            // Debug: Log audio source
-            console.log('Audio source:', audioPlayer.src);
-
-            // Add keyboard shortcuts
             document.addEventListener('keydown', function (e) {
-                // Space bar to play/pause (when not in input field)
                 if (e.code === 'Space' && !e.target.matches('input, textarea, button, [contenteditable]')) {
                     e.preventDefault();
                     playButton.click();
@@ -829,7 +822,7 @@
 
             // Try to load audio immediately for testing
             setTimeout(() => {
-                if (audioPlayer.readyState < 2) { // HAVE_CURRENT_DATA or less
+                if (audioPlayer.readyState < 2) { 
                     console.log('Audio loading...');
                 }
             }, 500);

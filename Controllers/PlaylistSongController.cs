@@ -25,7 +25,7 @@ namespace musicApp.Controllers
             return View(await _context.PlaylistSong.ToListAsync());
         }
 
-        // GET: PlaylistSong/Details/5
+        // GET: PlaylistSong/Details/
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -49,9 +49,6 @@ namespace musicApp.Controllers
             return View();
         }
 
-        // POST: PlaylistSong/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PlaylistSongId,PlaylistId,SongId,OrderPosition")] PlaylistSong playlistSong)
@@ -65,7 +62,7 @@ namespace musicApp.Controllers
             return View(playlistSong);
         }
 
-        // GET: PlaylistSong/Edit/5
+        // GET: PlaylistSong/Edit/
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,10 +78,6 @@ namespace musicApp.Controllers
             return View(playlistSong);
         }
 
-        // POST: PlaylistSong/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("PlaylistSongId,PlaylistId,SongId,OrderPosition")] PlaylistSong playlistSong)
         {
@@ -116,7 +109,7 @@ namespace musicApp.Controllers
             return View(playlistSong);
         }
 
-        // GET: PlaylistSong/Delete/5
+        // GET: PlaylistSong/Delete/
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,7 +127,7 @@ namespace musicApp.Controllers
             return View(playlistSong);
         }
 
-        // POST: PlaylistSong/Delete/5
+        // POST: PlaylistSong/Delete/
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

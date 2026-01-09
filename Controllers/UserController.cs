@@ -85,8 +85,8 @@ public class UserController : Controller
         // Calculate total time played
         var totalSeconds = user.TotalSecondsPlayed;
         var totalHours = (int)(totalSeconds / 3600);  // Cast to int
-        var totalMinutes = (int)((totalSeconds % 3600) / 60);  // Cast to int
-        var remainingSeconds = (int)(totalSeconds % 60);  // Cast to int
+        var totalMinutes = (int)((totalSeconds % 3600) / 60);  
+        var remainingSeconds = (int)(totalSeconds % 60);  
 
         // Format time string
         string formattedTime;
@@ -126,18 +126,14 @@ public class UserController : Controller
     {
         try
         {
-            Console.WriteLine("=== CreatePlaylist Called ===");
-
+        
             var userIdString = HttpContext.Session.GetString("UserId");
-            Console.WriteLine($"UserId from session: {userIdString}");
 
             if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
             {
-                Console.WriteLine("User not authenticated");
                 return Json(new { success = false, message = "Please login to create a playlist" });
             }
 
-            Console.WriteLine($"Received name: '{name}', description: '{description}'");
 
             if (string.IsNullOrEmpty(name?.Trim()))
             {
@@ -152,12 +148,8 @@ public class UserController : Controller
                 CreatedAt = DateTime.UtcNow
             };
 
-            Console.WriteLine($"Creating playlist: UserId={playlist.UserId}, Name={playlist.Name}");
-
             _context.Playlist.Add(playlist);
             await _context.SaveChangesAsync();
-
-            Console.WriteLine($"Playlist created successfully with ID: {playlist.PlaylistId}");
 
             return Json(new
             {
@@ -168,8 +160,6 @@ public class UserController : Controller
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error creating playlist: {ex.Message}");
-            Console.WriteLine($"Stack trace: {ex.StackTrace}");
             return Json(new
             {
                 success = false,
@@ -186,7 +176,6 @@ public class UserController : Controller
         {
 
             var userIdString = HttpContext.Session.GetString("UserId");
-            Console.WriteLine($"UserId from session: {userIdString}");
 
             if (string.IsNullOrEmpty(userIdString) || !int.TryParse(userIdString, out int userId))
             {
@@ -219,10 +208,10 @@ public class UserController : Controller
                 _context.PlaylistSong.RemoveRange(playlistSongs);
             }
 
+            // Remove the playlist
             _context.Playlist.Remove(playlist);
             await _context.SaveChangesAsync();
 
-            Console.WriteLine($"Playlist '{playlist.Name}' deleted successfully");
 
             return Json(new
             {
@@ -239,7 +228,6 @@ public class UserController : Controller
             });
         }
     }
-    // Add these methods to your UserController.cs
 
     [HttpGet]
     public async Task<IActionResult> EditProfile()
@@ -330,7 +318,7 @@ public class UserController : Controller
             _context.Update(user);
             await _context.SaveChangesAsync();
 
-            // Update session with new username
+            // Update session with new username : (userid and isAdmin remain the same)
             HttpContext.Session.SetString("Username", user.Username);
             HttpContext.Session.SetString("Email", user.Email);
 

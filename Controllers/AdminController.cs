@@ -136,13 +136,12 @@ namespace musicApp.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine($"Error getting user statistics: {ex.Message}");
-                // Return default statistics if there's an error
             }
 
             return stats;
         }
 
-        // GET: Admin/UserDetails/5
+        // GET: Admin/UserDetails/
         public async Task<IActionResult> UserDetails(int? id)
         {
             if (!await IsAdminUser())
@@ -210,7 +209,7 @@ namespace musicApp.Controllers
             return View(viewModel);
         }
 
-        // POST: Admin/EditUser/5
+        // POST: Admin/EditUser/
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditUser(int id, EditUserViewModel viewModel)
@@ -395,8 +394,6 @@ namespace musicApp.Controllers
             return View(song);
         }
 
-        // POST: Admin/DeleteSong/5
-        // POST: Admin/DeleteUser/5
         [HttpPost, ActionName("DeleteUser")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteUserConfirmed(int id)
@@ -412,7 +409,6 @@ namespace musicApp.Controllers
                 var user = await _context.User.FindAsync(id);
                 if (user != null)
                 {
-                    // Soft delete - just deactivate
                     user.IsActive = false;
                     _context.Update(user);
                     await _context.SaveChangesAsync();
@@ -433,7 +429,7 @@ namespace musicApp.Controllers
             return RedirectToAction("Users");
         }
 
-        // POST: Admin/DeleteSong/5
+        // POST: Admin/DeleteSong/SongId
         [HttpPost, ActionName("DeleteSong")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteSongConfirmed(int id)
@@ -484,7 +480,7 @@ namespace musicApp.Controllers
                         _context.PlaylistSong.RemoveRange(playlistSongs);
                     }
 
-                    // Now delete the song
+                    // delete the song
                     _context.Song.Remove(song);
                     await _context.SaveChangesAsync();
 

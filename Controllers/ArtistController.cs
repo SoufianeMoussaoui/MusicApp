@@ -26,6 +26,6 @@ public class ArtistController : Controller
         return View(await _context.Artist.ToListAsync());
     }
 
-    // GET: Artist/Details/5
+    
 
 }

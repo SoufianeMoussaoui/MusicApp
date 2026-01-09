@@ -25,7 +25,7 @@ namespace musicApp.Controllers
             return View(await _context.Playlist.ToListAsync());
         }
 
-        // GET: Playlist/Details/5
+        // GET: Playlist/Details/
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -49,9 +49,6 @@ namespace musicApp.Controllers
             return View();
         }
 
-        // POST: Playlist/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PlaylistId,UserId,Name,Description,CreatedAt")] Playlist playlist)
@@ -65,7 +62,7 @@ namespace musicApp.Controllers
             return View(playlist);
         }
 
-        // GET: Playlist/Edit/5
+        // GET: Playlist/Edit/
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,9 +78,7 @@ namespace musicApp.Controllers
             return View(playlist);
         }
 
-        // POST: Playlist/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Playlist/Edit/
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("PlaylistId,UserId,Name,Description,CreatedAt")] Playlist playlist)
@@ -116,7 +111,7 @@ namespace musicApp.Controllers
             return View(playlist);
         }
 
-        // GET: Playlist/Delete/5
+        // GET: Playlist/Delete/
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,7 +129,7 @@ namespace musicApp.Controllers
             return View(playlist);
         }
 
-        // POST: Playlist/Delete/5
+        // POST: Playlist/Delete/
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
